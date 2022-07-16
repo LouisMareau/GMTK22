@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DieMenu : MonoBehaviour
 {
-    [SerializeField] private Canvas _canvas;
+    [SerializeField] public Canvas canvas;
 
     public MenuOptionButton button1; 
     public MenuOptionButton button2; 
@@ -21,7 +21,7 @@ public class DieMenu : MonoBehaviour
         //hide the menu
         //Renderer test = GetComponent<Renderer>();
         //test.enabled = false;
-        _canvas.enabled = false;
+        canvas.enabled = false;
 
         //initialize the Effects
         effectsMap.Add(Effects.AddLife, ("+1 Life", add_life));
@@ -42,7 +42,7 @@ public class DieMenu : MonoBehaviour
         //display
         //Renderer test = GetComponent<Renderer>();
         //test.enabled = true;
-        _canvas.enabled = true;
+        canvas.enabled = true;
 
         //set up button options
 
@@ -52,6 +52,9 @@ public class DieMenu : MonoBehaviour
 
         //TODO
         //update buttons
+        var effect = effectsMap[options1[die_throw_result]];
+        button1.setText(effect.Item1);
+        button1.setAction(effect.Item2);
 
         
     }

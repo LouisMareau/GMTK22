@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenuOptionButton : MonoBehaviour
 {
     PlayerData playerData;
     System.Action<PlayerData> action;
+    public Button b;
+    public TextMeshProUGUI bText;
 
 	// Start is called before the first frame update
 	void Start()
     {
         //find player data and init
+        playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
         
     }
 
@@ -25,11 +29,14 @@ public class MenuOptionButton : MonoBehaviour
         action(playerData);
 
         //hide menu
-        Renderer test = this.transform.root.GetComponent<Renderer>();
-        test.enabled = false;
+        GetComponentInParent<Canvas>().enabled = false;
 
         //resume game
         Time.timeScale = 1f; 
+    }
+
+    public void setText(string text) {
+        bText.text = text;
     }
 
 

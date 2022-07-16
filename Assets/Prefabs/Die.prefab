@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6890720235446184166}
   - component: {fileID: 7089257550317700166}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +318,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5299826465485603800}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6434332845568288464}
+        m_TargetAssemblyTypeName: MenuOptionButton, Assembly-CSharp
+        m_MethodName: TaskOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6434332845568288464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c4663498d8c73d5b19e6cf8aac6332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  b: {fileID: 7244842246130373523}
+  bText: {fileID: 2740284513699814487}
 --- !u!1 &2321202367058977425
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +442,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -551,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bda52a8459db08e88d0c25dabdf8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 2321202367541887593}
+  canvas: {fileID: 2321202367541887593}
   button1: {fileID: 6486856608876231003}
   button2: {fileID: 6434332845568288464}
   button3: {fileID: 3742600534072540333}
@@ -677,7 +691,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1101546562842238772}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3742600534072540333}
+        m_TargetAssemblyTypeName: MenuOptionButton, Assembly-CSharp
+        m_MethodName: TaskOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3742600534072540333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -690,6 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c4663498d8c73d5b19e6cf8aac6332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  b: {fileID: 116189614975949455}
+  bText: {fileID: 7089257550317700166}
 --- !u!1 &4328377408303598994
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,7 +730,7 @@ GameObject:
   - component: {fileID: 8324906303259410618}
   - component: {fileID: 4098369167570593115}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,6 +1083,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c4663498d8c73d5b19e6cf8aac6332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  b: {fileID: 2890405847043361260}
+  bText: {fileID: 4098369167570593115}
 --- !u!1 &8673057083545972711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1097,7 @@ GameObject:
   - component: {fileID: 6271797344980068774}
   - component: {fileID: 2740284513699814487}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (TMP)2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

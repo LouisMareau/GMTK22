@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private GameObject _projectilePrefab;
 	[Space]
 	[SerializeField] private int _rateOfFire = 3;
-	private int _lastRateOfFire;
 	private float _nextTimeToFire;
+	private int _lastRateOfFire;
 
 	[Header("LOCAL REFERENCES")]
 	[SerializeField] private Transform _mesh;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 			Projectile instance = Instantiate<GameObject>(_projectilePrefab).GetComponent<Projectile>();
 			instance.Initialize(_transform.position, direction);
 
-			_nextTimeToFire = 1 / _rateOfFire;
+			_nextTimeToFire = 1 / (float)_rateOfFire;
 		}
 	}
 

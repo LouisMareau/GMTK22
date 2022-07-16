@@ -15,15 +15,17 @@ public class PlayerController : MonoBehaviour
 	private int _lastRateOfFire;
 
 	[Header("LOCAL REFERENCES")]
-	[SerializeField] private Transform _mesh;
+	[SerializeField] private Transform _meshTransorm;
+	[SerializeField] private PlayerData _playerData;
 
-    private Transform _transform;
+    private Transform _rootTransform;
 	private Transform _camera;
 
 	private void Awake()
 	{
-		if (_transform == null) { _transform = this.transform; }
-		if (_mesh == null) { _mesh = transform.GetChild(0); }
+		if (_rootTransform == null) { _rootTransform = this.transform; }
+		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0); }
+		if (_playerData == null) { _playerData = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
 
 		_lastRateOfFire = _rateOfFire;
@@ -40,13 +42,14 @@ public class PlayerController : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, 1000f, 3))
+		if (Physics.Raycast(ray, out hit))
 		{
 			Quaternion rotation = CalculateRotationAngle(hit.point);
 			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
-			_mesh.rotation = rotation;
+			_meshTransorm.rotation = rotation;
 
-			Shoot(CalculateHitDirectionFromPlayer(hit.point));
+			if (hit.collider.tag != "Player")
+				Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
 		}
 
 		_nextTimeToFire -= Time.deltaTime;
@@ -66,7 +69,7 @@ public class PlayerController : MonoBehaviour
 		if (y != 0)
 			moveDirection.z = y; // We set the Z-axis because we are top-down
 
-		_transform.Translate(moveDirection * _speed * Time.deltaTime);
+		_rootTransform.Translate(moveDirection * _speed * Time.deltaTime);
 	}
 
 	private void Shoot(Vector3 direction)
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
 			Projectile instance = Instantiate<GameObject>(_projectilePrefab).GetComponent<Projectile>();
-			instance.Initialize(_transform.position, direction);
+			instance.Initialize(_meshTransorm.position, direction, _playerData.damage);
 
 			_nextTimeToFire = 1 / (float)_rateOfFire;
 		}
@@ -85,7 +88,11 @@ public class PlayerController : MonoBehaviour
 		return Quaternion.LookRotation(CalculateHitDirectionFromPlayer(hitPoint));
 	}
 
-	private Vector3 CalculateHitDirectionFromPlayer(Vector3 hitPoint) { return (hitPoint - _transform.position).normalized; }
+	private Vector3 CalculateHitDirectionFromPlayer(Vector3 hitPoint)
+	{
+		Vector3 direction = (hitPoint - _meshTransorm.position).normalized;
+		return direction;
+	}
 
 	public void UpdateRateOfFire(int newRate)
 	{

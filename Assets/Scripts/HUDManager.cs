@@ -38,13 +38,13 @@ public class HUDManager : MonoBehaviour
 		lives.Add(instance);
 	}
 
-	public void GainLife(int livesLeft)
+	public void GainLife(int currentLives)
 	{
 		// If the lives are simply less than the starting amount (meaning that the player lost at least a life), we set the life color to ON
 		// Otherwiwe, the instantiate a new life
-		if (livesLeft <= lives.Count)
+		if (currentLives <= lives.Count)
 		{
-			lives[livesLeft-1].GetComponent<Image>().color = _lifeON;
+			lives[currentLives - 1].GetComponent<Image>().color = _lifeON;
 		}
 		else
 		{
@@ -52,12 +52,12 @@ public class HUDManager : MonoBehaviour
 		}
 	}
 
-	public void LoseLife(int livesLeft)
+	public void LoseLife(int currentLives)
 	{
-		if (livesLeft > 0)
+		if (currentLives > 0)
 		{
 			// If we have 2 lives left, we need to discolor the 3rd life (or index 2)
-			lives[livesLeft].GetComponent<Image>().color = _lifeOFF;
+			lives[currentLives].GetComponent<Image>().color = _lifeOFF;
 		}
 	}
 

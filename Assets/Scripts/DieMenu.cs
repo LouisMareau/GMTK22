@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DieMenu : MonoBehaviour
 {
+    [SerializeField] private Canvas _canvas;
+
+    public MenuOptionButton button1; 
+    public MenuOptionButton button2; 
+    public MenuOptionButton button3;
+
     IDictionary<Effects, (string, System.Action<PlayerData>)> effectsMap = new Dictionary<Effects, (string, System.Action<PlayerData>)>();
 
     Effects[] options1 = new Effects[6] { Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife };
@@ -13,8 +19,9 @@ public class DieMenu : MonoBehaviour
     void Start()
     {
         //hide the menu
-        Renderer test = GetComponent<Renderer>();
-        test.enabled = false;
+        //Renderer test = GetComponent<Renderer>();
+        //test.enabled = false;
+        _canvas.enabled = false;
 
         //initialize the Effects
         effectsMap.Add(Effects.AddLife, ("+1 Life", add_life));
@@ -30,11 +37,12 @@ public class DieMenu : MonoBehaviour
 
     public void Launch() {
         //pause the game
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
 
         //display
-        Renderer test = GetComponent<Renderer>();
-        test.enabled = true;
+        //Renderer test = GetComponent<Renderer>();
+        //test.enabled = true;
+        _canvas.enabled = true;
 
         //set up button options
 
@@ -49,7 +57,7 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_life(PlayerData pd) {
-        pd.lives += 1;
+        pd.GainLife();
     }
 
     static void add_speed(PlayerData pd) {

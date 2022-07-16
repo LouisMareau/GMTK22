@@ -4,27 +4,60 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-	[SerializeField] private float speed = 10f;
-	[SerializeField] private float timeBeforeDestruction = 3f;
+	[Header("DATA")]
+	[SerializeField] private float _speed = 10f;
+	[SerializeField] private float _timeBeforeDestruction = 3f;
 
-	private Transform _transform;
+	[Header("VFXs")]
+	[SerializeField] private GameObject _bloodSplatterPrefab;
+
+	[SerializeField] private Transform _rootTransform;
+	[SerializeField] private Transform _meshTransform;
 	private Vector3 _direction;
+	private float _damage;
 
 	private void Awake()
 	{
-		_transform = transform;
+		if (_rootTransform == null) _rootTransform = transform;
+		if (_meshTransform == null) _meshTransform = transform.GetChild(0);
 	}
 
-	public void Initialize(Vector3 origin, Vector3 direction)
+	public void Initialize(Vector3 origin, Vector3 direction, float damage)
 	{
-		_transform.position = origin;
-		_direction = direction;
+		_rootTransform.position = origin;
+		_direction = direction.normalized;
+		_damage = damage;
 
-		Destroy(gameObject, timeBeforeDestruction);
+		Destroy(gameObject, _timeBeforeDestruction);
 	}
 
 	private void Update()
 	{
-		_transform.Translate(_direction * speed * Time.deltaTime);
+		_rootTransform.Translate(_direction * _speed * Time.deltaTime);
+
+		Ray ray = new Ray(_meshTransform.position, -_direction);
+		RaycastHit hit;
+
+		if (Physics.Raycast(ray, out hit, 2f))
+		{
+			if (hit.collider.tag == "Enemy")
+			{
+				hit.collider.GetComponent<Enemy>().TakeDamage(_damage);
+				Instantiate<GameObject>(_bloodSplatterPrefab, hit.point, Quaternion.LookRotation(_direction));
+				Destroy(gameObject);
+			}
+		}
+	}
+
+	//private void OnTriggerEnter(Collider other)
+	//{
+	//	if (other.tag == "Enemy")
+	//		other.GetComponent<Enemy>().TakeDamage(_damage);
+	//}
+
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawLine(_meshTransform.position, -_direction);
 	}
 }

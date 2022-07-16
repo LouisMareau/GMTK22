@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuOptionButton : MonoBehaviour
 {
     PlayerData playerData;
     System.Action<PlayerData> action;
-    // Start is called before the first frame update
-    void Start()
+
+	// Start is called before the first frame update
+	void Start()
     {
         //find player data and init
         
@@ -19,7 +21,7 @@ public class MenuOptionButton : MonoBehaviour
         
     }
 
-    void TaskOnClick() {
+    public void TaskOnClick() {
         action(playerData);
 
         //hide menu

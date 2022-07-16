@@ -4,29 +4,36 @@ using UnityEngine;
 
 public class Die : MonoBehaviour
 {
-    public DieMenu dieMenu;
-    // Start is called before the first frame update
-    void Start()
-    {
-        dieMenu = this.GetComponentInChildren<DieMenu>();
-    }
+	public DieMenu dieMenu;
+	// Start is called before the first frame update
+	void Start()
+	{
+		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu>();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		
+	}
 
-    void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts) {
-            if (contact.otherCollider.tag == "Player") {
-                //bring random menu
-                dieMenu.Launch();
-            }
+	//void OnCollisionEnter(Collision collision)
+	//{
+	//    foreach (ContactPoint contact in collision.contacts) {
+	//        if (contact.otherCollider.tag == "Player") {
+	//            //bring random menu
+	//            dieMenu.Launch();
+	//        }
 
-        }
-    }
+	//    }
+	//}
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Player") {
+			//bring random menu
+			dieMenu.Launch();
+		}
+	}
 
-    
+	
 }

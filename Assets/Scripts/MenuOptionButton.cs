@@ -27,7 +27,7 @@ public class MenuOptionButton : MonoBehaviour
         test.enabled = false;
 
         //resume game
-        Time.timeScale = 0f; 
+        Time.timeScale = 1f; 
     }
 
 

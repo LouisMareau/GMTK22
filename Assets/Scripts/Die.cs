@@ -9,7 +9,6 @@ public class Die : MonoBehaviour
     void Start()
     {
         dieMenu = this.GetComponentInChildren<DieMenu>();
-        
     }
 
     // Update is called once per frame
@@ -21,7 +20,7 @@ public class Die : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         foreach (ContactPoint contact in collision.contacts) {
-            if (contact.otherCollider.name == "Player") {
+            if (contact.otherCollider.tag == "Player") {
                 //bring random menu
                 dieMenu.Launch();
             }

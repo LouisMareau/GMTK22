@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class DieMenu : MonoBehaviour
 {
+    IDictionary<Effects, (string, System.Action<PlayerData>)> effectsMap = new Dictionary<Effects, (string, System.Action<PlayerData>)>();
+
+    Effects[] options1 = new Effects[6] { Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife };
+    Effects[] options2 = new Effects[6] { Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed };
+    Effects[] options3 = new Effects[6] { Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate };
     // Start is called before the first frame update
     void Start()
     {
-        MeshRenderer test = GetComponent<MeshRenderer>();
+        //hide the menu
+        Renderer test = GetComponent<Renderer>();
         test.enabled = false;
+
+        //initialize the Effects
+        effectsMap.Add(Effects.AddLife, ("+1 Life", add_life));
+        effectsMap.Add(Effects.AddSpeed, ("+1 Speed", add_speed));
+        effectsMap.Add(Effects.AddFireRate, ("+1 FireRate", add_firerate));
     }
 
     // Update is called once per frame
@@ -17,32 +28,41 @@ public class DieMenu : MonoBehaviour
         
     }
 
-    void Launch() {
+    public void Launch() {
         //pause the game
         Time.timeScale = 0f; 
 
         //display
-        MeshRenderer test = GetComponent<MeshRenderer>();
+        Renderer test = GetComponent<Renderer>();
         test.enabled = true;
 
-        //generate number between 1 and 6
-        int die_throw_result = Random.Range(1, 6);
+        //set up button options
+
+        //throwing the dice !
+        int die_throw_result = Random.Range(0, 5);
+
+
+        //TODO
+        //update buttons
+
+        
+    }
+
+    static void add_life(PlayerData pd) {
+        pd.lives += 1;
+    }
+
+    static void add_speed(PlayerData pd) {
+        
+    }
+
+    static void add_firerate(PlayerData pd) {
         
     }
 }
 
-
-public class MenuOption {
-    int bonus_index;
-    PlayerController player;
-
-
-    public MenuOption(int die_throw_result)  {
-        bonus_index = die_throw_result;
-        //player = player;
-        
-
-    }
-
-
+public enum Effects {
+    AddLife,
+    AddSpeed,
+    AddFireRate,
 }

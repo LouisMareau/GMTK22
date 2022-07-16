@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Die : MonoBehaviour
 {
-    public GameObject dieMenu;
+    public DieMenu dieMenu;
     // Start is called before the first frame update
     void Start()
     {
-        dieMenu = GameObject.Find("dieMenu");
+        dieMenu = this.GetComponentInChildren<DieMenu>();
         
     }
 
@@ -22,10 +22,8 @@ public class Die : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts) {
             if (contact.otherCollider.name == "Player") {
-                //bring menu
-                //adad
-
-
+                //bring random menu
+                dieMenu.Launch();
             }
 
         }

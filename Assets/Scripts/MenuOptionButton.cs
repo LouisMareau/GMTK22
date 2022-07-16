@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MenuOptionButton : MonoBehaviour
 {
+    PlayerData playerData;
+    System.Action<PlayerData> action;
     // Start is called before the first frame update
     void Start()
     {
+        //find player data and init
         
     }
 
@@ -14,5 +17,21 @@ public class MenuOptionButton : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void TaskOnClick() {
+        action(playerData);
+
+        //hide menu
+        Renderer test = this.transform.root.GetComponent<Renderer>();
+        test.enabled = false;
+
+        //resume game
+        Time.timeScale = 0f; 
+    }
+
+
+    public void setAction(System.Action<PlayerData> action) {
+        this.action = action;
     }
 }

@@ -49,6 +49,8 @@ MonoBehaviour:
   health: 1
   speed: 8
   type: 0
+  _explosionPrefab: {fileID: 6628007325251359537, guid: b263ae610872b184195765580649976d,
+    type: 3}
 --- !u!135 &1131519697467727346
 SphereCollider:
   m_ObjectHideFlags: 0

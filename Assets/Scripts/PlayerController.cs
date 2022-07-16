@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("LOCAL REFERENCES")]
 	[SerializeField] private Transform _meshTransorm;
-	[SerializeField] private PlayerData _playerData;
+	public PlayerData playerData;
 
     private Transform _rootTransform;
 	private Transform _camera;
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (_rootTransform == null) { _rootTransform = this.transform; }
 		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0); }
-		if (_playerData == null) { _playerData = GetComponent<PlayerData>(); }
+		if (playerData == null) { playerData = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
 
 		_lastRateOfFire = _rateOfFire;
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
 			Projectile instance = Instantiate<GameObject>(_projectilePrefab).GetComponent<Projectile>();
-			instance.Initialize(_meshTransorm.position, direction, _playerData.damage);
+			instance.Initialize(_meshTransorm.position, direction, playerData.damage);
 
 			_nextTimeToFire = 1 / (float)_rateOfFire;
 		}

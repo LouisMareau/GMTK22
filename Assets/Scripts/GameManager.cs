@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("GAME SETUP")]
 	public int livesAmountOnStart = 3;
+	public int fireRateOnStart = 3;
 
 	private void Awake()
 	{

@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
 	[HideInInspector] public int lives;
-	public float damage = 1;
+	[HideInInspector] public float damage;
 
 	private void Awake()
 	{
 		lives = GameManager.Instance.livesAmountOnStart;
+		damage = GameManager.Instance.fireRateOnStart;
 	}
 
 	[ContextMenu("Life +1")]
@@ -18,7 +19,6 @@ public class PlayerData : MonoBehaviour
 		lives++;
 		HUDManager.Instance.GainLife(lives);
 	}
-
 
 	[ContextMenu("Life -1")]
 	public void LoseLife()

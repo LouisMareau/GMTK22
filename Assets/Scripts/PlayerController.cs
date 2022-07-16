@@ -40,9 +40,12 @@ public class PlayerController : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit))
+		if (Physics.Raycast(ray, out hit, 1000f, 3))
 		{
-			_mesh.rotation = CalculateRotationAngle(hit.point);
+			Quaternion rotation = CalculateRotationAngle(hit.point);
+			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
+			_mesh.rotation = rotation;
+
 			Shoot(CalculateHitDirectionFromPlayer(hit.point));
 		}
 

@@ -57,7 +57,7 @@ public class Die : MonoBehaviour
 	}
 
     Ray CreateSideRayCast(Vector3 dir) {
-		return new Ray(_meshTransform.position, (_meshTransform.rotation * dir).normalized * 3f);
+		return new Ray(_meshTransform.position, (_meshTransform.rotation * dir).normalized * 5f);
     }
 
 	void OnTriggerStay(Collider other)
@@ -66,6 +66,11 @@ public class Die : MonoBehaviour
 			//bring random menu if the die result is set
 			dieMenu.Launch(diceResult);
 		}
+	}
+
+	public void KillAfterDelay(float timeBeforeKill = 20f)
+	{
+		Destroy(gameObject, timeBeforeKill);
 	}
 
 	private void OnDrawGizmos()

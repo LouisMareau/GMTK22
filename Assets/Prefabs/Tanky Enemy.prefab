@@ -47,10 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  health: 20
-  speed: 3
+  baseHealth: 20
+  health: 22
+  baseSpeed: 3
+  speed: 3.3000002
   _explosionPrefab: {fileID: 6628007325251359537, guid: 793e4834b7e58a4439de60bdfd13168b,
     type: 3}
+  scoreWhenKilled: 3
   _dice: {fileID: 7358736542658065073}
 --- !u!135 &6828336253781662364
 SphereCollider:

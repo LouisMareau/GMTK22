@@ -15,13 +15,18 @@ public abstract class Enemy : MonoBehaviour
 	public EnemyType type;
 
 	[Header("HEALTH")]
-	public float health = 1;
+	public float baseHealth = 1;
+	public float health;
 
 	[Header("MOVEMENT")]
-	public float speed = 5f;
+	public float baseSpeed = 5f;
+	public float speed;
 
 	[Header("VFXs")]
 	[SerializeField] private GameObject _explosionPrefab;
+
+	[Header("SCORING")]
+	public int scoreWhenKilled = 1;
 
 	protected Transform _rootTransform;
 	protected Transform _meshTransform;
@@ -34,6 +39,9 @@ public abstract class Enemy : MonoBehaviour
 		if (_meshTransform == null) { _meshTransform = _rootTransform.GetChild(0); }
 		if (_playerTransform == null) { _playerTransform = GameObject.FindGameObjectWithTag("Player").transform; }
 		if (_collider == null) { _collider = GetComponent<SphereCollider>(); }
+
+		health = baseHealth;
+		speed = baseSpeed;
 	}
 
 	private void Update()
@@ -57,7 +65,18 @@ public abstract class Enemy : MonoBehaviour
 		Instantiate(_explosionPrefab, _meshTransform.position, _explosionPrefab.transform.rotation, StaticReferences.Instance.vfxContainer);
 	}
 
-	protected void Kill() { Destroy(gameObject); }
+	protected void Kill()
+	{
+		int s = GameManager.Instance.score += scoreWhenKilled;
+		HUDManager.Instance.UpdateScoreLabel(s);
+
+		Destroy(gameObject);
+	}
 
 	protected abstract void OnTriggerEnter(Collider other);
+
+	public virtual void IncreaseDifficulty(float multiplier)
+	{
+		speed *= multiplier;
+	}
 }

@@ -47,10 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  baseHealth: 1
   health: 1
-  speed: 8
+  baseSpeed: 8
+  speed: 8.8
   _explosionPrefab: {fileID: 6628007325251359537, guid: b263ae610872b184195765580649976d,
     type: 3}
+  scoreWhenKilled: 1
 --- !u!135 &1131519697467727346
 SphereCollider:
   m_ObjectHideFlags: 0

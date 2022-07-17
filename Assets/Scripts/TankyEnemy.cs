@@ -28,6 +28,8 @@ public class TankyEnemy : Enemy
 		die.rigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
 		Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * Random.Range(8000f, 30000f);
 		die.rigidbody.AddTorque(randomTorque);
+
+		die.KillAfterDelay(20f);
 	}
 
 	protected override void OnTriggerEnter(Collider other)
@@ -41,5 +43,12 @@ public class TankyEnemy : Enemy
 			LaunchDice();
 			Kill();
 		}
+	}
+
+	public override void IncreaseDifficulty(float multiplier)
+	{
+		base.IncreaseDifficulty(multiplier);
+
+		health *= multiplier;
 	}
 }

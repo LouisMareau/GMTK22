@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DieMenu : MonoBehaviour
 {
     [SerializeField] public Canvas canvas;
 
+    public TextMeshProUGUI diceResultID;
     public MenuOptionButton button1; 
     public MenuOptionButton button2; 
     public MenuOptionButton button3;
@@ -23,11 +25,11 @@ public class DieMenu : MonoBehaviour
 
         //initialize the Effects
         effectsMap.Add(Effects.AddLife, ("+1 Life", add_life));
-        effectsMap.Add(Effects.AddSpeed, ("+1 Speed", add_speed));
+        effectsMap.Add(Effects.AddSpeed, ("+2 Speed", add_speed));
         effectsMap.Add(Effects.AddFireRate, ("+1 FireRate", add_firerate));
 
         effectsMap.Add(Effects.AddProjectile, ("+1 Projectile", add_projectile));
-        effectsMap.Add(Effects.AddDamage, ("+1 Damage", add_damage));
+        effectsMap.Add(Effects.AddDamage, ("+0.5 Damage", add_damage));
         effectsMap.Add(Effects.AddJump, ("+1 Jump", add_jump));
 
         effectsMap.Add(Effects.AddProjectileSpeed, ("+1 Projectile Speed", add_projectile_speed));
@@ -55,12 +57,13 @@ public class DieMenu : MonoBehaviour
 
             //TODO
             //update buttons
+            diceResultID.text = $"Result { die_throw_result }";
             var effect1 = effectsMap[options1[die_throw_result-1]];
             var effect2 = effectsMap[options2[die_throw_result-1]];
             var effect3 = effectsMap[options3[die_throw_result-1]];
-            button1.setup(effect1, die_throw_result);
-            button2.setup(effect2, die_throw_result);
-            button3.setup(effect3, die_throw_result);
+            button1.setup(effect1);
+            button2.setup(effect2);
+            button3.setup(effect3);
         }
     }
 
@@ -69,7 +72,7 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_speed(PlayerData pd) {
-        pd.UpdateSpeed(1);
+        pd.UpdateSpeed(2);
     }
 
     static void add_firerate(PlayerData pd) {
@@ -81,7 +84,7 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_damage(PlayerData pd) {
-        pd.UpdateDamage(1);
+        pd.UpdateDamage(0.5f);
     }
 
     static void add_jump(PlayerData pd) {

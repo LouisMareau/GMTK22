@@ -18,12 +18,12 @@ public class HUDManager : MonoBehaviour
 	[Space]
 	[SerializeField] private Color32 _lifeON;
 	[SerializeField] private Color32 _lifeOFF;
-	[Space]
 
 	[Header("SHOOTING")]
 	[SerializeField] private TextMeshProUGUI _speedLabel;
 	[SerializeField] private TextMeshProUGUI _damageLabel;
 	[SerializeField] private TextMeshProUGUI _fireRateLabel;
+	[SerializeField] private TextMeshProUGUI _projectileAmountLabel;
 
 	[Header("SCREENS")]
 	[SerializeField] private GameObject _pauseScreen;
@@ -31,6 +31,9 @@ public class HUDManager : MonoBehaviour
 
 	[Header("PLAYER")]
 	[SerializeField] private PlayerData _playerData;
+
+	[Header("SCORING")]
+	[SerializeField] private TextMeshProUGUI _scoreLabel;
 
 	private void Awake()
 	{
@@ -89,17 +92,27 @@ public class HUDManager : MonoBehaviour
 
 	public void UpdateSpeedLabel(float speed)
 	{
-		_speedLabel.text = $"Speed: <b>{ speed }<b/>";
+		_speedLabel.text = $"Speed: <b>{ speed }</b>";
 	}
 
-	public void UpdateDamageLabel(int damage)
+	public void UpdateDamageLabel(float damage)
 	{
 		_damageLabel.text = $"Damage: <b>{ damage }</b>";
 	}
 
 	public void UpdateFireRateLabel(int fireRate)
 	{
-		_fireRateLabel.text = $"Rate of Fire: <b>{ fireRate } projectiles /s</b>";
+		_fireRateLabel.text = $"Fire Rate: <b>{ fireRate } bursts/s</b>";
+	}
+
+	public void UpdateProjectilesPerBurstLabel(int projectileAmount)
+	{
+		_projectileAmountLabel.text = $"Burst: <b>{ projectileAmount } projectiles/burst</b>";
+	}
+
+	public void UpdateScoreLabel(int score)
+	{
+		_scoreLabel.text = $"SCORE\n<size=12>{ score }</size>";
 	}
 
 	public void ShowGameOverScreen() { _gameOverScreen.SetActive(true); }

@@ -14,10 +14,43 @@ public class GameManager : MonoBehaviour
 	public int livesAmountOnStart = 3;
 	public int damageOnStart = 3;
 	public int fireRateOnStart = 3;
+	public int projectileAmountOnStart = 1;
+	public int jumpAmountOnStart = 0;
+	[Space]
+
+
+	[Header("SCORING")]
+	public int score;
+
+	[Header("DIFFICULTY SCALING")]
+	public float timeBeforeBuff = 30f;
+	[Space]
+	public float spawnMultplier = 0.9f;
+	public float enemyStatsMultiplier = 1.1f;
 
 	private void Awake()
 	{
 		Instance = this;
+	}
+
+	private void Start()
+	{
+		StartCoroutine(InitDifficulty());
+	}
+
+	private IEnumerator InitDifficulty()
+	{
+		while (true)
+		{
+			yield return IncreaseDifficulty();
+		}
+	}
+
+	private IEnumerator IncreaseDifficulty()
+	{
+		yield return new WaitForSeconds(timeBeforeBuff);
+
+		EnemySpawner.Instance.IncreaseDifficulty(spawnMultplier, enemyStatsMultiplier);
 	}
 
 	public void GameOver()

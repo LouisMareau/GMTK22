@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-	public float tankyEnemySpawnInterval = 25f;
+	#region SINGLETON
+	public static EnemySpawner Instance { get; private set; }
+	#endregion
+
+	public float baseTankyEnemySpawnInterval = 25f;
+	public float tankyEnemySpawnInterval;
 	private float _timeBeforeNextTankyEnemy;
 	[Space]
-	public Vector2 spawnRandomDelay = new Vector2(0.5f, 5f);
+	public Vector2 baseSpawnRandomDelay = new Vector2(0.5f, 2.5f);
+	public Vector2 spawnRandomDelay;
 	public float spawnRadius = 80f;
 	public float spawnPlayerDetectionRadius = 3f;
 	[Space]
@@ -18,7 +24,12 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Awake()
 	{
+		Instance = this;
+
 		if (_transform == null) { _transform = transform; }
+
+		tankyEnemySpawnInterval = baseTankyEnemySpawnInterval;
+		spawnRandomDelay = baseSpawnRandomDelay;
 
 		_timeBeforeNextTankyEnemy = tankyEnemySpawnInterval;
 
@@ -76,6 +87,15 @@ public class EnemySpawner : MonoBehaviour
 		while (IsPlayerInDetectionRadius(randomLocation));
 
 		GameObject instance = Instantiate<GameObject>(enemyPrefabs[type], randomLocation, enemyPrefabs[type].transform.rotation, StaticReferences.Instance.enemyContainer);
+	}
+
+	public void IncreaseDifficulty(float spawnMultiplier, float enemyStatMultiplier)
+	{
+		tankyEnemySpawnInterval *= spawnMultiplier;
+		spawnRandomDelay *= spawnMultiplier;
+
+		foreach (GameObject prefab in enemyPrefabs.Values)
+			prefab.GetComponent<Enemy>().IncreaseDifficulty(enemyStatMultiplier);
 	}
 
 	private bool IsTankyEnemyReadyToSpawn()

@@ -46,12 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6ca80715ec3684d90babe6764d9176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 50
+  speed: 50
   _timeBeforeDestruction: 3
   _bloodSplatterPrefab: {fileID: 5090309694187617812, guid: bb06f3f25bd979b458ac98995615977b,
     type: 3}
+  _sparksPrefab: {fileID: 4767271989768299891, guid: 1d4c258fe32334447aa0aa9f533afca9,
+    type: 3}
   _rootTransform: {fileID: 5664981683744998417}
   _meshTransform: {fileID: 322907868954649202}
+  knockback: 1
 --- !u!135 &2783905427783101411
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
 
 	[Header("VFXs")]
 	[SerializeField] private GameObject _bloodSplatterPrefab;
+	[SerializeField] private GameObject _sparksPrefab;
 
 	[SerializeField] private Transform _rootTransform;
 	[SerializeField] private Transform _meshTransform;
@@ -47,9 +48,14 @@ public class Projectile : MonoBehaviour
 
 				var enemy = hit.collider.GetComponent<Enemy>();
                 enemy.TakeDamage(_damage);
-                //TODO Knockback the enemy
+				// Knockback
+				enemy.transform.Translate(-enemy.currentDirection * knockback);
                 
-				Instantiate<GameObject>(_bloodSplatterPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
+				if (enemy.health <= 0)
+					Instantiate<GameObject>(_bloodSplatterPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
+				else
+					Instantiate<GameObject>(_sparksPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
+
 				Destroy(gameObject);
 			}
 		}

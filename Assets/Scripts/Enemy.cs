@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
 	[Header("MOVEMENT")]
 	public float baseSpeed = 5f;
 	public float speed;
+	public Vector3 currentDirection;
 
 	[Header("VFXs")]
 	[SerializeField] private GameObject _explosionPrefab;
@@ -46,7 +47,8 @@ public abstract class Enemy : MonoBehaviour
 
 	private void Update()
 	{
-		this.transform.Translate((_playerTransform.position - this.transform.position).normalized * speed * Time.deltaTime);
+		currentDirection = (_playerTransform.position - this.transform.position).normalized;
+		this.transform.Translate(currentDirection * speed * Time.deltaTime);
 	}
 
 	public virtual void TakeDamage(float damage)

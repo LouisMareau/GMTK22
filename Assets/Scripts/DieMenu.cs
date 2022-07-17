@@ -14,9 +14,9 @@ public class DieMenu : MonoBehaviour
 
     IDictionary<Effects, (string, System.Action<PlayerData>)> effectsMap = new Dictionary<Effects, (string, System.Action<PlayerData>)>();
 
-    Effects[] options1 = new Effects[6] { Effects.AddLife, Effects.AddProjectile, Effects.AddLife, Effects.AddLife, Effects.AddLife, Effects.AddLife };
-    Effects[] options2 = new Effects[6] { Effects.AddSpeed, Effects.AddDamage, Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed, Effects.AddSpeed };
-    Effects[] options3 = new Effects[6] { Effects.AddFireRate, Effects.AddJump, Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate, Effects.AddFireRate };
+    Effects[] options1 = new Effects[6] { Effects.AddLife, Effects.AddProjectile, Effects.AddProjectileSpeed, Effects.AddLife, Effects.AddProjectile, Effects.AddProjectileSpeed };
+    Effects[] options2 = new Effects[6] { Effects.AddSpeed, Effects.AddDamage, Effects.AddProjectileRadius, Effects.AddSpeed, Effects.AddDamage, Effects.AddProjectileRadius };
+    Effects[] options3 = new Effects[6] { Effects.AddFireRate, Effects.AddJump, Effects.AddKnockback, Effects.AddFireRate, Effects.AddJump, Effects.AddKnockback };
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +32,9 @@ public class DieMenu : MonoBehaviour
         effectsMap.Add(Effects.AddDamage, ("+0.5 Damage", add_damage));
         effectsMap.Add(Effects.AddJump, ("+1 Jump", add_jump));
 
-        effectsMap.Add(Effects.AddProjectileSpeed, ("+1 Projectile Speed", add_projectile_speed));
-        effectsMap.Add(Effects.AddProjectileRadius, ("+1 ProjectileRadius", add_projectile_radius));
-        effectsMap.Add(Effects.AddKnockback, ("+1 Knockback", add_knockback));
+        effectsMap.Add(Effects.AddProjectileSpeed, ("Projectiles are faster", add_projectile_speed));
+        effectsMap.Add(Effects.AddProjectileRadius, ("Projectiles are bigger", add_projectile_radius));
+        effectsMap.Add(Effects.AddKnockback, ("Adds knockback to projectiles", add_knockback));
     }
 
     // Update is called once per frame
@@ -92,12 +92,15 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_projectile_speed(PlayerData pd) {
+        pd.AddProjectileSpeed(1);
     }
 
     static void add_projectile_radius(PlayerData pd) {
+        pd.AddProjectileRadius(1);
     }
 
     static void add_knockback(PlayerData pd) {
+        pd.AddKnockback(1);
     }
 }
 

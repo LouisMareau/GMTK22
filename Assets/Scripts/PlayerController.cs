@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
 
 
                 instance.Initialize(position + relative_position, direction, data.damage);
+                instance.transform.localScale *= (data.projectileRadiusBonus+1);
+                instance.speed += data.projectileSpeedBonus; 
             }
 
 			// We play the audio source ("Pew")

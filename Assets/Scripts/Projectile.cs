@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 	[Header("DATA")]
-	[SerializeField] private float _speed = 10f;
+	public float speed = 10f;
 	[SerializeField] private float _timeBeforeDestruction = 3f;
 
 	[Header("VFXs")]
@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] private Transform _meshTransform;
 	private Vector3 _direction;
 	private float _damage;
+    public float knockback = 0;
 
 	private void Awake()
 	{
@@ -33,18 +34,21 @@ public class Projectile : MonoBehaviour
 
 	private void Update()
 	{
-		_rootTransform.Translate(_direction * _speed * Time.deltaTime);
+		_rootTransform.Translate(_direction * speed * Time.deltaTime);
 
 		Ray ray = new Ray(_meshTransform.position, -_direction);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, _speed / 10))
+		if (Physics.Raycast(ray, out hit, speed / 10))
 		{
 			if (hit.collider.tag == "Enemy")
 			{
 				Vector3 targetLocation = new Vector3(hit.point.x, 1, hit.point.z);
 
-				hit.collider.GetComponent<Enemy>().TakeDamage(_damage);
+				var enemy = hit.collider.GetComponent<Enemy>();
+                enemy.TakeDamage(_damage);
+                //TODO Knockback the enemy
+                
 				Instantiate<GameObject>(_bloodSplatterPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
 				Destroy(gameObject);
 			}

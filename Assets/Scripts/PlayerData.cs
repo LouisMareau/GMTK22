@@ -11,6 +11,10 @@ public class PlayerData : MonoBehaviour
     public int projectileAmount;
     public int jumpAmount;
 
+    public int projectileSpeedBonus;
+    public int projectileRadiusBonus;
+    public int projectileKnockback;
+
 	private void Awake()
 	{
 		speed = GameManager.Instance.speedOnStart;
@@ -59,5 +63,17 @@ public class PlayerData : MonoBehaviour
 
     public void AddJump(int amount) {
         jumpAmount += amount;
+    }
+
+    public void AddProjectileSpeed(int amount) {
+        projectileSpeedBonus += amount;
+    }
+
+    public void AddProjectileRadius(int amount) {
+        projectileRadiusBonus += amount;
+    }
+
+    public void AddKnockback(int amount) {
+        projectileKnockback += amount;
     }
 }

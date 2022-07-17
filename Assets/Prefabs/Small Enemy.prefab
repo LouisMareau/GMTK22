@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0b3ebd4e0dd6b4e9700010af2b9276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   health: 1
   speed: 8
-  type: 0
   _explosionPrefab: {fileID: 6628007325251359537, guid: b263ae610872b184195765580649976d,
     type: 3}
 --- !u!135 &1131519697467727346
@@ -62,7 +62,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 1.2
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2555972116286031038
 GameObject:

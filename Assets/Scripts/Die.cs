@@ -15,10 +15,10 @@ public class Die : MonoBehaviour
 		rigidbody.isKinematic = true;
 	}
 
-	void OnTriggerEnter(Collider other)
+	void OnTriggerStay(Collider other)
 	{
 		if (other.tag == "Player") {
-			//bring random menu
+			//bring random menu if the die result is set
 			dieMenu.Launch();
 		}
 	}

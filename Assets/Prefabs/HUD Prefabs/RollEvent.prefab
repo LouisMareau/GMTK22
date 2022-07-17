@@ -540,6 +540,7 @@ MonoBehaviour:
   _dieRoot: {fileID: 0}
   b: {fileID: 7889390227767497438}
   bText: {fileID: 2589087913232384521}
+  bID: {fileID: 2589087912755694448}
 --- !u!114 &7889390227767497438
 MonoBehaviour:
   m_ObjectHideFlags: 0

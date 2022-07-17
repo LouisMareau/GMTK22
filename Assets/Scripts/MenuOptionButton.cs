@@ -12,6 +12,7 @@ public class MenuOptionButton : MonoBehaviour
 	System.Action<PlayerData> action;
 	public Button b;
 	public TextMeshProUGUI bText;
+	public TextMeshProUGUI bID;
 
 	// Start is called before the first frame update
 	void Start()
@@ -36,12 +37,19 @@ public class MenuOptionButton : MonoBehaviour
 		Destroy(_dieRoot);
 	}
 
-	public void setText(string text) {
+    public void setup((string, System.Action<PlayerData>) effect, int die_throw_result) {
+        setIDtext(die_throw_result.ToString());
+        setText(effect.Item1);
+        setAction(effect.Item2);
+    }
+
+	void setIDtext(string text) {
+		bID.text = text;
+	}
+	void setText(string text) {
 		bText.text = text;
 	}
-
-
-	public void setAction(System.Action<PlayerData> action) {
+	void setAction(System.Action<PlayerData> action) {
 		this.action = action;
 	}
 }

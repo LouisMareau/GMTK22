@@ -36,27 +36,27 @@ public class DieMenu : MonoBehaviour
     }
 
     public void Launch() {
-        //pause the game
-        Time.timeScale = 0.1f;
-
-        //display
-        //Renderer test = GetComponent<Renderer>();
-        //test.enabled = true;
-        canvas.enabled = true;
-
-        //set up button options
-
         //throwing the dice !
+        //TODO get the throw result
         int die_throw_result = Random.Range(0, 5);
+        if (die_throw_result != null) {
+            //pause the game
+            Time.timeScale = 0.0f;
 
+            //display
+            //Renderer test = GetComponent<Renderer>();
+            //test.enabled = true;
+            canvas.enabled = true;
 
-        //TODO
-        //update buttons
-        var effect = effectsMap[options1[die_throw_result]];
-        button1.setText(effect.Item1);
-        button1.setAction(effect.Item2);
-
-        
+            //TODO
+            //update buttons
+            var effect1 = effectsMap[options1[die_throw_result]];
+            var effect2 = effectsMap[options2[die_throw_result]];
+            var effect3 = effectsMap[options3[die_throw_result]];
+            button1.setup(effect1, die_throw_result);
+            button2.setup(effect2, die_throw_result);
+            button3.setup(effect3, die_throw_result);
+        }
     }
 
     static void add_life(PlayerData pd) {

@@ -8,6 +8,8 @@ public class PlayerData : MonoBehaviour
 	public int lives;
 	public int damage;
 	public int fireRate;
+    public int projectileAmount;
+    public int jumpAmount;
 
 	private void Awake()
 	{
@@ -15,6 +17,9 @@ public class PlayerData : MonoBehaviour
 		lives = GameManager.Instance.livesAmountOnStart;
 		damage = GameManager.Instance.damageOnStart;
 		fireRate = GameManager.Instance.fireRateOnStart;
+        //TODO add to gamemanager
+        projectileAmount = 4;
+        jumpAmount = 2;
 	}
 
 	public void GainLife(int amount)
@@ -47,4 +52,13 @@ public class PlayerData : MonoBehaviour
 		fireRate += extraAmount;
 		HUDManager.Instance.UpdateFireRateLabel(fireRate);
 	}
+
+    public void AddProjectile(int amount) {
+        projectileAmount += amount;
+        //TODO HUD ?
+    }
+
+    public void AddJump(int amount) {
+        jumpAmount += amount;
+    }
 }

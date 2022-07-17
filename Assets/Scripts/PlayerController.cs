@@ -20,18 +20,22 @@ public class PlayerController : MonoBehaviour
 
     private Transform _rootTransform;
 	private Transform _camera;
+    private float _lowestHeight;
 
 	private void Awake()
 	{
 		if (_rootTransform == null) { _rootTransform = this.transform; }
-		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0); }
+		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0);}
 		if (data == null) { data = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
+
+        _lowestHeight = _meshTransorm.position.y;
 	}
 
     void Update()
     {
 		Move();
+        Jump();
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -66,8 +70,16 @@ public class PlayerController : MonoBehaviour
 	{
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
-			Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
-			instance.Initialize(_meshTransorm.position, direction, data.damage);
+            for (int i=0; i < data.projectileAmount; i++) {
+                Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
+                var position = _meshTransorm.position;
+                var relative_position = Vector3.forward;
+
+                relative_position = (_meshTransorm.rotation * relative_position).normalized * i;
+
+
+                instance.Initialize(position + relative_position, direction, data.damage);
+            }
 
 			// We play the audio source ("Pew")
 			_audioSource.pitch = Random.Range(0.9f, 1.1f);
@@ -76,6 +88,29 @@ public class PlayerController : MonoBehaviour
 			_nextTimeToFire = 1 / (float)data.fireRate;
 		}
 	}
+
+    //TODO fix bug trail getting too far (probably due to the isKinematic?)
+    private void Jump() {
+        if (Input.GetKeyDown("space")) {
+            if (data.jumpAmount > 0) {
+                var rb = GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+
+                data.jumpAmount -= 1;
+            }
+        }
+
+        if (_meshTransorm.position.y < _lowestHeight) {
+            var rb = GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            var rot = _meshTransorm.rotation;
+            var pos = _meshTransorm.position;
+            pos.y = _lowestHeight;
+            _meshTransorm.SetPositionAndRotation(pos, rot);
+        }
+
+    }
 
 	private Quaternion CalculateRotationAngle(Vector3 hitPoint)
 	{

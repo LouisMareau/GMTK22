@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankyEnemySpawnInterval: 5
-  spawnRandomDelay: {x: 0.5, y: 2}
+  spawnRandomDelay: {x: 20, y: 21}
   spawnRadius: 80
   spawnPlayerDetectionRadius: 6
   enemyTypesPrefabs:

@@ -26,7 +26,7 @@ public class TankyEnemy : Enemy
 		Die die = _dice.GetComponent<Die>();
 		die.rigidbody.isKinematic = false;
 		die.rigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
-		Vector3 randomTorque = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)) * Random.Range(8000f, 30000f);
+		Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * Random.Range(8000f, 30000f);
 		die.rigidbody.AddTorque(randomTorque);
 	}
 

@@ -35,12 +35,12 @@ public class Die : MonoBehaviour
 
 	public void Update()
 	{
-		rayDetectionSide1 = new Ray(_meshTransform.position, Vector3.down * 3f);
-		rayDetectionSide2 = new Ray(_meshTransform.position, Vector3.left * 3f);
-		rayDetectionSide3 = new Ray(_meshTransform.position, Vector3.forward * 3f);
-		rayDetectionSide4 = new Ray(_meshTransform.position, Vector3.back * 3f);
-		rayDetectionSide5 = new Ray(_meshTransform.position, Vector3.right * 3f);
-		rayDetectionSide6 = new Ray(_meshTransform.position, Vector3.up * 3f);
+        rayDetectionSide1 = CreateSideRayCast(Vector3.down);
+        rayDetectionSide2 = CreateSideRayCast(Vector3.left);
+        rayDetectionSide3 = CreateSideRayCast(Vector3.forward);
+        rayDetectionSide4 = CreateSideRayCast(Vector3.back);
+        rayDetectionSide5 = CreateSideRayCast(Vector3.right);
+        rayDetectionSide6 = CreateSideRayCast(Vector3.up);
 
 		if (Physics.Raycast(rayDetectionSide1, LayerMask.GetMask("Floor")))
 			diceResult = 1;
@@ -56,11 +56,15 @@ public class Die : MonoBehaviour
 			diceResult = 6;
 	}
 
+    Ray CreateSideRayCast(Vector3 dir) {
+		return new Ray(_meshTransform.position, (_meshTransform.rotation * dir).normalized * 3f);
+    }
+
 	void OnTriggerStay(Collider other)
 	{
 		if (other.tag == "Player") {
 			//bring random menu if the die result is set
-			dieMenu.Launch();
+			dieMenu.Launch(diceResult);
 		}
 	}
 

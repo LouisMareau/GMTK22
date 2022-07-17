@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22d6be0b75eede4eb7464a502b80f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   health: 20
   speed: 3
-  type: 1
-  _dice: {fileID: 7358736542658065073}
   _explosionPrefab: {fileID: 6628007325251359537, guid: 793e4834b7e58a4439de60bdfd13168b,
     type: 3}
+  _dice: {fileID: 7358736542658065073}
 --- !u!135 &6828336253781662364
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 7.5
+  m_Radius: 6.75
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &9117645527674682720
 GameObject:
@@ -156,72 +156,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5396189428529198733}
     m_Modifications:
-    - target: {fileID: 221613937796081155, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 221613937796081155, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 221613937796081155, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 221613937796081155, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1225536867487347017, guid: 666595f483200111ebe4c0326758995e,
         type: 3}
       propertyPath: m_Name
       value: Die
       objectReference: {fileID: 0}
-    - target: {fileID: 1303253028449847302, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1303253028449847302, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 700defde49761654885aa216adff4e65, type: 2}
-    - target: {fileID: 1303253028449847302, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8b292b2bf61a2a94ab49d824ad40ce42, type: 2}
-    - target: {fileID: 4704196934510410921, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4704196934510410921, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4704196934510410921, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4704196934510410921, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4906897885377479990, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: -835688487210165693, guid: 7e6ce16c15f7da443b8c5efa33dbe971,
-        type: 3}
     - target: {fileID: 6235283183318952621, guid: 666595f483200111ebe4c0326758995e,
         type: 3}
       propertyPath: m_RootOrder
@@ -275,26 +214,6 @@ PrefabInstance:
     - target: {fileID: 6235283183318952621, guid: 666595f483200111ebe4c0326758995e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7745756419243048629, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7745756419243048629, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7745756419243048629, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7745756419243048629, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

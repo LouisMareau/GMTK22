@@ -35,25 +35,24 @@ public class Die : MonoBehaviour
 
 	public void Update()
 	{
-		rayDetectionSide1 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.down);
-		rayDetectionSide2 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.left);
-		rayDetectionSide3 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.forward);
-		rayDetectionSide4 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.back);
-		rayDetectionSide5 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.right);
-		rayDetectionSide6 = new Ray(_meshTransform.position, _meshTransform.position + Vector3.up);
-		RaycastHit hit;
+		rayDetectionSide1 = new Ray(_meshTransform.position, Vector3.down * 3f);
+		rayDetectionSide2 = new Ray(_meshTransform.position, Vector3.left * 3f);
+		rayDetectionSide3 = new Ray(_meshTransform.position, Vector3.forward * 3f);
+		rayDetectionSide4 = new Ray(_meshTransform.position, Vector3.back * 3f);
+		rayDetectionSide5 = new Ray(_meshTransform.position, Vector3.right * 3f);
+		rayDetectionSide6 = new Ray(_meshTransform.position, Vector3.up * 3f);
 
-		if (Physics.Raycast(rayDetectionSide1, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		if (Physics.Raycast(rayDetectionSide1, LayerMask.GetMask("Floor")))
 			diceResult = 1;
-		else if (Physics.Raycast(rayDetectionSide2, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		else if (Physics.Raycast(rayDetectionSide2, LayerMask.GetMask("Floor")))
 			diceResult = 2;
-		else if (Physics.Raycast(rayDetectionSide3, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		else if (Physics.Raycast(rayDetectionSide3, LayerMask.GetMask("Floor")))
 			diceResult = 3;
-		else if (Physics.Raycast(rayDetectionSide4, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		else if (Physics.Raycast(rayDetectionSide4, LayerMask.GetMask("Floor")))
 			diceResult = 4;
-		else if (Physics.Raycast(rayDetectionSide5, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		else if (Physics.Raycast(rayDetectionSide5, LayerMask.GetMask("Floor")))
 			diceResult = 5;
-		else if (Physics.Raycast(rayDetectionSide6, out hit, 2.5f, LayerMask.GetMask("Floor")))
+		else if (Physics.Raycast(rayDetectionSide6, LayerMask.GetMask("Floor")))
 			diceResult = 6;
 	}
 
@@ -69,10 +68,15 @@ public class Die : MonoBehaviour
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawRay(rayDetectionSide1);
+		Gizmos.color = Color.yellow;
 		Gizmos.DrawRay(rayDetectionSide2);
+		Gizmos.color = Color.magenta;
 		Gizmos.DrawRay(rayDetectionSide3);
+		Gizmos.color = Color.cyan;
 		Gizmos.DrawRay(rayDetectionSide4);
+		Gizmos.color = Color.green;
 		Gizmos.DrawRay(rayDetectionSide5);
+		Gizmos.color = Color.blue;
 		Gizmos.DrawRay(rayDetectionSide6);
 	}
 }

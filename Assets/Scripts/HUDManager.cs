@@ -11,19 +11,26 @@ public class HUDManager : MonoBehaviour
 	#endregion
 
 	[Header("LIVES")]
+	[SerializeField] private int _livesLeft;
 	[SerializeField] private List<GameObject> lives;
 	[SerializeField] private Transform _livesContainer;
 	[SerializeField] private GameObject _lifePrefab;
 	[Space]
-	[SerializeField] private Color _lifeON;
-	[SerializeField] private Color _lifeOFF;
+	[SerializeField] private Color32 _lifeON;
+	[SerializeField] private Color32 _lifeOFF;
+	[Space]
 
 	[Header("SHOOTING")]
+	[SerializeField] private TextMeshProUGUI _speedLabel;
 	[SerializeField] private TextMeshProUGUI _damageLabel;
 	[SerializeField] private TextMeshProUGUI _fireRateLabel;
 
-	[Header("GAME OVER")]
+	[Header("SCREENS")]
+	[SerializeField] private GameObject _pauseScreen;
 	[SerializeField] private GameObject _gameOverScreen;
+
+	[Header("PLAYER")]
+	[SerializeField] private PlayerData _playerData;
 
 	private void Awake()
 	{
@@ -33,50 +40,110 @@ public class HUDManager : MonoBehaviour
 	private void Start()
 	{
 		HideGameOverScreen();
+		_pauseScreen.SetActive(false);
 
-		for (int i = 0; i < GameManager.Instance.livesAmountOnStart; i++)
-			GainLife();
+		_livesLeft = GameManager.Instance.livesAmountOnStart;
+		for (int i = 0; i < _livesLeft; i++)
+			AddExtraLife();
 	}
 
-	public void GainLife()
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+			TogglePauseScreen();
+	}
+
+	public void AddExtraLife()
 	{
 		GameObject instance = Instantiate<GameObject>(_lifePrefab, _livesContainer);
 		lives.Add(instance);
 	}
 
-	public void GainLife(int currentLives)
+	public void GainLife(int addedAmount) { StartCoroutine(GainLife_Coroutine(addedAmount)); }
+	private IEnumerator GainLife_Coroutine(int addedAmount)
 	{
-		// If the lives are simply less than the starting amount (meaning that the player lost at least a life), we set the life color to ON
-		// Otherwiwe, the instantiate a new life
-		if (currentLives <= lives.Count)
+		for (int i = 0; i < addedAmount; i++)
 		{
-			lives[currentLives - 1].GetComponent<Image>().color = _lifeON;
-		}
-		else
-		{
-			GainLife();
+			if (_livesLeft < lives.Count)
+				LerpLifeColorOffToOn(lives[_livesLeft].GetComponent<Image>(), 0.3f);
+			else
+				AddExtraLife();
+
+			_livesLeft++;
+			yield return new WaitForSeconds(0.3f);
 		}
 	}
 
-	public void LoseLife(int currentLives)
+	public void LoseLife(int removedAmount) { StartCoroutine(LoseLife_Coroutine(removedAmount)); }
+	private IEnumerator LoseLife_Coroutine(int removedAmount)
 	{
-		if (currentLives >= 0)
+		for (int i = 0; i < removedAmount; i++)
 		{
-			// If we have 2 lives left, we need to discolor the 3rd life (or index 2)
-			lives[currentLives].GetComponent<Image>().color = _lifeOFF;
+			if (_livesLeft > 0)
+				LerpLifeColorOnToOff(lives[_livesLeft - 1].GetComponent<Image>(), 0.3f);
+
+			_livesLeft--;
+			yield return new WaitForSeconds(0.3f);
 		}
+	}
+
+	public void UpdateSpeedLabel(float speed)
+	{
+		_speedLabel.text = $"Speed: <b>{ speed }<b/>";
 	}
 
 	public void UpdateDamageLabel(int damage)
 	{
-		_damageLabel.text = $"Damage: { damage }";
+		_damageLabel.text = $"Damage: <b>{ damage }</b>";
 	}
 
 	public void UpdateFireRateLabel(int fireRate)
 	{
-		_fireRateLabel.text = $"Rate of Fire: { fireRate } projectiles /s";
+		_fireRateLabel.text = $"Rate of Fire: <b>{ fireRate } projectiles /s</b>";
 	}
 
 	public void ShowGameOverScreen() { _gameOverScreen.SetActive(true); }
 	public void HideGameOverScreen() { _gameOverScreen.SetActive(false); }
+
+	private void LerpLifeColorOffToOn(Image image, float duration) { StartCoroutine(LerpLifeColorOffToOn_Corourtine(image, duration)); }
+	private IEnumerator LerpLifeColorOffToOn_Corourtine(Image image, float duration)
+	{
+		float t = 0;
+		while (t < duration)
+		{
+			image.color = Color32.Lerp(_lifeOFF, _lifeON, t / duration);
+
+			t += Time.deltaTime;
+			yield return null;
+		}
+	}
+
+	private void LerpLifeColorOnToOff(Image image, float duration) { StartCoroutine(LerpLifeColorOnToOff_Corourtine(image, duration)); }
+	private IEnumerator LerpLifeColorOnToOff_Corourtine(Image image, float duration)
+	{
+		float t = 0;
+		while (t < duration)
+		{
+			image.color = Color32.Lerp(_lifeON, _lifeOFF, t / duration);
+
+			t += Time.deltaTime;
+			yield return null;
+		}
+	}
+
+	private void TogglePauseScreen()
+	{
+		_pauseScreen.SetActive(!_pauseScreen.activeSelf);
+
+		if (_pauseScreen.activeSelf)
+			Time.timeScale = 0.1f;
+		else
+			Time.timeScale = 1f;
+	}
+
+	public void OnResumeGame()
+	{
+		_pauseScreen.SetActive(false);
+		Time.timeScale = 1f;
+	}
 }

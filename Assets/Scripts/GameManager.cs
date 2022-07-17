@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	[Header("GAME SETUP")]
+	public int speedOnStart = 3;
 	public int livesAmountOnStart = 3;
 	public int damageOnStart = 3;
 	public int fireRateOnStart = 3;

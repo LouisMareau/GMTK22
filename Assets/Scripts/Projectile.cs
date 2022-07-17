@@ -38,12 +38,14 @@ public class Projectile : MonoBehaviour
 		Ray ray = new Ray(_meshTransform.position, -_direction);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, 2f))
+		if (Physics.Raycast(ray, out hit, _speed / 10))
 		{
 			if (hit.collider.tag == "Enemy")
 			{
+				Vector3 targetLocation = new Vector3(hit.point.x, 1, hit.point.z);
+
 				hit.collider.GetComponent<Enemy>().TakeDamage(_damage);
-				Instantiate<GameObject>(_bloodSplatterPrefab, hit.point, Quaternion.LookRotation(_direction));
+				Instantiate<GameObject>(_bloodSplatterPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
 				Destroy(gameObject);
 			}
 		}

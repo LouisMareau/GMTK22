@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class SmallEnemy : Enemy
 {
-	[Header("VFXs")]
-	[SerializeField] private GameObject _explosionPrefab;
-
-	private void OnCollisionEnter(Collision collision)
+	protected override void OnTriggerEnter(Collider other)
 	{
-		if (collision.gameObject.tag == "Player")
+		if (other.tag == "Player")
 		{
-			PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+			PlayerController player = other.GetComponent<PlayerController>();
 			player.data.LoseLife(1);
-			Instantiate<GameObject>(_explosionPrefab, collision.transform.position, _explosionPrefab.transform.rotation);
-			Destroy(gameObject);
+
+			Explode();
+			Kill();
 		}
 	}
 }

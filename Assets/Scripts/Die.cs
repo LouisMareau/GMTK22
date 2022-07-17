@@ -5,28 +5,16 @@ using UnityEngine;
 public class Die : MonoBehaviour
 {
 	public DieMenu dieMenu;
-	// Start is called before the first frame update
+	public new Rigidbody rigidbody;
+
 	void Start()
 	{
 		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu>();
+		if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
+
+		rigidbody.isKinematic = true;
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
-	//void OnCollisionEnter(Collision collision)
-	//{
-	//    foreach (ContactPoint contact in collision.contacts) {
-	//        if (contact.otherCollider.tag == "Player") {
-	//            //bring random menu
-	//            dieMenu.Launch();
-	//        }
-
-	//    }
-	//}
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player") {
@@ -34,6 +22,4 @@ public class Die : MonoBehaviour
 			dieMenu.Launch();
 		}
 	}
-
-	
 }

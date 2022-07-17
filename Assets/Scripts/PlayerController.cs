@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	[Header("MOVEMENT")]
-	[SerializeField] private float _speed = 12f;
+	[Header("DATA")]
+	public PlayerData data;
 
 	[Header("SHOOTING")]
 	[SerializeField] private GameObject _projectilePrefab;
 	[Space]
 	private float _nextTimeToFire;
 
+	[Header("AUDIO")]
+	[SerializeField] private AudioSource _audioSource;
+
 	[Header("LOCAL REFERENCES")]
 	[SerializeField] private Transform _meshTransorm;
-	public PlayerData data;
 
     private Transform _rootTransform;
 	private Transform _camera;
@@ -57,15 +59,19 @@ public class PlayerController : MonoBehaviour
 		if (vertical != 0)
 			moveDirection.z = vertical; // We set the Z-axis because we are top-down
 
-		_rootTransform.Translate(moveDirection * _speed * Time.deltaTime);
+		_rootTransform.Translate(moveDirection * data.speed * Time.deltaTime);
 	}
 
 	private void Shoot(Vector3 direction)
 	{
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
-			Projectile instance = Instantiate<GameObject>(_projectilePrefab).GetComponent<Projectile>();
+			Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
 			instance.Initialize(_meshTransorm.position, direction, data.damage);
+
+			// We play the audio source ("Pew")
+			_audioSource.pitch = Random.Range(0.9f, 1.1f);
+			_audioSource.Play();
 
 			_nextTimeToFire = 1 / (float)data.fireRate;
 		}

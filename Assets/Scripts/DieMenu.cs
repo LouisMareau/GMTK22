@@ -37,7 +37,7 @@ public class DieMenu : MonoBehaviour
 
     public void Launch() {
         //pause the game
-        Time.timeScale = 0f;
+        Time.timeScale = 0.1f;
 
         //display
         //Renderer test = GetComponent<Renderer>();
@@ -64,11 +64,11 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_speed(PlayerData pd) {
-        
+        pd.UpdateSpeed(1);
     }
 
     static void add_firerate(PlayerData pd) {
-        
+        pd.UpdateFireRate(1);
     }
 }
 

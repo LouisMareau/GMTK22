@@ -75,7 +75,7 @@ public class EnemySpawner : MonoBehaviour
 		}
 		while (IsPlayerInDetectionRadius(randomLocation));
 
-		GameObject instance = Instantiate<GameObject>(enemyPrefabs[type], randomLocation, enemyPrefabs[type].transform.rotation, _transform);
+		GameObject instance = Instantiate<GameObject>(enemyPrefabs[type], randomLocation, enemyPrefabs[type].transform.rotation, StaticReferences.Instance.enemyContainer);
 	}
 
 	private bool IsTankyEnemyReadyToSpawn()

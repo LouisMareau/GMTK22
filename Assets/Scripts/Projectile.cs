@@ -48,16 +48,4 @@ public class Projectile : MonoBehaviour
 			}
 		}
 	}
-
-	//private void OnTriggerEnter(Collider other)
-	//{
-	//	if (other.tag == "Enemy")
-	//		other.GetComponent<Enemy>().TakeDamage(_damage);
-	//}
-
-	private void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawLine(_meshTransform.position, -_direction);
-	}
 }

@@ -19,7 +19,11 @@ public class HUDManager : MonoBehaviour
 	[SerializeField] private Color _lifeOFF;
 
 	[Header("SHOOTING")]
-	[SerializeField] private TextMeshProUGUI rateOfFireLabel;
+	[SerializeField] private TextMeshProUGUI _damageLabel;
+	[SerializeField] private TextMeshProUGUI _fireRateLabel;
+
+	[Header("GAME OVER")]
+	[SerializeField] private GameObject _gameOverScreen;
 
 	private void Awake()
 	{
@@ -28,6 +32,8 @@ public class HUDManager : MonoBehaviour
 
 	private void Start()
 	{
+		HideGameOverScreen();
+
 		for (int i = 0; i < GameManager.Instance.livesAmountOnStart; i++)
 			GainLife();
 	}
@@ -54,15 +60,23 @@ public class HUDManager : MonoBehaviour
 
 	public void LoseLife(int currentLives)
 	{
-		if (currentLives > 0)
+		if (currentLives >= 0)
 		{
 			// If we have 2 lives left, we need to discolor the 3rd life (or index 2)
 			lives[currentLives].GetComponent<Image>().color = _lifeOFF;
 		}
 	}
 
-	public void SetRateOfFireLabel(int rateofFire)
+	public void UpdateDamageLabel(int damage)
 	{
-		rateOfFireLabel.text = $"Rate of Fire: { rateofFire } projectiles /s";
+		_damageLabel.text = $"Damage: { damage }";
 	}
+
+	public void UpdateFireRateLabel(int fireRate)
+	{
+		_fireRateLabel.text = $"Rate of Fire: { fireRate } projectiles /s";
+	}
+
+	public void ShowGameOverScreen() { _gameOverScreen.SetActive(true); }
+	public void HideGameOverScreen() { _gameOverScreen.SetActive(false); }
 }

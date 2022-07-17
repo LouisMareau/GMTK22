@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour
 	[Header("SHOOTING")]
 	[SerializeField] private GameObject _projectilePrefab;
 	[Space]
-	[SerializeField] private int _rateOfFire = 3;
 	private float _nextTimeToFire;
-	private int _lastRateOfFire;
 
 	[Header("LOCAL REFERENCES")]
 	[SerializeField] private Transform _meshTransorm;
-	public PlayerData playerData;
+	public PlayerData data;
 
     private Transform _rootTransform;
 	private Transform _camera;
@@ -25,18 +23,12 @@ public class PlayerController : MonoBehaviour
 	{
 		if (_rootTransform == null) { _rootTransform = this.transform; }
 		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0); }
-		if (playerData == null) { playerData = GetComponent<PlayerData>(); }
+		if (data == null) { data = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
-
-		_lastRateOfFire = _rateOfFire;
 	}
 
-    // Update is called once per frame
     void Update()
     {
-		if (_rateOfFire != _lastRateOfFire)
-			HUDManager.Instance.SetRateOfFireLabel(_rateOfFire);
-
 		Move();
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -46,7 +38,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Quaternion rotation = CalculateRotationAngle(hit.point);
 			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
-			_meshTransorm.rotation = rotation;
+			_rootTransform.rotation = rotation;
 
 			if (hit.collider.tag != "Player")
 				Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
@@ -59,15 +51,11 @@ public class PlayerController : MonoBehaviour
 
 	private void Move()
 	{
-		float x = Input.GetAxisRaw("Horizontal");
-		float y = Input.GetAxisRaw("Vertical");
+		float vertical = Input.GetAxisRaw("Vertical");
 		Vector3 moveDirection = Vector3.zero;
 
-		if (x != 0)
-			moveDirection.x = x;
-
-		if (y != 0)
-			moveDirection.z = y; // We set the Z-axis because we are top-down
+		if (vertical != 0)
+			moveDirection.z = vertical; // We set the Z-axis because we are top-down
 
 		_rootTransform.Translate(moveDirection * _speed * Time.deltaTime);
 	}
@@ -77,9 +65,9 @@ public class PlayerController : MonoBehaviour
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
 			Projectile instance = Instantiate<GameObject>(_projectilePrefab).GetComponent<Projectile>();
-			instance.Initialize(_meshTransorm.position, direction, playerData.damage);
+			instance.Initialize(_meshTransorm.position, direction, data.damage);
 
-			_nextTimeToFire = 1 / (float)_rateOfFire;
+			_nextTimeToFire = 1 / (float)data.fireRate;
 		}
 	}
 
@@ -94,9 +82,8 @@ public class PlayerController : MonoBehaviour
 		return direction;
 	}
 
-	public void UpdateRateOfFire(int newRate)
+	public void UpdateFireRate(int newRate)
 	{
-		_lastRateOfFire = _rateOfFire;
-		_rateOfFire = newRate;
+		data.fireRate = newRate;
 	}
 }

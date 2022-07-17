@@ -4,26 +4,42 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-	[HideInInspector] public int lives;
-	[HideInInspector] public float damage;
+	public int lives;
+	public int damage;
+	public int fireRate;
 
 	private void Awake()
 	{
 		lives = GameManager.Instance.livesAmountOnStart;
-		damage = GameManager.Instance.fireRateOnStart;
+		damage = GameManager.Instance.damageOnStart;
+		fireRate = GameManager.Instance.fireRateOnStart;
 	}
 
-	[ContextMenu("Life +1")]
-	public void GainLife()
+	public void GainLife(int amount)
 	{
-		lives++;
+		lives += amount;
 		HUDManager.Instance.GainLife(lives);
 	}
 
-	[ContextMenu("Life -1")]
-	public void LoseLife()
+	public void LoseLife(int amount)
 	{
-		lives--;
+		lives -= amount;
 		HUDManager.Instance.LoseLife(lives);
+
+		// Game over when lives <= 0
+		if (lives <= 0)
+			GameManager.Instance.GameOver();
+	}
+
+	public void UpdateDamage(int amount)
+	{
+		damage += amount;
+		HUDManager.Instance.UpdateDamageLabel(damage);
+	}
+
+	public void UpdateFireRate(int amount)
+	{
+		fireRate += amount;
+		HUDManager.Instance.UpdateFireRateLabel(fireRate);
 	}
 }

@@ -12,7 +12,7 @@ public class SmallEnemy : Enemy
 		if (collision.gameObject.tag == "Player")
 		{
 			PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-			player.playerData.LoseLife();
+			player.data.LoseLife(1);
 			Instantiate<GameObject>(_explosionPrefab, collision.transform.position, _explosionPrefab.transform.rotation);
 			Destroy(gameObject);
 		}

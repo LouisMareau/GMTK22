@@ -19,19 +19,24 @@ public abstract class Enemy : MonoBehaviour
 	public float speed = 5f;
 	[Space]
 	public EnemyType type;
-	private Transform _player;
+
+	protected Transform _rootTransform;
+	protected Transform _meshTransform;
+	protected Transform _playerTransform;
 
 	private void Awake()
 	{
-		_player = GameObject.FindGameObjectWithTag("Player").transform;
+		if (_rootTransform == null) { _rootTransform = transform; }
+		if (_meshTransform == null) { _meshTransform = _rootTransform.GetChild(0); }
+		if (_playerTransform == null) { _playerTransform = GameObject.FindGameObjectWithTag("Player").transform; }
 	}
 
 	private void Update()
 	{
-		this.transform.Translate((_player.position - this.transform.position).normalized * speed * Time.deltaTime);
+		this.transform.Translate((_playerTransform.position - this.transform.position).normalized * speed * Time.deltaTime);
 	}
 
-	public void TakeDamage(float damage)
+	public virtual void TakeDamage(float damage)
 	{
 		health -= damage;
 

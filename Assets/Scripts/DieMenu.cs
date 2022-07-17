@@ -60,7 +60,7 @@ public class DieMenu : MonoBehaviour
     }
 
     static void add_life(PlayerData pd) {
-        pd.GainLife();
+        pd.GainLife(1);
     }
 
     static void add_speed(PlayerData pd) {

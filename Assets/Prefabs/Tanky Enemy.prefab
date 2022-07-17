@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1116117497645476190}
   - component: {fileID: 664728478002694328}
+  - component: {fileID: 6828336253781662364}
   m_Layer: 0
   m_Name: Tanky Enemy
   m_TagString: Enemy
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116117497645476177}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.53, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45,9 +46,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22d6be0b75eede4eb7464a502b80f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 8
+  health: 20
   speed: 3
   type: 1
+  _dicePrefab: {fileID: 1225536867487347017, guid: 666595f483200111ebe4c0326758995e,
+    type: 3}
+  _explosionPrefab: {fileID: 6628007325251359537, guid: 793e4834b7e58a4439de60bdfd13168b,
+    type: 3}
+--- !u!135 &6828336253781662364
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116117497645476177}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2555972116286031038
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 557d942a816902a42bdb7a0e162c24a5, type: 2}
+  - {fileID: 2100000, guid: 8b292b2bf61a2a94ab49d824ad40ce42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -157,8 +175,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9117645527674682720}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2468871452720903980}
@@ -193,7 +211,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 46536e139c5f69544a8c2f826089bf93, type: 2}
+  - {fileID: 2100000, guid: 44748f054d4f7424b80d4fc7cad5d443, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

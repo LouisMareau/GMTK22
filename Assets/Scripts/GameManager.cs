@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	public int damageOnStart = 3;
 	public int fireRateOnStart = 3;
 	public int projectileAmountOnStart = 1;
+    public int seekingProjectileAmountOnStart = 0;
 
 	[Header("SCORING")]
 	public int score;

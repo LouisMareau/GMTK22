@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fc4b34af8832d4aadc4ff5b87efeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _assocaitedDie: {fileID: 852214258208624164}
+  _associatedDie: {fileID: 852214258208624164}
   _canvas: {fileID: 2321202367541887593}
   _resultLabel: {fileID: 2150222623924750134}
   _eventLabel1: {fileID: 5674150712700153489}

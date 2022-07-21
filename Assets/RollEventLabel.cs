@@ -44,6 +44,6 @@ public class RollEventLabel : MonoBehaviour
 		Time.timeScale = 1f;
 
 		// We destroy the die
-		_associatedMenu._assocaitedDie.Kill();
+		_associatedMenu._associatedDie.Kill();
 	}
 }

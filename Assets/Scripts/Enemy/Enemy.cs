@@ -98,6 +98,7 @@ public abstract class Enemy : MonoBehaviour
 
 		PlayAnim_Death();
 
+        EnemySpawner.Instance.removeEnemy(this);
 		Destroy(gameObject, delay);
 	}
 	#endregion

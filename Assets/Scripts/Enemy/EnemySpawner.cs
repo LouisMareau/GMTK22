@@ -27,6 +27,8 @@ public class EnemySpawner : MonoBehaviour
 	private Transform _transform;
 	private float _timeBeforeNextTankyEnemy;
 
+    private List<Enemy> _enemies = new List<Enemy>();
+
 	private void Awake()
 	{
 		Instance = this;
@@ -92,7 +94,30 @@ public class EnemySpawner : MonoBehaviour
 		while (IsPlayerInDetectionRadius(randomLocation));
 
 		GameObject instance = Instantiate<GameObject>(enemyPrefabs[type], randomLocation, enemyPrefabs[type].transform.rotation, StaticReferences.Instance.enemyContainer);
+        this._enemies.Add(instance.GetComponent<Enemy>());
 	}
+
+    public void removeEnemy(Enemy enemy) {
+        this._enemies.Remove(enemy);
+    }
+
+    public Enemy findClosestEnemy(Vector3 position) {
+        if (_enemies.Count == 0) {
+            return null;
+        }
+        var closestEnemy = _enemies[0];
+        var closestDistance = Vector3.Distance(closestEnemy.transform.position, position);
+
+        for (int i = 1; i < _enemies.Count; i++) {
+            var distance = Vector3.Distance(_enemies[i].transform.position, position);
+            if (closestDistance > distance) {
+                closestDistance = distance;
+                closestEnemy = _enemies[i];
+            }
+        } 
+
+        return closestEnemy;
+    }
 
 	public void IncreaseDifficulty(float spawnMultiplier, float enemyStatMultiplier)
 	{

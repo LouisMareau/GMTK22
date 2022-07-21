@@ -25,8 +25,9 @@ public class PlayerData : MonoBehaviour
 	public int fireRate;
     public int projectileAmount;
     public int projectileSpeedBonus;
-    public int projectileRadiusBonus;
+    public float projectileRadiusBonus;
     public int projectileKnockback;
+    public int seekingProjectileAmount;
 
 	public delegate void OnDamageApplied();
 	public static event OnDamageApplied onDamageApplied;
@@ -40,6 +41,7 @@ public class PlayerData : MonoBehaviour
 		damage = GameManager.Instance.damageOnStart;
 		fireRate = GameManager.Instance.fireRateOnStart;
         projectileAmount = GameManager.Instance.projectileAmountOnStart;
+        seekingProjectileAmount = GameManager.Instance.seekingProjectileAmountOnStart;
 
 		status = PlayerStatus.CAN_SHOOT;
 	}
@@ -86,11 +88,17 @@ public class PlayerData : MonoBehaviour
 		HUDManager.Instance.UpdateProjectilesPerBurstLabel(amount);
 	}
 
+    public void MakeSeekingProjectile(int amount) {
+        this.AddProjectile(-1);
+        seekingProjectileAmount += amount;
+        //TODO Hud
+    }
+
     public void AddProjectileSpeed(int amount) {
         projectileSpeedBonus += amount;
     }
 
-    public void AddProjectileRadius(int amount) {
+    public void AddProjectileRadius(float amount) {
         projectileRadiusBonus += amount;
     }
 

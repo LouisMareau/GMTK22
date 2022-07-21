@@ -28,12 +28,71 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		StaticReferences.Instance.playerData.GainLife(2);
 	}
+    public void RollWithTheFlow() {
+        StaticReferences.Instance.playerData.AddProjectileSpeed(1);
+    }
+    public void JustNeededSomeGrease() {
+        StaticReferences.Instance.playerData.AddProjectileSpeed(2);
+    }
+    public void SacrebleuItsJammedAgain() {
+        StaticReferences.Instance.playerData.AddProjectileSpeed(-1);
+    }
+    public void IWentToTheShootingRange() {
+        StaticReferences.Instance.playerData.UpdateDamage(0.5f);
+    }
+    public void AmericanSniper() {
+        StaticReferences.Instance.playerData.UpdateDamage(1);
+    }
+    public void FearOfDamagingGoods() {
+        StaticReferences.Instance.playerData.UpdateDamage(-0.5f);
+    }
+    public void LookAtMyNewGadget() {
+        StaticReferences.Instance.playerData.MakeSeekingProjectile(1);
+    }
+    public void DestabilitatingShots() {
+        StaticReferences.Instance.playerData.AddKnockback(1);
+    }
+    public void DidIBuyRubberBullets() {
+        StaticReferences.Instance.playerData.AddKnockback(-1);
+    }
+    public void BulletHell() {
+        //TODO add bullet spread
+    }
+    public void NotYourGrandpasAmmo() {
+        //TODO maybe you want +10% from base or grom last ?
+        StaticReferences.Instance.playerData.AddProjectileRadius(0.1f);
+    }
+
+    public void IsThisMagic() { StartCoroutine(IsThisMagic_Coroutine()); }
+    public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
+    public void EagleEye() { StartCoroutine(EagleEye_Coroutine()); }
+    public void MagicFingers() { StartCoroutine(MagicFingers_Coroutine()); }
 	public void KillingFrenzy() { StartCoroutine(KillingFrenzy_Coroutine()); }
 	public void JugementDay() { StartCoroutine(JugementDay_Coroutine()); }
 	public void NotToday() { StartCoroutine(NotToday_Coroutine()); }
 	#endregion
 
 	#region COROUTINES
+    private IEnumerator IsThisMagic_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+    private IEnumerator TimeToMakePeace_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+    private IEnumerator EagleEye_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+    private IEnumerator MagicFingers_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
 	private IEnumerator KillingFrenzy_Coroutine()
 	{
 		float duration = 15f;

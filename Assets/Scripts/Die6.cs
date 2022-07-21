@@ -6,7 +6,7 @@ public class Die6 : MonoBehaviour
 {
 	public int Result { get; private set; }
 
-	[SerializeField] private DieMenu _menu;
+	private DieMenu _menu;
 
 	[SerializeField] private float _idleRotationSpeed = 5f;
 
@@ -32,7 +32,7 @@ public class Die6 : MonoBehaviour
 		if (_rootTransform == null) { _rootTransform = transform; }
 		if (_meshTransform == null) { _meshTransform = _rootTransform.Find("Mesh"); }
 		if (_menuTransform == null) { _menuTransform = _rootTransform.Find("Menu"); }
-		if (_menu == null) { _menu = _menuTransform.GetComponent<DieMenu>(); }
+		if (_menu == null) { _menu = DieMenu.Instance; }
 	}
 
 	private void Start()
@@ -81,8 +81,10 @@ public class Die6 : MonoBehaviour
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.tag == "Player")
+		if (other.tag == "Player") {
+            _menu.setAssociatedDie(this);
 			_menu.Activate(Result);
+        }
 	}
 
 	public void Kill()

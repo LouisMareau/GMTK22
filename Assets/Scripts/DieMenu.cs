@@ -6,6 +6,9 @@ using TMPro;
 public class DieMenu : MonoBehaviour
 {
 
+	#region SINGLETON
+	public static DieMenu Instance { get; private set; }
+	#endregion
 	public Die6 _associatedDie;
 	[SerializeField] private Canvas _canvas;
 	[SerializeField] private TextMeshProUGUI _resultLabel;
@@ -19,10 +22,20 @@ public class DieMenu : MonoBehaviour
 	#region INITIALIZATION
 	private void Awake()
 	{
+        Instance = this;
 		if (RollEffectsMaps == null) { RollEffectsMaps = new Dictionary<RollEffectType, RollEffect>(); }
 
+	}
+
+	private void Start()
+	{
+		if (IsVisible) Hide();
 		InitializeRollEffects();
 	}
+
+    public void setAssociatedDie(Die6 die) {
+        _associatedDie = die;
+    }
 
 	private void InitializeRollEffects()
 	{
@@ -156,10 +169,6 @@ public class DieMenu : MonoBehaviour
         RollEffectsMaps.Add(type, new RollEffect(type, name, description, Activate));
     }
 
-	private void Start()
-	{
-		if (IsVisible) Hide();
-	}
 	#endregion
 
 	public void Activate(int result)

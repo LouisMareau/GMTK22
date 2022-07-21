@@ -45,5 +45,7 @@ public class RollEventLabel : MonoBehaviour
 
 		// We destroy the die
 		_associatedMenu._associatedDie.Kill();
+        //We hide the menu
+        _associatedMenu.Hide();
 	}
 }

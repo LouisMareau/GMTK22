@@ -47,7 +47,7 @@ public class RollEffectsDefinition : MonoBehaviour
         StaticReferences.Instance.playerData.UpdateDamage(-0.5f);
     }
     public void LookAtMyNewGadget() {
-        StaticReferences.Instance.playerData.AddSeekingProjectile(1);
+        StaticReferences.Instance.playerData.MakeSeekingProjectile(1);
     }
     public void DestabilitatingShots() {
         StaticReferences.Instance.playerData.AddKnockback(1);

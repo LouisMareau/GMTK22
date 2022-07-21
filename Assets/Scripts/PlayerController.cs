@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
-            for (int i=0; i < data.projectileAmount; i++) {
+            for (int i=0; i < (data.projectileAmount + data.seekingProjectileAmount); i++) {
                 Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
                 var position = _meshTransform.position;
                 var relative_position = Vector3.forward;
@@ -78,6 +78,11 @@ public class PlayerController : MonoBehaviour
                 instance.Initialize(position + relative_position, direction, data.damage);
                 instance.transform.localScale *= (data.projectileRadiusBonus+1);
                 instance.speed += data.projectileSpeedBonus; 
+
+                //Seekers
+                if (i < data.seekingProjectileAmount) {
+                    instance.setAutopilot(true);
+                }
             }
 
 			// We play the audio source ("Pew")

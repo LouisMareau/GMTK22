@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
 	private Vector3 _direction;
 	private float _damage;
     public float knockback = 0;
+    private bool _isSeeker = false;
 
 	private void Awake()
 	{
@@ -29,14 +30,29 @@ public class Projectile : MonoBehaviour
 		Destroy(gameObject, _timeBeforeDestruction);
 	}
 
+    public void setAutopilot(bool b)
+    {
+        _isSeeker = b;
+    }
+
 	private void Update()
 	{
+        //When on Autopilot
+        if (_isSeeker) {
+            //find closest enemy and update direction
+            var target = EnemySpawner.Instance.findClosestEnemy(this.transform.position);
+            if (target != null) {
+                this._direction = (target.transform.position - this.transform.position).normalized;
+            }
+            
+        }
+
 		_rootTransform.Translate(_direction * speed * Time.deltaTime);
 
 		Ray ray = new Ray(_meshTransform.position, -_direction);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, speed / 10))
+		if (Physics.Raycast(ray, out hit, speed / 10f))
 		{
 			if (hit.collider.tag == "Enemy")
 			{
@@ -51,4 +67,15 @@ public class Projectile : MonoBehaviour
 			}
 		}
 	}
+
+    //HACKY solution because if the projectile is on auto the raycast will be from inside
+    //the collider and it can't detect the enemy
+    //!!! not being triggered
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "Enemy") {
+            this.setAutopilot(false);
+            this._direction.z = 1;
+        }
+
+    }
 }

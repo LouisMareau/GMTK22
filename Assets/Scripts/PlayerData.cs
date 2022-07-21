@@ -88,7 +88,8 @@ public class PlayerData : MonoBehaviour
 		HUDManager.Instance.UpdateProjectilesPerBurstLabel(amount);
 	}
 
-    public void AddSeekingProjectile(int amount) {
+    public void MakeSeekingProjectile(int amount) {
+        this.AddProjectile(-1);
         seekingProjectileAmount += amount;
         //TODO Hud
     }

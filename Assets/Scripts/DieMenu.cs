@@ -178,7 +178,7 @@ public class DieMenu : MonoBehaviour
 			// We populate the list of effect the player can choose from
 			var effect1 = RollEffectsMaps[RollEffectType.POWER_UP];
             var effect2 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
-            var effect3 = RollEffectsMaps[RollEffectType.JUGEMENT_DAY];
+            var effect3 = RollEffectsMaps[RollEffectType.LOOK_AT_MY_NEW_GADGET];
 			_eventLabel1.Initialize(this, effect1);
 			_eventLabel2.Initialize(this, effect2);
 			_eventLabel3.Initialize(this, effect3);

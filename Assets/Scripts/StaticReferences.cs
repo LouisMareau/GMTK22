@@ -12,9 +12,14 @@ public class StaticReferences : MonoBehaviour
 	public Transform vfxContainer;
 	public Transform diceContainer;
 	public Transform projectileContainer;
+	[Space]
+	public Transform playerTransform;
+	public PlayerData playerData;
 
 	private void Awake()
 	{
 		Instance = this;
+
+		if (playerData == null) { playerData = playerTransform.GetComponent<PlayerData>(); }
 	}
 }

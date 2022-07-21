@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
 	public int damageOnStart = 3;
 	public int fireRateOnStart = 3;
 	public int projectileAmountOnStart = 1;
-	public int jumpAmountOnStart = 0;
-	[Space]
-
 
 	[Header("SCORING")]
 	public int score;
@@ -28,6 +25,7 @@ public class GameManager : MonoBehaviour
 	public float spawnMultplier = 0.9f;
 	public float enemyStatsMultiplier = 1.1f;
 
+	#region INITIALIZATION
 	private void Awake()
 	{
 		Instance = this;
@@ -35,29 +33,31 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		StartCoroutine(InitDifficulty());
+		IncreaseDifficulty();
 	}
+	#endregion
 
-	private IEnumerator InitDifficulty()
+	#region GAMEPLAY
+	private void IncreaseDifficulty() { StartCoroutine(IncreaseDifficulty_Coroutine()); }
+	private IEnumerator IncreaseDifficulty_Coroutine()
 	{
 		while (true)
 		{
-			yield return IncreaseDifficulty();
+			yield return new WaitForSeconds(timeBeforeBuff);
+			// EnemySpawner.Instance.IncreaseDifficulty(spawnMultplier, enemyStatsMultiplier);
 		}
 	}
+	#endregion
 
-	private IEnumerator IncreaseDifficulty()
+	public void GameOver() { StartCoroutine(GameOver_Coroutine()); }
+	private IEnumerator GameOver_Coroutine()
 	{
-		yield return new WaitForSeconds(timeBeforeBuff);
+		yield return new WaitForSeconds(2f);
 
-		EnemySpawner.Instance.IncreaseDifficulty(spawnMultplier, enemyStatsMultiplier);
-	}
-
-	public void GameOver()
-	{
 		Time.timeScale = 0.05f;
 		HUDManager.Instance.ShowGameOverScreen();
 	}
+
 
 	public void OnTryAgainGame()
 	{

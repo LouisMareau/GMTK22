@@ -8,19 +8,24 @@ public class EnemySpawner : MonoBehaviour
 	public static EnemySpawner Instance { get; private set; }
 	#endregion
 
-	public float baseTankyEnemySpawnInterval = 25f;
-	public float tankyEnemySpawnInterval;
-	private float _timeBeforeNextTankyEnemy;
+	[Header("SPAWNING INTERVALS")]
+	[SerializeField] private float _baseTankyEnemySpawnInterval = 25f;
+	[HideInInspector] public float tankyEnemySpawnInterval;
 	[Space]
-	public Vector2 baseSpawnRandomDelay = new Vector2(0.5f, 2.5f);
-	public Vector2 spawnRandomDelay;
+	[SerializeField] private Vector2 _baseSpawnRandomDelay = new Vector2(0.5f, 2.5f);
+	[HideInInspector] public Vector2 spawnRandomDelay;
+
+
+	[Header("SPAWNING RADIUSES")]
 	public float spawnRadius = 80f;
 	public float spawnPlayerDetectionRadius = 3f;
-	[Space]
+
+	[Header("COLLECTIONS")]
 	public List<GameObject> enemyTypesPrefabs;
 	public Dictionary<EnemyType, GameObject> enemyPrefabs = new Dictionary<EnemyType, GameObject>();
 
 	private Transform _transform;
+	private float _timeBeforeNextTankyEnemy;
 
 	private void Awake()
 	{
@@ -28,8 +33,8 @@ public class EnemySpawner : MonoBehaviour
 
 		if (_transform == null) { _transform = transform; }
 
-		tankyEnemySpawnInterval = baseTankyEnemySpawnInterval;
-		spawnRandomDelay = baseSpawnRandomDelay;
+		tankyEnemySpawnInterval = _baseTankyEnemySpawnInterval;
+		spawnRandomDelay = _baseSpawnRandomDelay;
 
 		_timeBeforeNextTankyEnemy = tankyEnemySpawnInterval;
 
@@ -94,8 +99,7 @@ public class EnemySpawner : MonoBehaviour
 		tankyEnemySpawnInterval *= spawnMultiplier;
 		spawnRandomDelay *= spawnMultiplier;
 
-		foreach (GameObject prefab in enemyPrefabs.Values)
-			prefab.GetComponent<Enemy>().IncreaseDifficulty(enemyStatMultiplier);
+		// [TO DO] Increase enemies stats and other behaviours
 	}
 
 	private bool IsTankyEnemyReadyToSpawn()

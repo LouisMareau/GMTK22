@@ -9,33 +9,31 @@ public class PlayerController : MonoBehaviour
 
 	[Header("SHOOTING")]
 	[SerializeField] private GameObject _projectilePrefab;
-	[Space]
 	private float _nextTimeToFire;
+
+	[Header("VFX")]
+	[SerializeField] private GameObject _prefabVFX_hitSparks;
+	[SerializeField] private GameObject _prefabVFX_death;
 
 	[Header("AUDIO")]
 	[SerializeField] private AudioSource _audioSource;
 
 	[Header("LOCAL REFERENCES")]
-	[SerializeField] private Transform _meshTransorm;
-
     private Transform _rootTransform;
+	private Transform _meshTransform;
 	private Transform _camera;
-    private float _lowestHeight;
 
 	private void Awake()
 	{
 		if (_rootTransform == null) { _rootTransform = this.transform; }
-		if (_meshTransorm == null) { _meshTransorm = transform.GetChild(0);}
+		if (_meshTransform == null) { _meshTransform = transform.GetChild(0);}
 		if (data == null) { data = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
-
-        _lowestHeight = _meshTransorm.position.y;
 	}
 
     void Update()
     {
 		Move();
-        Jump();
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -57,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Move()
 	{
-		float vertical = Input.GetAxisRaw("Vertical");
+		float vertical = Input.GetAxis("Vertical");
 		Vector3 moveDirection = Vector3.zero;
 
 		if (vertical != 0)
@@ -72,11 +70,10 @@ public class PlayerController : MonoBehaviour
 		{
             for (int i=0; i < data.projectileAmount; i++) {
                 Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
-                var position = _meshTransorm.position;
+                var position = _meshTransform.position;
                 var relative_position = Vector3.forward;
 
-                relative_position = (_meshTransorm.rotation * relative_position).normalized * i;
-
+                relative_position = (_meshTransform.rotation * relative_position).normalized * i;
 
                 instance.Initialize(position + relative_position, direction, data.damage);
                 instance.transform.localScale *= (data.projectileRadiusBonus+1);
@@ -91,29 +88,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-    //TODO fix bug trail getting too far (probably due to the isKinematic?)
-    private void Jump() {
-        if (Input.GetKeyDown("space")) {
-            if (data.jumpAmount > 0) {
-                var rb = GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
-
-                data.jumpAmount -= 1;
-            }
-        }
-
-        if (_meshTransorm.position.y < _lowestHeight) {
-            var rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            var rot = _meshTransorm.rotation;
-            var pos = _meshTransorm.position;
-            pos.y = _lowestHeight;
-            _meshTransorm.SetPositionAndRotation(pos, rot);
-        }
-
-    }
-
 	private Quaternion CalculateRotationAngle(Vector3 hitPoint)
 	{
 		return Quaternion.LookRotation(CalculateHitDirectionFromPlayer(hitPoint));
@@ -121,12 +95,36 @@ public class PlayerController : MonoBehaviour
 
 	private Vector3 CalculateHitDirectionFromPlayer(Vector3 hitPoint)
 	{
-		Vector3 direction = (hitPoint - _meshTransorm.position).normalized;
+		Vector3 direction = (hitPoint - _meshTransform.position).normalized;
 		return direction;
 	}
 
-	public void UpdateFireRate(int newRate)
+	public void Kill()
 	{
-		data.fireRate = newRate;
+		PlayAnim_Death();
+		Destroy(gameObject);
 	}
+
+	#region ANIMATIONS / VFX
+	public void PlayAnim_Spawn()
+	{
+		// VFX: Spawn
+	}
+
+	public void PlayAnim_HitSparks()
+	{
+		// VFX: Hit Sparks
+		Instantiate(_prefabVFX_hitSparks, _meshTransform.position, _prefabVFX_hitSparks.transform.rotation, StaticReferences.Instance.vfxContainer);
+	}
+
+	public void PlayAnim_Death()
+	{
+		// VFX: Death
+		Instantiate(_prefabVFX_death, _meshTransform.position, _prefabVFX_death.transform.rotation, StaticReferences.Instance.vfxContainer);
+	}
+	#endregion
+
+	// -------------------------------------------------------------------------------
+	// [TO DO] Add dash mechanic
+	// -------------------------------------------------------------------------------
 }

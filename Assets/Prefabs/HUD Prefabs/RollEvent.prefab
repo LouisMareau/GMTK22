@@ -244,11 +244,11 @@ RectTransform:
   m_Father: {fileID: 2589087913596968200}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -7.499996}
-  m_SizeDelta: {x: 0, y: -15.000007}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: -20, y: 25}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2589087913232384520
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -304,8 +304,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -363,7 +363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2589087913359259950
 RectTransform:
   m_ObjectHideFlags: 0
@@ -382,7 +382,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: -10, y: -50}
+  m_SizeDelta: {x: -20, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2589087913359259936
 CanvasRenderer:
@@ -422,8 +422,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291348680
-  m_fontColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+    rgba: 4286611584
+  m_fontColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -440,8 +440,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
-  m_fontSizeBase: 11
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2589087913596968200}
-  - component: {fileID: 1353904248518827382}
+  - component: {fileID: 1999079406018909056}
   - component: {fileID: 7889390227767497438}
   m_Layer: 5
   m_Name: RollEvent
@@ -525,7 +525,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1353904248518827382
+--- !u!114 &1999079406018909056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,13 +534,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2589087913596968201}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c4663498d8c73d5b19e6cf8aac6332, type: 3}
+  m_Script: {fileID: 11500000, guid: a6f3ea409b0601f4a811a858fd35c968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dieRoot: {fileID: 0}
-  b: {fileID: 7889390227767497438}
-  bText: {fileID: 2589087913232384521}
-  bID: {fileID: 2589087912755694448}
+  _button: {fileID: 7889390227767497438}
+  _title: {fileID: 2589087913232384521}
+  _description: {fileID: 2589087913359259937}
 --- !u!114 &7889390227767497438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,9 +584,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1353904248518827382}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuOptionButton, Assembly-CSharp
-        m_MethodName: TaskOnClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

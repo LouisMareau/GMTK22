@@ -81,8 +81,10 @@ public class PlayerController : MonoBehaviour
             }
 
 			// We play the audio source ("Pew")
-			_audioSource.pitch = Random.Range(0.9f, 1.1f);
-			_audioSource.Play();
+            if (!_audioSource.isPlaying || _audioSource.time > 0.23f) {
+                _audioSource.pitch = Random.Range(0.9f, 1.1f);
+                _audioSource.Play();
+            }
 
 			_nextTimeToFire = 1 / (float)data.fireRate;
 		}

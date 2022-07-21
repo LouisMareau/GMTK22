@@ -5,120 +5,162 @@ using TMPro;
 
 public class DieMenu : MonoBehaviour
 {
-    [SerializeField] public Canvas canvas;
 
-    public TextMeshProUGUI diceResultID;
-    public MenuOptionButton button1; 
-    public MenuOptionButton button2; 
-    public MenuOptionButton button3;
+	public Die6 _assocaitedDie;
+	[SerializeField] private Canvas _canvas;
+	[SerializeField] private TextMeshProUGUI _resultLabel;
+	[Space]
+	[SerializeField] private RollEventLabel _eventLabel1;
+	[SerializeField] private RollEventLabel _eventLabel2;
+	[SerializeField] private RollEventLabel _eventLabel3;
 
-    IDictionary<Effects, (string, System.Action<PlayerData>)> effectsMap = new Dictionary<Effects, (string, System.Action<PlayerData>)>();
+	public Dictionary<RollEffectType, RollEffect> RollEffectsMaps { get; private set; }
 
-    Effects[] options1 = new Effects[6] { Effects.AddLife, Effects.AddProjectile, Effects.AddProjectileSpeed, Effects.AddLife, Effects.AddProjectile, Effects.AddProjectileSpeed };
-    Effects[] options2 = new Effects[6] { Effects.AddSpeed, Effects.AddDamage, Effects.AddProjectileRadius, Effects.AddSpeed, Effects.AddDamage, Effects.AddProjectileRadius };
-    Effects[] options3 = new Effects[6] { Effects.AddFireRate, Effects.AddJump, Effects.AddKnockback, Effects.AddFireRate, Effects.AddJump, Effects.AddKnockback };
-    // Start is called before the first frame update
-    void Start()
-    {
-        //hide the menu
-        canvas.enabled = false;
+	#region INITIALIZATION
+	private void Awake()
+	{
+		if (RollEffectsMaps == null) { RollEffectsMaps = new Dictionary<RollEffectType, RollEffect>(); }
 
-        //initialize the Effects
-        effectsMap.Add(Effects.AddLife, ("+1 Life", add_life));
-        effectsMap.Add(Effects.AddSpeed, ("+2 Speed", add_speed));
-        effectsMap.Add(Effects.AddFireRate, ("+1 FireRate", add_firerate));
+		InitializeRollEffects();
+	}
 
-        effectsMap.Add(Effects.AddProjectile, ("+1 Projectile", add_projectile));
-        effectsMap.Add(Effects.AddDamage, ("+0.5 Damage", add_damage));
-        effectsMap.Add(Effects.AddJump, ("+1 Jump", add_jump));
+	private void InitializeRollEffects()
+	{
+		RollEffectsMaps.Add(RollEffectType.POWER_UP, new RollEffect_PowerUp());
+		RollEffectsMaps.Add(RollEffectType.POWER_UP_PLUS, new RollEffect_PowerUpPlus());
+		RollEffectsMaps.Add(RollEffectType.KILLING_FRENZY, new RollEffect_KillingFrenzy());
+		RollEffectsMaps.Add(RollEffectType.JUGEMENT_DAY, new RollEffect_JugementDay());
+	}
 
-        effectsMap.Add(Effects.AddProjectileSpeed, ("Projectiles are faster", add_projectile_speed));
-        effectsMap.Add(Effects.AddProjectileRadius, ("Projectiles are bigger", add_projectile_radius));
-        effectsMap.Add(Effects.AddKnockback, ("Adds knockback to projectiles", add_knockback));
-    }
+	private void Start()
+	{
+		if (IsVisible) Hide();
+	}
+	#endregion
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void Activate(int result)
+	{
+		if (result != 0)
+		{
+			// We pause the game
+			Time.timeScale = 0.0f;
 
-    public void Launch(int die_throw_result) {
-        //throwing the dice !
-        //TODO get the throw result
-        if (die_throw_result != -1) {
-            //pause the game
-            Time.timeScale = 0.0f;
+			// We show the menu
+			Show();
 
-            //display
-            //Renderer test = GetComponent<Renderer>();
-            //test.enabled = true;
-            canvas.enabled = true;
+			// We update the label on the menu
+			_resultLabel.text = result.ToString();
 
-            //TODO
-            //update buttons
-            diceResultID.text = $"Result { die_throw_result }";
-            var effect1 = effectsMap[options1[die_throw_result-1]];
-            var effect2 = effectsMap[options2[die_throw_result-1]];
-            var effect3 = effectsMap[options3[die_throw_result-1]];
-            button1.setup(effect1);
-            button2.setup(effect2);
-            button3.setup(effect3);
-        }
-    }
+			// We populate the list of effect the player can choose from
+			var effect1 = RollEffectsMaps[RollEffectType.POWER_UP];
+			var effect2 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
+			var effect3 = RollEffectsMaps[RollEffectType.JUGEMENT_DAY];
+			_eventLabel1.Initialize(this, effect1);
+			_eventLabel2.Initialize(this, effect2);
+			_eventLabel3.Initialize(this, effect3);
+		}
+	}
 
-    static void add_life(PlayerData pd) {
-        pd.GainLife(1);
-    }
+	#region VISIBILITY
+	public void Show() { _canvas.enabled = true; }
+	public void Hide() { _canvas.enabled = false; }
+	public bool IsVisible { get { return _canvas.enabled; } }
+	#endregion
 
-    static void add_speed(PlayerData pd) {
-        pd.UpdateSpeed(2);
-    }
-
-    static void add_firerate(PlayerData pd) {
-        pd.UpdateFireRate(1);
-    }
-
-    static void add_projectile(PlayerData pd) {
-        pd.AddProjectile(1);
-    }
-
-    static void add_damage(PlayerData pd) {
-        pd.UpdateDamage(0.5f);
-    }
-
-    static void add_jump(PlayerData pd) {
-        pd.AddJump(1);
-    }
-
-    static void add_projectile_speed(PlayerData pd) {
-        pd.AddProjectileSpeed(1);
-    }
-
-    static void add_projectile_radius(PlayerData pd) {
-        pd.AddProjectileRadius(1);
-    }
-
-    static void add_knockback(PlayerData pd) {
-        pd.AddKnockback(1);
-    }
+	
 }
 
-public enum Effects {
-    //throw 1
-    AddLife,
-    AddSpeed,
-    AddFireRate,
-    //throw 2
-    AddProjectile,
-    AddDamage,
-    AddJump,
-    //throw3
-    AddKnockback,
-    AddProjectileRadius,
-    AddProjectileSpeed,
-    //throw4
-    
-
-
+#region ROLL EFFECTS
+public abstract class RollEffect
+{
+	public int id;
+	public string name;
+	public string description;
+	public abstract void Activate();
 }
+
+#region EFFECTS
+public class RollEffect_PowerUp : RollEffect
+{
+	public RollEffect_PowerUp()
+	{
+		id = (int)RollEffectType.POWER_UP;
+		name = "Power Up";
+		description = "You gain +1 life.";
+	}
+
+	public override void Activate()
+	{
+		RollEffectsDefinition.Instance.PowerUp();
+	}
+}
+public class RollEffect_PowerUpPlus : RollEffect
+{
+	public RollEffect_PowerUpPlus()
+	{
+		id = (int)RollEffectType.POWER_UP_PLUS;
+		name = "Power Up+";
+		description = "You gain +2 lives.";
+	}
+
+	public override void Activate()
+	{
+		RollEffectsDefinition.Instance.PowerUpPlus();
+	}
+}
+public class RollEffect_KillingFrenzy : RollEffect
+{
+	public RollEffect_KillingFrenzy()
+	{
+		id = (int)RollEffectType.KILLING_FRENZY;
+		name = "Killing Frenzy";
+		description = "For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).";
+	}
+
+	public override void Activate()
+	{
+		RollEffectsDefinition.Instance.KillingFrenzy();
+	}
+}
+public class RollEffect_JugementDay : RollEffect
+{
+	public RollEffect_JugementDay()
+	{
+		id = (int)RollEffectType.JUGEMENT_DAY;
+		name = "Jugement Day";
+		description = "For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).";
+	}
+
+	public override void Activate()
+	{
+		RollEffectsDefinition.Instance.JugementDay();
+	}
+}
+#endregion
+
+public enum RollEffectType
+{
+	POWER_UP,
+	POWER_UP_PLUS,
+	KILLING_FRENZY,
+	JUGEMENT_DAY,
+	NOT_TODAY,
+	ROLL_WITH_THE_FLOW,
+	JUST_NEEDED_SOME_GREASE,
+	SACREBLUE_ITS_JAMMED_AGAIN,
+	MAGIC_FINGERS,
+	I_WENT_TO_THE_SHOOTING_RANGE,
+	AMERICAN_SNIPER,
+	FEAR_OF_DAMAGING_GOODS,
+	EAGLE_EYE,
+	TIME_TO_MAKE_PEACE,
+	IS_THIS_MAGIC,
+	LOOK_AT_MY_NEW_GADGET,
+	DESTABILITATING_SHOTS,
+	DID_I_BUY_RUBBER_BULLETS,
+	FASTER_THAN_A_BULL_ETTTE,
+	BULLET_HELL,
+	NOT_YOUR_GRANDPAS_AMMO,
+	SLIPPERY_FLOORS
+}
+#endregion

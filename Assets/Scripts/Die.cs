@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Die : MonoBehaviour
 {
-	public DieMenu dieMenu;
+	public DieMenu2 dieMenu;
 	public new Rigidbody rigidbody;
 
 	private Transform _rootTransform;
 	private Transform _meshTransform;
+	private Transform _menuTransform;
 
 	private Ray rayDetectionSide1;
 	private Ray rayDetectionSide2;
@@ -17,7 +18,7 @@ public class Die : MonoBehaviour
 	private Ray rayDetectionSide5;
 	private Ray rayDetectionSide6;
 
-	public int diceResult = -1;
+	public int diceResult = 0;
 
 	private void Awake()
 	{
@@ -27,7 +28,7 @@ public class Die : MonoBehaviour
 
 	void Start()
 	{
-		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu>();
+		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu2>();
 		if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
 
 		rigidbody.isKinematic = true;

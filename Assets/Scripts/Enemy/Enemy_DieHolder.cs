@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankyEnemy : Enemy
+public class Enemy_DieHolder : Enemy
 {
 	[Header("DICE")]
-	[SerializeField] private GameObject _dice;
+	[SerializeField] private GameObject _associatedDice;
 
+	#region GAMEPLAY
 	public override void TakeDamage(float damage)
 	{
 		health -= damage;
 
 		if (health <= 0)
 		{
-			Explode();
+			PlayAnim_Death();
 			LaunchDice();
 			Kill();
 		}
@@ -22,33 +23,28 @@ public class TankyEnemy : Enemy
 	private void LaunchDice()
 	{
 		// We remove the dice object from the enemy hierarchy
-		_dice.transform.SetParent(StaticReferences.Instance.diceContainer);
-		Die die = _dice.GetComponent<Die>();
+		_associatedDice.transform.SetParent(StaticReferences.Instance.diceContainer);
+		Die6 die = _associatedDice.GetComponent<Die6>();
 		die.rigidbody.isKinematic = false;
 		die.rigidbody.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
-		Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * Random.Range(8000f, 30000f);
+		Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * Random.Range(8000f, 30000f);
 		die.rigidbody.AddTorque(randomTorque);
 
 		die.KillAfterDelay(20f);
 	}
+	#endregion
 
+	#region COLLISION EVENTS
 	protected override void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player")
 		{
 			PlayerController player = other.GetComponent<PlayerController>();
-			player.data.LoseLife(3);
+			player.data.LoseLife(damage);
 
-			Explode();
 			LaunchDice();
 			Kill();
 		}
 	}
-
-	public override void IncreaseDifficulty(float multiplier)
-	{
-		base.IncreaseDifficulty(multiplier);
-
-		health *= multiplier;
-	}
+	#endregion
 }

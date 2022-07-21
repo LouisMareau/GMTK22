@@ -8,10 +8,6 @@ public class Projectile : MonoBehaviour
 	public float speed = 10f;
 	[SerializeField] private float _timeBeforeDestruction = 3f;
 
-	[Header("VFXs")]
-	[SerializeField] private GameObject _bloodSplatterPrefab;
-	[SerializeField] private GameObject _sparksPrefab;
-
 	[SerializeField] private Transform _rootTransform;
 	[SerializeField] private Transform _meshTransform;
 	private Vector3 _direction;
@@ -50,11 +46,6 @@ public class Projectile : MonoBehaviour
                 enemy.TakeDamage(_damage);
 				// Knockback
 				enemy.transform.Translate(-enemy.currentDirection * knockback);
-                
-				if (enemy.health <= 0)
-					Instantiate<GameObject>(_bloodSplatterPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
-				else
-					Instantiate<GameObject>(_sparksPrefab, targetLocation, Quaternion.LookRotation(_direction), StaticReferences.Instance.vfxContainer);
 
 				Destroy(gameObject);
 			}

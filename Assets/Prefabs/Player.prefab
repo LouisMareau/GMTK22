@@ -278,7 +278,10 @@ MonoBehaviour:
   damage: 1
   fireRate: 3
   projectileAmount: 1
-  jumpAmount: 0
+  projectileSpeedBonus: 0
+  projectileRadiusBonus: 0
+  projectileKnockback: 0
+  _playerController: {fileID: 2664271347844443272}
 --- !u!114 &2664271347844443272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,8 +297,11 @@ MonoBehaviour:
   data: {fileID: 2664271347844443277}
   _projectilePrefab: {fileID: 5664981683744998416, guid: d888fa366351e6740b9b577f3cd333e3,
     type: 3}
+  _prefabVFX_hitSparks: {fileID: 3752937329390092591, guid: c93440261aa667645bc52e562541548b,
+    type: 3}
+  _prefabVFX_death: {fileID: 3410622542249244505, guid: 1c0471eb38d20154aa2b3b0f44ef5088,
+    type: 3}
   _audioSource: {fileID: 6580578571099995459}
-  _meshTransorm: {fileID: 2664271347022287756}
 --- !u!135 &2664271347844443278
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -307,7 +313,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 0.59
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &4667846210621624832
 Rigidbody:
@@ -403,10 +409,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a7be3d01262a9e7489ee75cdc3f36ddd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

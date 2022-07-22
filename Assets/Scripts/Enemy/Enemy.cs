@@ -87,7 +87,7 @@ public abstract class Enemy : MonoBehaviour
 			Kill();
 	}
 
-	protected void Kill(float delay = 0f)
+	protected virtual void Kill(float delay = 0f)
 	{
 		// Score
 		int s = GameManager.Instance.score += scoreWhenKilled;

@@ -14,7 +14,6 @@ public class Enemy_DieHolder : Enemy
 
 		if (health <= 0)
 		{
-			PlayAnim_Death();
 			LaunchDice();
 			Kill();
 		}
@@ -31,6 +30,13 @@ public class Enemy_DieHolder : Enemy
 		die.rigidbody.AddTorque(randomTorque);
 
 		die.KillAfterDelay(20f);
+	}
+
+	protected override void Kill(float delay = 0)
+	{
+		GameRecords.enemyDieHolderKilled++;
+
+		base.Kill(delay);
 	}
 	#endregion
 

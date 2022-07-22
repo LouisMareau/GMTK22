@@ -22,152 +22,159 @@ public class DieMenu : MonoBehaviour
 	#region INITIALIZATION
 	private void Awake()
 	{
-        Instance = this;
-		if (RollEffectsMaps == null) { RollEffectsMaps = new Dictionary<RollEffectType, RollEffect>(); }
+		Instance = this;
 
+		if (RollEffectsMaps == null) { RollEffectsMaps = new Dictionary<RollEffectType, RollEffect>(); }
 	}
 
 	private void Start()
 	{
 		if (IsVisible) Hide();
+
 		InitializeRollEffects();
 	}
 
-    public void setAssociatedDie(Die6 die) {
-        _associatedDie = die;
-    }
+	public void SetAssociatedDie(Die6 die) {
+		_associatedDie = die;
+	}
 
 	private void InitializeRollEffects()
 	{
-        //LIFE EVENTS
-        AddRollEffect(
-                RollEffectType.POWER_UP,
-                "Power Up",
-                "You gain +1 life",
-                RollEffectsDefinition.Instance.PowerUp
-        );
-        AddRollEffect(
-                RollEffectType.POWER_UP_PLUS,
-                "Power Up+",
-                "You gain +2 life",
-                RollEffectsDefinition.Instance.PowerUpPlus
-        );
-        AddRollEffect(
-                RollEffectType.KILLING_FRENZY,
-                "Killing Frenzy",
-                "For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).",
-                RollEffectsDefinition.Instance.KillingFrenzy
-        );
-        AddRollEffect(
-                RollEffectType.JUGEMENT_DAY,
-                "Judgment Day",
-                "For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).",
-                RollEffectsDefinition.Instance.JugementDay
-        );
-        AddRollEffect(
-                RollEffectType.NOT_TODAY,
-                "Not today!",
-                "For the next 60 seconds, if you were to be dealt lethal damage once, you survive.",
-                RollEffectsDefinition.Instance.NotToday
-        );
+		// LIFE EVENTS
+		AddRollEffect(
+				RollEffectType.POWER_UP,
+				"Power Up",
+				"You gain +1 life.",
+				RollEffectsDefinition.Instance.PowerUp
+		);
+		AddRollEffect(
+				RollEffectType.POWER_UP_PLUS,
+				"Power Up+",
+				"You gain +2 lives.",
+				RollEffectsDefinition.Instance.PowerUpPlus
+		);
+		AddRollEffect(
+				RollEffectType.KILLING_FRENZY,
+				"Killing Frenzy",
+				"For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).",
+				RollEffectsDefinition.Instance.KillingFrenzy
+		);
+		AddRollEffect(
+				RollEffectType.JUGEMENT_DAY,
+				"Judgment Day",
+				"For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).",
+				RollEffectsDefinition.Instance.JugementDay
+		);
+		AddRollEffect(
+				RollEffectType.NOT_TODAY,
+				"Not Today!",
+				"For the next 60 seconds, if you were to be dealt lethal damage once, you will survive.",
+				RollEffectsDefinition.Instance.NotToday
+		);
 
-        //SHOOTING EVENTS
-        AddRollEffect(
-                RollEffectType.ROLL_WITH_THE_FLOW,
-                "Roll with the flow",
-                "Fire rate +1 projectile/s",
-                RollEffectsDefinition.Instance.RollWithTheFlow
-        );
-        AddRollEffect(
-                RollEffectType.JUST_NEEDED_SOME_GREASE,
-                "Just needed some grease",
-                "Fire rate +2 projectile/s",
-                RollEffectsDefinition.Instance.JustNeededSomeGrease
-        );
-        AddRollEffect(
-                RollEffectType.SACREBLUE_ITS_JAMMED_AGAIN,
-                "Sacrebleu! It's jammed again!",
-                "Fire rate -1 projectile/s",
-                RollEffectsDefinition.Instance.SacrebleuItsJammedAgain
-        );
-        AddRollEffect(
-                RollEffectType.MAGIC_FINGERS,
-                "Magic fingers",
-                "For the next 10 seconds fire rate x2",
-                RollEffectsDefinition.Instance.MagicFingers
-        );
-        AddRollEffect(
-                RollEffectType.I_WENT_TO_THE_SHOOTING_RANGE,
-                "I went to the shooting range!",
-                "Damage +0.5",
-                RollEffectsDefinition.Instance.IWentToTheShootingRange
-        );
-        AddRollEffect(
-                RollEffectType.AMERICAN_SNIPER,
-                "American Sniper",
-                "Damage +1",
-                RollEffectsDefinition.Instance.AmericanSniper
-        );
-        AddRollEffect(
-                RollEffectType.FEAR_OF_DAMAGING_GOODS,
-                "Fear of damaging goods",
-                "Damage -0.5",
-                RollEffectsDefinition.Instance.FearOfDamagingGoods
-        );
-        AddRollEffect(
-                RollEffectType.EAGLE_EYE,
-                "Eagle eye",
-                "For the next 10 seconds, damage x2",
-                RollEffectsDefinition.Instance.EagleEye
-        );
-        AddRollEffect(
-                RollEffectType.TIME_TO_MAKE_PEACE,
-                "Time to make peace.",
-                "For the next 20 seconds, you cannot use your weapon",
-                RollEffectsDefinition.Instance.TimeToMakePeace
-        );
-        //TODO make seeking projectile logic in playercontroller/projectile
-        AddRollEffect(
-                RollEffectType.IS_THIS_MAGIC,
-                "Is this magic?!",
-                "For the next 10 seconds, the projectiles are seeking enemies (closest one)",
-                RollEffectsDefinition.Instance.IsThisMagic
-        );
-        AddRollEffect(
-                RollEffectType.LOOK_AT_MY_NEW_GADGET,
-                "Look at my new gadget!",
-                "Transforms 1 projectile into a seeker",
-                RollEffectsDefinition.Instance.LookAtMyNewGadget
-        );
-        AddRollEffect(
-                RollEffectType.DESTABILITATING_SHOTS,
-                "Destabilitating shots",
-                "Knockback +1",
-                RollEffectsDefinition.Instance.DestabilitatingShots
-        );
-        AddRollEffect(
-                RollEffectType.DID_I_BUY_RUBBER_BULLETS,
-                "Did I buy rubber bullets?!",
-                "Knockback -1",
-                RollEffectsDefinition.Instance.DidIBuyRubberBullets
-        );
-        AddRollEffect(
-                RollEffectType.BULLET_HELL,
-                "Bullet Hell!",
-                "Projectile spread +1",
-                RollEffectsDefinition.Instance.BulletHell
-        );
-        AddRollEffect(
-                RollEffectType.NOT_YOUR_GRANDPAS_AMMO,
-                "Not your grandpa's ammo...",
-                "Projectile size +10%",
-                RollEffectsDefinition.Instance.NotYourGrandpasAmmo
-        );
+		// -------------------------------
+		// SHOOTING EVENTS
+		AddRollEffect(
+				RollEffectType.ROLL_WITH_THE_FLOW,
+				"Roll with the flow",
+				"Fire rate +1 projectile/s",
+				RollEffectsDefinition.Instance.RollWithTheFlow
+		);
+		AddRollEffect(
+				RollEffectType.JUST_NEEDED_SOME_GREASE,
+				"Just needed some grease",
+				"Fire rate +2 projectile/s",
+				RollEffectsDefinition.Instance.JustNeededSomeGrease
+		);
+		AddRollEffect(
+				RollEffectType.SACREBLUE_ITS_JAMMED_AGAIN,
+				"Sacrebleu! It's jammed again!",
+				"Fire rate -1 projectile/s",
+				RollEffectsDefinition.Instance.SacrebleuItsJammedAgain
+		);
+		AddRollEffect(
+				RollEffectType.MAGIC_FINGERS,
+				"Magic fingers",
+				"For the next 10 seconds fire rate x2",
+				RollEffectsDefinition.Instance.MagicFingers
+		);
+		AddRollEffect(
+				RollEffectType.I_WENT_TO_THE_SHOOTING_RANGE,
+				"I went to the shooting range!",
+				"Damage +0.5",
+				RollEffectsDefinition.Instance.IWentToTheShootingRange
+		);
+		AddRollEffect(
+				RollEffectType.AMERICAN_SNIPER,
+				"American Sniper",
+				"Damage +1",
+				RollEffectsDefinition.Instance.AmericanSniper
+		);
+		AddRollEffect(
+				RollEffectType.FEAR_OF_DAMAGING_GOODS,
+				"Fear of damaging goods",
+				"Damage -0.5",
+				RollEffectsDefinition.Instance.FearOfDamagingGoods
+		);
+		AddRollEffect(
+				RollEffectType.EAGLE_EYE,
+				"Eagle eye",
+				"For the next 10 seconds, damage x2",
+				RollEffectsDefinition.Instance.EagleEye
+		);
+		AddRollEffect(
+				RollEffectType.TIME_TO_MAKE_PEACE,
+				"Time to make peace.",
+				"For the next 20 seconds, you cannot use your weapon",
+				RollEffectsDefinition.Instance.TimeToMakePeace
+		);
+		AddRollEffect(
+				RollEffectType.IS_THIS_MAGIC,
+				"Is this magic?!",
+				"For the next 10 seconds, the projectiles are seeking enemies (closest one)",
+				RollEffectsDefinition.Instance.IsThisMagic
+		);
+		AddRollEffect(
+				RollEffectType.LOOK_AT_MY_NEW_GADGET,
+				"Look at my new gadget!",
+				"Transforms 1 projectile into a seeker",
+				RollEffectsDefinition.Instance.LookAtMyNewGadget
+		);
+		AddRollEffect(
+				RollEffectType.DESTABILITATING_SHOTS,
+				"Destabilitating shots",
+				"Knockback +1",
+				RollEffectsDefinition.Instance.DestabilitatingShots
+		);
+		AddRollEffect(
+				RollEffectType.DID_I_BUY_RUBBER_BULLETS,
+				"Did I buy rubber bullets?!",
+				"Knockback -1",
+				RollEffectsDefinition.Instance.DidIBuyRubberBullets
+		);
+		AddRollEffect(
+				RollEffectType.BULLET_HELL,
+				"Bullet Hell!",
+				"Projectile spread +1",
+				RollEffectsDefinition.Instance.BulletHell
+		);
+		AddRollEffect(
+				RollEffectType.NOT_YOUR_GRANDPAS_AMMO,
+				"Not your grandpa's ammo...",
+				"Projectile size +10%",
+				RollEffectsDefinition.Instance.NotYourGrandpasAmmo
+		);
+
+		// -------------------------------
+		// ENEMY EVENTS
+
+		// [TO DO] ...
 	}
 
-    private void AddRollEffect(RollEffectType type, string name, string description, System.Action Activate) {
-        RollEffectsMaps.Add(type, new RollEffect(type, name, description, Activate));
-    }
+	private void AddRollEffect(RollEffectType type, string name, string description, System.Action Activate)
+	{
+		RollEffectsMaps.Add(type, new RollEffect(type, name, description, Activate));
+	}
 
 	#endregion
 
@@ -185,9 +192,9 @@ public class DieMenu : MonoBehaviour
 			_resultLabel.text = result.ToString();
 
 			// We populate the list of effect the player can choose from
-			var effect1 = RollEffectsMaps[RollEffectType.POWER_UP];
-            var effect2 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
-            var effect3 = RollEffectsMaps[RollEffectType.LOOK_AT_MY_NEW_GADGET];
+			var effect1 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
+			var effect2 = RollEffectsMaps[RollEffectType.JUGEMENT_DAY];
+			var effect3 = RollEffectsMaps[RollEffectType.NOT_TODAY];
 			_eventLabel1.Initialize(this, effect1);
 			_eventLabel2.Initialize(this, effect2);
 			_eventLabel3.Initialize(this, effect3);
@@ -199,8 +206,6 @@ public class DieMenu : MonoBehaviour
 	public void Hide() { _canvas.enabled = false; }
 	public bool IsVisible { get { return _canvas.enabled; } }
 	#endregion
-
-	
 }
 
 #region ROLL EFFECTS
@@ -211,15 +216,15 @@ public class RollEffect
 	public string description;
 	public System.Action Activate;
 
-    public RollEffect(RollEffectType type, string name, string description, System.Action Activate) {
-        this.id = (int) type;
-        this.name = name;
-        this.description = description;
-        this.Activate = Activate;
-    }
+	public RollEffect(RollEffectType type, string name, string description, System.Action Activate) {
+		this.id = (int) type;
+		this.name = name;
+		this.description = description;
+		this.Activate = Activate;
+	}
 }
 
-public enum RollEffectType
+	public enum RollEffectType
 {
 	POWER_UP,
 	POWER_UP_PLUS,
@@ -245,63 +250,65 @@ public enum RollEffectType
 	SLIPPERY_FLOORS
 }
 
+	#region ARCHIVES
 //#region EFFECTS
 //public class RollEffect_PowerUp : RollEffect
 //{
-	//public RollEffect_PowerUp()
-	//{
-		//id = (int)RollEffectType.POWER_UP;
-		//name = "Power Up";
-		//description = "You gain +1 life.";
-	//}
+//public RollEffect_PowerUp()
+//{
+//id = (int)RollEffectType.POWER_UP;
+//name = "Power Up";
+//description = "You gain +1 life.";
+//}
 
-	//public override void Activate()
-	//{
-		//RollEffectsDefinition.Instance.PowerUp();
-	//}
+//public override void Activate()
+//{
+//RollEffectsDefinition.Instance.PowerUp();
+//}
 //}
 //public class RollEffect_PowerUpPlus : RollEffect
 //{
-	//public RollEffect_PowerUpPlus()
-	//{
-		//id = (int)RollEffectType.POWER_UP_PLUS;
-		//name = "Power Up+";
-		//description = "You gain +2 lives.";
-	//}
+//public RollEffect_PowerUpPlus()
+//{
+//id = (int)RollEffectType.POWER_UP_PLUS;
+//name = "Power Up+";
+//description = "You gain +2 lives.";
+//}
 
-	//public override void Activate()
-	//{
-		//RollEffectsDefinition.Instance.PowerUpPlus();
-	//}
+//public override void Activate()
+//{
+//RollEffectsDefinition.Instance.PowerUpPlus();
+//}
 //}
 //public class RollEffect_KillingFrenzy : RollEffect
 //{
-	//public RollEffect_KillingFrenzy()
-	//{
-		//id = (int)RollEffectType.KILLING_FRENZY;
-		//name = "Killing Frenzy";
-		//description = "For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).";
-	//}
+//public RollEffect_KillingFrenzy()
+//{
+//id = (int)RollEffectType.KILLING_FRENZY;
+//name = "Killing Frenzy";
+//description = "For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).";
+//}
 
-	//public override void Activate()
-	//{
-		//RollEffectsDefinition.Instance.KillingFrenzy();
-	//}
+//public override void Activate()
+//{
+//RollEffectsDefinition.Instance.KillingFrenzy();
+//}
 //}
 //public class RollEffect_JugementDay : RollEffect
 //{
-	//public RollEffect_JugementDay()
-	//{
-		//id = (int)RollEffectType.JUGEMENT_DAY;
-		//name = "Jugement Day";
-		//description = "For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).";
-	//}
+//public RollEffect_JugementDay()
+//{
+//id = (int)RollEffectType.JUGEMENT_DAY;
+//name = "Jugement Day";
+//description = "For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).";
+//}
 
-	//public override void Activate()
-	//{
-		//RollEffectsDefinition.Instance.JugementDay();
-	//}
+//public override void Activate()
+//{
+//RollEffectsDefinition.Instance.JugementDay();
+//}
 //}
 //#endregion
+#endregion
 
 #endregion

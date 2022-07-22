@@ -8,16 +8,16 @@ public class PlayerData : MonoBehaviour
 	#region ENUMS
 	public enum PlayerStatus
 	{
-		IDLE,
-		CAN_SHOOT,
-		CANNOT_SHOOT,
-		READY_TO_BE_KILLED
+		DEFAULT, // Default behaviour during gameplay
+		IDLE, // For UI purposes
+		CANNOT_SHOOT, // For event purposes (i.e "Time to make peace!")
+		NOT_TODAY_ACTIVE // For event purposes (i.e "Not Today!")
 	}
 	#endregion
 
 	[SerializeField] private PlayerController _playerController;
 	[Space]
-	public PlayerStatus status = PlayerStatus.IDLE;
+	public PlayerStatus status = PlayerStatus.DEFAULT;
 	[Space]
 	public float speed;
 	public int lives;
@@ -29,8 +29,8 @@ public class PlayerData : MonoBehaviour
     public int projectileKnockback;
     public int seekingProjectileAmount;
 
-	public delegate void OnDamageApplied();
-	public static event OnDamageApplied onDamageApplied;
+	public delegate void OnFatalDamageApplied();
+	public static event OnFatalDamageApplied onFatalDamageApplied;
 
 	private void Awake()
 	{
@@ -43,7 +43,7 @@ public class PlayerData : MonoBehaviour
         projectileAmount = GameManager.Instance.projectileAmountOnStart;
         seekingProjectileAmount = GameManager.Instance.seekingProjectileAmountOnStart;
 
-		status = PlayerStatus.CAN_SHOOT;
+		status = PlayerStatus.DEFAULT;
 	}
 
 	public void GainLife(int amount)
@@ -56,14 +56,19 @@ public class PlayerData : MonoBehaviour
 		lives -= amount;
 		HUDManager.Instance.LoseLife(amount);
 
-		if (onDamageApplied != null)
-			onDamageApplied.Invoke();
-
-		// Game over when lives <= 0
 		if (lives <= 0)
 		{
-			_playerController.Kill();
-			GameManager.Instance.GameOver();
+			if (onFatalDamageApplied != null)
+			{
+				onFatalDamageApplied.Invoke(); // This will change status to NOT_TODAY_ACTIVE (and start the coroutine associated with the effect "Not Today!")
+				GainLife(amount);
+			}
+
+			if (status != PlayerStatus.NOT_TODAY_ACTIVE)
+			{
+				_playerController.Kill();
+				GameManager.Instance.GameOver();
+			}
 		}
 	}
 

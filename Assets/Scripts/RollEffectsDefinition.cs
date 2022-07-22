@@ -15,10 +15,6 @@ public class RollEffectsDefinition : MonoBehaviour
 	}
 	#endregion
 
-	#region EFFECT-SPECIFIC MEMEBERS
-	private bool _notTodayActivated = false;
-	#endregion
-
 	#region ROLL EFFECTS
 	public void PowerUp()
 	{
@@ -63,45 +59,39 @@ public class RollEffectsDefinition : MonoBehaviour
         StaticReferences.Instance.playerData.AddProjectileRadius(0.1f);
     }
 
-    public void IsThisMagic() { StartCoroutine(IsThisMagic_Coroutine()); }
-    public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
-    public void EagleEye() { StartCoroutine(EagleEye_Coroutine()); }
-    public void MagicFingers() { StartCoroutine(MagicFingers_Coroutine()); }
 	public void KillingFrenzy() { StartCoroutine(KillingFrenzy_Coroutine()); }
 	public void JugementDay() { StartCoroutine(JugementDay_Coroutine()); }
 	public void NotToday() { StartCoroutine(NotToday_Coroutine()); }
+	public void IsThisMagic() { StartCoroutine(IsThisMagic_Coroutine()); }
+    public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
+    public void EagleEye() { StartCoroutine(EagleEye_Coroutine()); }
+    public void MagicFingers() { StartCoroutine(MagicFingers_Coroutine()); }
 	#endregion
 
 	#region COROUTINES
-    private IEnumerator IsThisMagic_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-    private IEnumerator TimeToMakePeace_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-    private IEnumerator EagleEye_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-    private IEnumerator MagicFingers_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
+	private bool _isKillingFrenzyCoroutineExcecuting = false;
 	private IEnumerator KillingFrenzy_Coroutine()
 	{
+		_isKillingFrenzyCoroutineExcecuting = false;
 		float duration = 15f;
+
+		int stackableBonuses = 3;
+		int stackBonus = 0;
 
 		float timer = 0;
 		while (timer < duration)
 		{
-			if (GameRecords.enemiesKilledSinceLastFrame > 0)
+			if (GameRecords.enemiesKilledSinceLastFrame > 0 &&
+				!_isKillingFrenzyCoroutineExcecuting &&
+				stackBonus < stackableBonuses)
+			{
 				StartCoroutine(KillingFrenzy_CoroutineKillingInterval());
+				_isKillingFrenzyCoroutineExcecuting = true;
+				stackBonus++;
+
+				if (stackBonus >= stackableBonuses)
+					break;
+			}
 
 			timer += Time.deltaTime;
 			yield return null;
@@ -113,41 +103,42 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		float killingIntervalForBonus = 2f;
 		int enemiesKilledForBonus = 7;
-		int stackableBonuses = 3;
 
 		int enemiesKilledWithinInterval = 0;
-		int stackBonus = 0;
 
 		float timer = 0;
 		while (timer < killingIntervalForBonus)
 		{
 			enemiesKilledWithinInterval += GameRecords.enemiesKilledSinceLastFrame;
 
-			if (enemiesKilledWithinInterval >= enemiesKilledForBonus &&
-				stackBonus < stackableBonuses)
+			if (enemiesKilledWithinInterval >= enemiesKilledForBonus)
 			{
 				StaticReferences.Instance.playerData.GainLife(1);
-				enemiesKilledWithinInterval = 0;
-				stackBonus++;
-			}
-
-			if (stackBonus >= stackableBonuses)
 				break;
+			}
 
 			timer += Time.deltaTime;
 			yield return null;
 		}
+
+		_isKillingFrenzyCoroutineExcecuting = false;
 	}
-	
+
+	private bool _isJugementDayCoroutineExcecuting = false;
 	private IEnumerator JugementDay_Coroutine()
 	{
+		_isJugementDayCoroutineExcecuting = false;
 		float duration = 15f;
 
 		float timer = 0;
 		while (timer < duration)
 		{
-			if (GameRecords.enemiesKilledSinceLastFrame > 0)
+			if (GameRecords.enemiesKilledSinceLastFrame > 0 &&
+				!_isJugementDayCoroutineExcecuting)
+			{
 				StartCoroutine(JugementDay_CoroutineKillingInterval());
+				_isJugementDayCoroutineExcecuting = true;
+			}
 
 			timer += Time.deltaTime;
 			yield return null;
@@ -170,39 +161,71 @@ public class RollEffectsDefinition : MonoBehaviour
 			if (enemiesKilledWithinInterval >= enemiesKilledForMalus)
 			{
 				StaticReferences.Instance.playerData.LoseLife(1);
-				enemiesKilledWithinInterval = 0;
+				break;
 			}
 
 			timer += Time.deltaTime;
 			yield return null;
 		}
+
+		_isJugementDayCoroutineExcecuting = false;
 	}
 
+	private bool _hasNotTodayActivated = false;
 	private IEnumerator NotToday_Coroutine()
 	{
+		_hasNotTodayActivated = false;
 		float duration = 60f;
+
+		PlayerData.onFatalDamageApplied += NotToday_OnEvent;
+
+		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.NOT_TODAY_ACTIVE;
 
 		float timer = 0;
 		while (timer < duration)
 		{
-			if (_notTodayActivated)
+			if (_hasNotTodayActivated)
 				break;
-
-			PlayerData.onDamageApplied += NotToday_EventDeclaration;
 
 			timer += Time.deltaTime;
 			yield return null;
 		}
 
-		PlayerData.onDamageApplied -= NotToday_EventDeclaration;
+		// At the end of the effect, we simply reset the status to the default one
+		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.DEFAULT;
+
+		PlayerData.onFatalDamageApplied -= NotToday_OnEvent;
 	}
+
+	private IEnumerator IsThisMagic_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+
+    private IEnumerator TimeToMakePeace_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+
+    private IEnumerator EagleEye_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
+
+    private IEnumerator MagicFingers_Coroutine()
+    {
+        //TODO
+        yield return null;
+    }
 	#endregion
 
 	#region EVENT DECLARATIONS
-	private void NotToday_EventDeclaration()
+	private void NotToday_OnEvent()
 	{
-		StaticReferences.Instance.playerData.GainLife(1);
-		_notTodayActivated = true;
+		_hasNotTodayActivated = true;
 	}
 	#endregion
 }

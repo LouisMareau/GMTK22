@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Enemy_MeleeDetonator : Enemy
 {
+	#region GAMEPLAY
+	protected override void Kill(float delay = 0)
+	{
+		GameRecords.enemyMeleeDetonatorKilled++;
+
+		base.Kill(delay);
+	}
+	#endregion
+
 	#region COLLISION EVENTS
 	protected override void OnTriggerEnter(Collider other)
 	{

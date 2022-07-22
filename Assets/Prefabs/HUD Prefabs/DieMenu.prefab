@@ -429,7 +429,6 @@ GameObject:
   - component: {fileID: 7637676812431495967}
   - component: {fileID: 7637676812431495966}
   - component: {fileID: 7152838367160012744}
-  - component: {fileID: 8032901996715089528}
   m_Layer: 5
   m_Name: DieMenu
   m_TagString: Untagged
@@ -537,23 +536,6 @@ MonoBehaviour:
   _eventLabel1: {fileID: 537698413342588900}
   _eventLabel2: {fileID: 866918602360288440}
   _eventLabel3: {fileID: 8875169884908156850}
---- !u!114 &8032901996715089528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7637676812431495953}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1bda52a8459db08e88d0c25dabdf8f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 7637676812431495964}
-  diceResultID: {fileID: 6061787702848509507}
-  button1: {fileID: 0}
-  button2: {fileID: 0}
-  button3: {fileID: 0}
 --- !u!1 &8069997238663450554
 GameObject:
   m_ObjectHideFlags: 0

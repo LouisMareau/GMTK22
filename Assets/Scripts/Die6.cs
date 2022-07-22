@@ -38,6 +38,7 @@ public class Die6 : MonoBehaviour
 	private void Start()
 	{
 		_menu.Hide();
+
 		rigidbody.isKinematic = true;
 
 		_idleRandomEulerAngle = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)).normalized * _idleRotationSpeed;
@@ -79,10 +80,10 @@ public class Die6 : MonoBehaviour
 		return new Ray(_meshTransform.position, (_meshTransform.rotation * direction).normalized * length);
 	}
 
-	private void OnTriggerStay(Collider other)
+	private void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player") {
-            _menu.setAssociatedDie(this);
+            _menu.SetAssociatedDie(this);
 			_menu.Activate(Result);
         }
 	}

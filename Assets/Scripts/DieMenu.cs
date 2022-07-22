@@ -5,11 +5,12 @@ using TMPro;
 
 public class DieMenu : MonoBehaviour
 {
-
 	#region SINGLETON
 	public static DieMenu Instance { get; private set; }
 	#endregion
-	public Die6 _associatedDie;
+
+	[HideInInspector] public Die6 _associatedDie;
+
 	[SerializeField] private Canvas _canvas;
 	[SerializeField] private TextMeshProUGUI _resultLabel;
 	[Space]
@@ -34,7 +35,8 @@ public class DieMenu : MonoBehaviour
 		InitializeRollEffects();
 	}
 
-	public void SetAssociatedDie(Die6 die) {
+	public void SetAssociatedDie(Die6 die)
+	{
 		_associatedDie = die;
 	}
 
@@ -60,10 +62,10 @@ public class DieMenu : MonoBehaviour
 				RollEffectsDefinition.Instance.KillingFrenzy
 		);
 		AddRollEffect(
-				RollEffectType.JUGEMENT_DAY,
-				"Judgment Day",
+				RollEffectType.JUDGEMENT_DAY,
+				"Judgement Day",
 				"For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).",
-				RollEffectsDefinition.Instance.JugementDay
+				RollEffectsDefinition.Instance.JudgementDay
 		);
 		AddRollEffect(
 				RollEffectType.NOT_TODAY,
@@ -193,7 +195,7 @@ public class DieMenu : MonoBehaviour
 
 			// We populate the list of effect the player can choose from
 			var effect1 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
-			var effect2 = RollEffectsMaps[RollEffectType.JUGEMENT_DAY];
+			var effect2 = RollEffectsMaps[RollEffectType.JUDGEMENT_DAY];
 			var effect3 = RollEffectsMaps[RollEffectType.NOT_TODAY];
 			_eventLabel1.Initialize(this, effect1);
 			_eventLabel2.Initialize(this, effect2);
@@ -229,7 +231,7 @@ public class RollEffect
 	POWER_UP,
 	POWER_UP_PLUS,
 	KILLING_FRENZY,
-	JUGEMENT_DAY,
+	JUDGEMENT_DAY,
 	NOT_TODAY,
 	ROLL_WITH_THE_FLOW,
 	JUST_NEEDED_SOME_GREASE,

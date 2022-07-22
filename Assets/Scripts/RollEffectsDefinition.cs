@@ -24,8 +24,9 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		StaticReferences.Instance.playerData.GainLife(2);
 	}
-    public void RollWithTheFlow() {
-        StaticReferences.Instance.playerData.AddProjectileSpeed(1);
+    public void RollWithTheFlow()
+	{
+        StaticReferences.Instance.playerData.UpdateFireRate(1);
     }
     public void JustNeededSomeGrease() {
         StaticReferences.Instance.playerData.AddProjectileSpeed(2);
@@ -60,7 +61,7 @@ public class RollEffectsDefinition : MonoBehaviour
     }
 
 	public void KillingFrenzy() { StartCoroutine(KillingFrenzy_Coroutine()); }
-	public void JugementDay() { StartCoroutine(JugementDay_Coroutine()); }
+	public void JudgementDay() { StartCoroutine(JudgementDay_Coroutine()); }
 	public void NotToday() { StartCoroutine(NotToday_Coroutine()); }
 	public void IsThisMagic() { StartCoroutine(IsThisMagic_Coroutine()); }
     public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
@@ -124,29 +125,29 @@ public class RollEffectsDefinition : MonoBehaviour
 		_isKillingFrenzyCoroutineExcecuting = false;
 	}
 
-	private bool _isJugementDayCoroutineExcecuting = false;
-	private IEnumerator JugementDay_Coroutine()
+	private bool _isJudgementDayCoroutineExcecuting = false;
+	private IEnumerator JudgementDay_Coroutine()
 	{
-		_isJugementDayCoroutineExcecuting = false;
+		_isJudgementDayCoroutineExcecuting = false;
 		float duration = 15f;
 
 		float timer = 0;
 		while (timer < duration)
 		{
 			if (GameRecords.enemiesKilledSinceLastFrame > 0 &&
-				!_isJugementDayCoroutineExcecuting)
+				!_isJudgementDayCoroutineExcecuting)
 			{
-				StartCoroutine(JugementDay_CoroutineKillingInterval());
-				_isJugementDayCoroutineExcecuting = true;
+				StartCoroutine(JudgementDay_CoroutineKillingInterval());
+				_isJudgementDayCoroutineExcecuting = true;
 			}
 
 			timer += Time.deltaTime;
 			yield return null;
 		}
 
-		StopCoroutine(JugementDay_CoroutineKillingInterval());
+		StopCoroutine(JudgementDay_CoroutineKillingInterval());
 	}
-	private IEnumerator JugementDay_CoroutineKillingInterval()
+	private IEnumerator JudgementDay_CoroutineKillingInterval()
 	{
 		float killingIntervalForMalus = 1.5f;
 		int enemiesKilledForMalus = 3;
@@ -168,7 +169,7 @@ public class RollEffectsDefinition : MonoBehaviour
 			yield return null;
 		}
 
-		_isJugementDayCoroutineExcecuting = false;
+		_isJudgementDayCoroutineExcecuting = false;
 	}
 
 	private bool _hasNotTodayActivated = false;

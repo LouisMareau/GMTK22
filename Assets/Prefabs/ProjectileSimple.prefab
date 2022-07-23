@@ -47,10 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+  knockback: 0
   _timeBeforeDestruction: 3
+  _angularVelocity: 0.02
   _rootTransform: {fileID: 5664981683744998417}
   _meshTransform: {fileID: 322907868954649202}
-  knockback: 0
 --- !u!135 &2783905427783101411
 SphereCollider:
   m_ObjectHideFlags: 0

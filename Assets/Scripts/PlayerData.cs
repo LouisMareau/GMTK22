@@ -19,32 +19,50 @@ public class PlayerData : MonoBehaviour
 	[Space]
 	public PlayerStatus status = PlayerStatus.DEFAULT;
 	[Space]
-	public float speed;
 	public int lives;
-	public float damage;
-	public int fireRate;
-    public int projectileAmount;
+
+	public float speed;
+
+	public float baseDamage;
+	public float finalDamage;
+
+	public float baseFireRate;
+	public float finalFireRate;
+
+	public int projectileSpreadAmount;
+
     public int projectileSpeedBonus;
+
     public float projectileRadiusBonus;
+
     public int projectileKnockback;
+
     public int seekingProjectileAmount;
 
 	public delegate void OnFatalDamageApplied();
 	public static event OnFatalDamageApplied onFatalDamageApplied;
 
+	#region INITIALIZATION
 	private void Awake()
 	{
 		if (_playerController == null) { _playerController = GetComponent<PlayerController>(); }
 
 		speed = GameManager.Instance.speedOnStart;
 		lives = GameManager.Instance.livesAmountOnStart;
-		damage = GameManager.Instance.damageOnStart;
-		fireRate = GameManager.Instance.fireRateOnStart;
-        projectileAmount = GameManager.Instance.projectileAmountOnStart;
+		baseDamage = GameManager.Instance.damageOnStart;
+		finalDamage = baseDamage;
+		baseFireRate = GameManager.Instance.fireRateOnStart;
+		finalFireRate = baseFireRate;
+		projectileSpreadAmount = GameManager.Instance.projectileAmountOnStart;
         seekingProjectileAmount = GameManager.Instance.seekingProjectileAmountOnStart;
+
+		HUDManager.Instance.UpdateSpeedLabel(speed);
+		HUDManager.Instance.UpdateDamageLabel(finalDamage);
+		HUDManager.Instance.UpdateFireRateLabel(finalFireRate);
 
 		status = PlayerStatus.DEFAULT;
 	}
+	#endregion
 
 	public void GainLife(int amount)
 	{
@@ -77,19 +95,29 @@ public class PlayerData : MonoBehaviour
 		speed += extraAmount;
 		HUDManager.Instance.UpdateSpeedLabel(speed);
 	}
-	public void UpdateDamage(float extraAmount)
+
+	public void UpdateBaseDamage(float extraAmount)
 	{
-		damage += extraAmount;
-		HUDManager.Instance.UpdateDamageLabel(damage);
+		baseDamage += extraAmount;
 	}
-	public void UpdateFireRate(int extraAmount)
+	public void UpdateFinalDamage(float multiplier)
 	{
-		fireRate += extraAmount;
-		HUDManager.Instance.UpdateFireRateLabel(fireRate);
+		finalDamage = baseDamage * multiplier;
+		HUDManager.Instance.UpdateDamageLabel(finalDamage);
+	}
+
+	public void UpdateBaseFireRate(float extraAmount)
+	{
+		baseFireRate += extraAmount;
+	}
+	public void UpdateFinalFireRate(float multiplier)
+	{
+		finalFireRate = baseFireRate * multiplier;
+		HUDManager.Instance.UpdateFireRateLabel(finalFireRate);
 	}
 
     public void AddProjectile(int amount) {
-        projectileAmount += amount;
+        projectileSpreadAmount += amount;
 		HUDManager.Instance.UpdateProjectilesPerBurstLabel(amount);
 	}
 

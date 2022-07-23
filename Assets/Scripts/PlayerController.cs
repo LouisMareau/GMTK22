@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
 			_rootTransform.rotation = rotation;
 
-			if (hit.collider.tag != "Player")
+			if (hit.collider.tag != "Player" && data.status != PlayerData.PlayerStatus.CANNOT_SHOOT)
 				Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
 		}
 
@@ -68,20 +68,20 @@ public class PlayerController : MonoBehaviour
 	{
 		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
 		{
-            for (int i=0; i < (data.projectileAmount + data.seekingProjectileAmount); i++) {
+            for (int i=0; i < (data.projectileSpreadAmount + data.seekingProjectileAmount); i++) {
                 Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
                 var position = _meshTransform.position;
                 var relative_position = Vector3.forward;
 
                 relative_position = (_meshTransform.rotation * relative_position).normalized * i;
 
-                instance.Initialize(position + relative_position, direction, data.damage);
+                instance.Initialize(position + relative_position, direction, data.finalDamage);
                 instance.transform.localScale *= (data.projectileRadiusBonus+1);
                 instance.speed += data.projectileSpeedBonus; 
 
                 //Seekers
                 if (i < data.seekingProjectileAmount) {
-                    instance.setAutopilot(true);
+                    instance.SetSeeker(true);
                 }
             }
 
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
                 _audioSource.Play();
             }
 
-			_nextTimeToFire = 1 / (float)data.fireRate;
+			_nextTimeToFire = 1 / data.finalFireRate;
 		}
 	}
 

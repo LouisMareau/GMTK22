@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Die : MonoBehaviour
 {
-	public DieMenu2 dieMenu;
+	public DieMenu dieMenu;
 	public new Rigidbody rigidbody;
 
 	private Transform _rootTransform;
@@ -28,7 +28,7 @@ public class Die : MonoBehaviour
 
 	void Start()
 	{
-		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu2>();
+		if (dieMenu == null) dieMenu = this.GetComponentInChildren<DieMenu>();
 		if (rigidbody == null) rigidbody = GetComponent<Rigidbody>();
 
 		rigidbody.isKinematic = true;
@@ -65,7 +65,7 @@ public class Die : MonoBehaviour
 	{
 		if (other.tag == "Player") {
 			//bring random menu if the die result is set
-			dieMenu.Launch(diceResult);
+			dieMenu.Activate(diceResult);
 		}
 	}
 

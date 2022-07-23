@@ -4,78 +4,97 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-	[Header("DATA")]
+	[Header("CORE")]
 	public float speed = 10f;
+	public float knockback = 0;
+
+	private float _damage;
+	private Vector3 _direction;
 	[SerializeField] private float _timeBeforeDestruction = 3f;
+
+	[Header("SEEKING")]
+	private bool _isSeeker = false;
+	[SerializeField] private float _angularVelocity = 1f;
 
 	[SerializeField] private Transform _rootTransform;
 	[SerializeField] private Transform _meshTransform;
-	private Vector3 _direction;
-	private float _damage;
-    public float knockback = 0;
-    private bool _isSeeker = false;
 
+	private Vector3 previousPosition;
+
+	#region INITIALIZATION
 	private void Awake()
 	{
 		if (_rootTransform == null) _rootTransform = transform;
 		if (_meshTransform == null) _meshTransform = transform.GetChild(0);
 	}
 
-	public void Initialize(Vector3 origin, Vector3 direction, float damage)
+	private void Start()
 	{
-		_rootTransform.position = origin;
-		_direction = direction.normalized;
-		_damage = damage;
-
-		Destroy(gameObject, _timeBeforeDestruction);
+		previousPosition = _rootTransform.position;
 	}
 
-    public void setAutopilot(bool b)
-    {
-        _isSeeker = b;
-    }
+	public void Initialize(Vector3 origin, Vector3 direction, float damage)
+	{
+		_damage = damage;
+		_direction = direction.normalized;
+		_rootTransform.position = origin;
+
+		Kill(_timeBeforeDestruction);
+	}
+	#endregion
+
+	public void SetSeeker(bool shouldSeek)
+	{
+		_isSeeker = shouldSeek;
+	}
 
 	private void Update()
 	{
-        //When on Autopilot
-        if (_isSeeker) {
-            //find closest enemy and update direction
-            var target = EnemySpawner.Instance.findClosestEnemy(this.transform.position);
-            if (target != null) {
-                this._direction = (target.transform.position - this.transform.position).normalized;
-            }
-            
-        }
+		previousPosition = _rootTransform.position;
 
+		if (_isSeeker)
+		{
+			// We find the closest enemy and update the direction
+			Enemy target = EnemySpawner.Instance.FindClosestEnemy(_rootTransform.position);
+
+			if (target != null)
+				_direction = Vector3.RotateTowards(_direction, target.transform.position - _rootTransform.position, _angularVelocity, 1).normalized;
+		}
+
+		// We calculate and translate to the new position
 		_rootTransform.Translate(_direction * speed * Time.deltaTime);
 
-		Ray ray = new Ray(_meshTransform.position, -_direction);
+		// We need to raycast from the previous position to the current position of the projectile
+		Ray ray = new Ray(previousPosition, (_rootTransform.position - previousPosition).normalized);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, speed / 10f))
+		if (Physics.Raycast(ray, out hit, (previousPosition - _rootTransform.position).magnitude))
 		{
 			if (hit.collider.tag == "Enemy")
 			{
-				Vector3 targetLocation = new Vector3(hit.point.x, 1, hit.point.z);
-
 				var enemy = hit.collider.GetComponent<Enemy>();
-                enemy.TakeDamage(_damage);
+				enemy.TakeDamage(_damage);
 				// Knockback
 				enemy.transform.Translate(-enemy.currentDirection * knockback);
 
-				Destroy(gameObject);
+				Kill();
 			}
 		}
 	}
 
-    //HACKY solution because if the projectile is on auto the raycast will be from inside
-    //the collider and it can't detect the enemy
-    //!!! not being triggered
-    void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Enemy") {
-            this.setAutopilot(false);
-            this._direction.z = 1;
-        }
+	public void Kill(float delay = 0)
+	{
+		Destroy(gameObject, delay);
+	}
 
-    }
+	//HACKY solution because if the projectile is on auto the raycast will be from inside
+	//the collider and it can't detect the enemy
+	//!!! not being triggered
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy") {
+			this.SetSeeker(false);
+			this._direction.z = 1;
+		}
+	}
 }

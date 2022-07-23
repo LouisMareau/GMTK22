@@ -101,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
         this._enemies.Remove(enemy);
     }
 
-    public Enemy findClosestEnemy(Vector3 position) {
+    public Enemy FindClosestEnemy(Vector3 position) {
         if (_enemies.Count == 0) {
             return null;
         }

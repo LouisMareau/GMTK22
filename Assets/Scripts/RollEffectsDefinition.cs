@@ -24,56 +24,80 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		StaticReferences.Instance.playerData.GainLife(2);
 	}
-    public void RollWithTheFlow()
+	public void RollWithTheFlow()
 	{
-        StaticReferences.Instance.playerData.UpdateFireRate(1);
-    }
-    public void JustNeededSomeGrease() {
-        StaticReferences.Instance.playerData.AddProjectileSpeed(2);
-    }
-    public void SacrebleuItsJammedAgain() {
-        StaticReferences.Instance.playerData.AddProjectileSpeed(-1);
-    }
-    public void IWentToTheShootingRange() {
-        StaticReferences.Instance.playerData.UpdateDamage(0.5f);
-    }
-    public void AmericanSniper() {
-        StaticReferences.Instance.playerData.UpdateDamage(1);
-    }
-    public void FearOfDamagingGoods() {
-        StaticReferences.Instance.playerData.UpdateDamage(-0.5f);
-    }
-    public void LookAtMyNewGadget() {
-        StaticReferences.Instance.playerData.MakeSeekingProjectile(1);
-    }
-    public void DestabilitatingShots() {
-        StaticReferences.Instance.playerData.AddKnockback(1);
-    }
-    public void DidIBuyRubberBullets() {
-        StaticReferences.Instance.playerData.AddKnockback(-1);
-    }
-    public void BulletHell() {
-        //TODO add bullet spread
-    }
-    public void NotYourGrandpasAmmo() {
-        //TODO maybe you want +10% from base or grom last ?
-        StaticReferences.Instance.playerData.AddProjectileRadius(0.1f);
-    }
+		StaticReferences.Instance.playerData.UpdateBaseFireRate(1);
+
+		if (!_isMagicFingersExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+	}
+	public void JustNeededSomeGrease()
+	{
+		StaticReferences.Instance.playerData.UpdateBaseFireRate(2);
+
+		if (!_isMagicFingersExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+	}
+	public void SacrebleuItsJammedAgain()
+	{
+		StaticReferences.Instance.playerData.UpdateBaseFireRate(-1);
+
+		if (!_isMagicFingersExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+	}
+	public void IWentToTheShootingRange()
+	{
+		StaticReferences.Instance.playerData.UpdateBaseDamage(0.5f);
+
+		if (!_isEagleEyeExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+	}
+	public void AmericanSniper()
+	{
+		StaticReferences.Instance.playerData.UpdateBaseDamage(1f);
+
+		if (!_isEagleEyeExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+	}
+	public void FearOfDamagingGoods()
+	{
+		StaticReferences.Instance.playerData.UpdateBaseDamage(-0.5f);
+
+		if (!_isEagleEyeExcecuting)
+			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+	}
+	public void LookAtMyNewGadget()
+	{
+		StaticReferences.Instance.playerData.MakeSeekingProjectile(1);
+	}
+	public void DestabilitatingShots() {
+		StaticReferences.Instance.playerData.AddKnockback(1);
+	}
+	public void DidIBuyRubberBullets() {
+		StaticReferences.Instance.playerData.AddKnockback(-1);
+	}
+	public void BulletHell() {
+		//TODO add bullet spread
+	}
+	public void NotYourGrandpasAmmo() {
+		//TODO maybe you want +10% from base or grom last ?
+		StaticReferences.Instance.playerData.AddProjectileRadius(0.1f);
+	}
 
 	public void KillingFrenzy() { StartCoroutine(KillingFrenzy_Coroutine()); }
 	public void JudgementDay() { StartCoroutine(JudgementDay_Coroutine()); }
 	public void NotToday() { StartCoroutine(NotToday_Coroutine()); }
+	public void MagicFingers() { StartCoroutine(MagicFingers_Coroutine()); }
+	public void EagleEye() { StartCoroutine(EagleEye_Coroutine()); }
+	public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
 	public void IsThisMagic() { StartCoroutine(IsThisMagic_Coroutine()); }
-    public void TimeToMakePeace() { StartCoroutine(TimeToMakePeace_Coroutine()); }
-    public void EagleEye() { StartCoroutine(EagleEye_Coroutine()); }
-    public void MagicFingers() { StartCoroutine(MagicFingers_Coroutine()); }
 	#endregion
 
 	#region COROUTINES
-	private bool _isKillingFrenzyCoroutineExcecuting = false;
+	private bool _isKillingFrenzyExcecuting = false;
 	private IEnumerator KillingFrenzy_Coroutine()
 	{
-		_isKillingFrenzyCoroutineExcecuting = false;
+		_isKillingFrenzyExcecuting = false;
 		float duration = 15f;
 
 		int stackableBonuses = 3;
@@ -83,11 +107,11 @@ public class RollEffectsDefinition : MonoBehaviour
 		while (timer < duration)
 		{
 			if (GameRecords.enemiesKilledSinceLastFrame > 0 &&
-				!_isKillingFrenzyCoroutineExcecuting &&
+				!_isKillingFrenzyExcecuting &&
 				stackBonus < stackableBonuses)
 			{
 				StartCoroutine(KillingFrenzy_CoroutineKillingInterval());
-				_isKillingFrenzyCoroutineExcecuting = true;
+				_isKillingFrenzyExcecuting = true;
 				stackBonus++;
 
 				if (stackBonus >= stackableBonuses)
@@ -122,23 +146,23 @@ public class RollEffectsDefinition : MonoBehaviour
 			yield return null;
 		}
 
-		_isKillingFrenzyCoroutineExcecuting = false;
+		_isKillingFrenzyExcecuting = false;
 	}
 
-	private bool _isJudgementDayCoroutineExcecuting = false;
+	private bool _isJudgementDayExcecuting = false;
 	private IEnumerator JudgementDay_Coroutine()
 	{
-		_isJudgementDayCoroutineExcecuting = false;
+		_isJudgementDayExcecuting = false;
 		float duration = 15f;
 
 		float timer = 0;
 		while (timer < duration)
 		{
 			if (GameRecords.enemiesKilledSinceLastFrame > 0 &&
-				!_isJudgementDayCoroutineExcecuting)
+				!_isJudgementDayExcecuting)
 			{
 				StartCoroutine(JudgementDay_CoroutineKillingInterval());
-				_isJudgementDayCoroutineExcecuting = true;
+				_isJudgementDayExcecuting = true;
 			}
 
 			timer += Time.deltaTime;
@@ -169,7 +193,7 @@ public class RollEffectsDefinition : MonoBehaviour
 			yield return null;
 		}
 
-		_isJudgementDayCoroutineExcecuting = false;
+		_isJudgementDayExcecuting = false;
 	}
 
 	private bool _hasNotTodayActivated = false;
@@ -198,29 +222,64 @@ public class RollEffectsDefinition : MonoBehaviour
 		PlayerData.onFatalDamageApplied -= NotToday_OnEvent;
 	}
 
+	private bool _isMagicFingersExcecuting = false;
+	private IEnumerator MagicFingers_Coroutine()
+	{
+		float duration = 10f;
+
+		StaticReferences.Instance.playerData.UpdateFinalFireRate(2f);
+		_isMagicFingersExcecuting = true;
+
+		float timer = 0;
+		while (timer < duration)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+		}
+
+		_isMagicFingersExcecuting = false;
+		StaticReferences.Instance.playerData.UpdateFinalFireRate(1f);
+	}
+
+	private bool _isEagleEyeExcecuting = false;
+	private IEnumerator EagleEye_Coroutine()
+	{
+		float duration = 10f;
+
+		StaticReferences.Instance.playerData.UpdateFinalDamage(2f);
+		_isEagleEyeExcecuting = true;
+
+		float timer = 0;
+		while (timer < duration)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+		}
+
+		_isEagleEyeExcecuting = false;
+		StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+	}
+
+	private IEnumerator TimeToMakePeace_Coroutine()
+	{
+		float duration = 20f;
+
+		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.CANNOT_SHOOT;
+
+		float timer = 0;
+		while (timer < duration)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+		}
+
+		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.DEFAULT;
+	}
+
 	private IEnumerator IsThisMagic_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-
-    private IEnumerator TimeToMakePeace_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-
-    private IEnumerator EagleEye_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
-
-    private IEnumerator MagicFingers_Coroutine()
-    {
-        //TODO
-        yield return null;
-    }
+	{
+		yield return null;
+	}
 	#endregion
 
 	#region EVENT DECLARATIONS

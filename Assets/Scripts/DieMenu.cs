@@ -46,31 +46,31 @@ public class DieMenu : MonoBehaviour
 		AddRollEffect(
 				RollEffectType.POWER_UP,
 				"Power Up",
-				"You gain +1 life.",
+				"You gain +1 life",
 				RollEffectsDefinition.Instance.PowerUp
 		);
 		AddRollEffect(
 				RollEffectType.POWER_UP_PLUS,
 				"Power Up+",
-				"You gain +2 lives.",
+				"You gain +2 lives",
 				RollEffectsDefinition.Instance.PowerUpPlus
 		);
 		AddRollEffect(
 				RollEffectType.KILLING_FRENZY,
 				"Killing Frenzy",
-				"For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times).",
+				"For the next 15 seconds, killing 7+ ennemies in less than 2s will grant +1 life (stackable 3 times)",
 				RollEffectsDefinition.Instance.KillingFrenzy
 		);
 		AddRollEffect(
 				RollEffectType.JUDGEMENT_DAY,
 				"Judgement Day",
-				"For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking).",
+				"For the next 15 seconds, killing 3+ ennemies in less than 1.5s will deal -1 life (unlimited stacking)",
 				RollEffectsDefinition.Instance.JudgementDay
 		);
 		AddRollEffect(
 				RollEffectType.NOT_TODAY,
 				"Not Today!",
-				"For the next 60 seconds, if you were to be dealt lethal damage once, you will survive.",
+				"For the next 60 seconds, if you were to be dealt lethal damage once, you will survive",
 				RollEffectsDefinition.Instance.NotToday
 		);
 
@@ -79,49 +79,49 @@ public class DieMenu : MonoBehaviour
 		AddRollEffect(
 				RollEffectType.ROLL_WITH_THE_FLOW,
 				"Roll with the flow",
-				"Fire rate +1 projectile/s",
+				"Increases the fire rate by 1 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
 				RollEffectsDefinition.Instance.RollWithTheFlow
 		);
 		AddRollEffect(
 				RollEffectType.JUST_NEEDED_SOME_GREASE,
-				"Just needed some grease",
-				"Fire rate +2 projectile/s",
+				"Just needed some grease...",
+				"Increases the fire rate by 2 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
 				RollEffectsDefinition.Instance.JustNeededSomeGrease
 		);
 		AddRollEffect(
 				RollEffectType.SACREBLUE_ITS_JAMMED_AGAIN,
 				"Sacrebleu! It's jammed again!",
-				"Fire rate -1 projectile/s",
+				"Decreases the fire rate by 1 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
 				RollEffectsDefinition.Instance.SacrebleuItsJammedAgain
 		);
 		AddRollEffect(
 				RollEffectType.MAGIC_FINGERS,
 				"Magic fingers",
-				"For the next 10 seconds fire rate x2",
+				"For the next 10 seconds, multiplies the current fire rate by 2 (delays any new increase until the end of the effect)",
 				RollEffectsDefinition.Instance.MagicFingers
 		);
 		AddRollEffect(
 				RollEffectType.I_WENT_TO_THE_SHOOTING_RANGE,
 				"I went to the shooting range!",
-				"Damage +0.5",
+				"Increases the damage output by 0.5",
 				RollEffectsDefinition.Instance.IWentToTheShootingRange
 		);
 		AddRollEffect(
 				RollEffectType.AMERICAN_SNIPER,
 				"American Sniper",
-				"Damage +1",
+				"Increases the damage output by 1",
 				RollEffectsDefinition.Instance.AmericanSniper
 		);
 		AddRollEffect(
 				RollEffectType.FEAR_OF_DAMAGING_GOODS,
 				"Fear of damaging goods",
-				"Damage -0.5",
+				"Decrease the damage output by 0.5",
 				RollEffectsDefinition.Instance.FearOfDamagingGoods
 		);
 		AddRollEffect(
 				RollEffectType.EAGLE_EYE,
-				"Eagle eye",
-				"For the next 10 seconds, damage x2",
+				"Eagle Eye",
+				"For the next 10 seconds, multiplies the current damage ouput by 2 (delays any new increase until the end of the effect)",
 				RollEffectsDefinition.Instance.EagleEye
 		);
 		AddRollEffect(
@@ -194,9 +194,9 @@ public class DieMenu : MonoBehaviour
 			_resultLabel.text = result.ToString();
 
 			// We populate the list of effect the player can choose from
-			var effect1 = RollEffectsMaps[RollEffectType.KILLING_FRENZY];
-			var effect2 = RollEffectsMaps[RollEffectType.JUDGEMENT_DAY];
-			var effect3 = RollEffectsMaps[RollEffectType.NOT_TODAY];
+			var effect1 = RollEffectsMaps[RollEffectType.LOOK_AT_MY_NEW_GADGET];
+			var effect2 = RollEffectsMaps[RollEffectType.MAGIC_FINGERS];
+			var effect3 = RollEffectsMaps[RollEffectType.EAGLE_EYE];
 			_eventLabel1.Initialize(this, effect1);
 			_eventLabel2.Initialize(this, effect2);
 			_eventLabel3.Initialize(this, effect3);

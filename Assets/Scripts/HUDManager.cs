@@ -100,7 +100,7 @@ public class HUDManager : MonoBehaviour
 		_damageLabel.text = $"Damage: <b>{ damage }</b>";
 	}
 
-	public void UpdateFireRateLabel(int fireRate)
+	public void UpdateFireRateLabel(float fireRate)
 	{
 		_fireRateLabel.text = $"Fire Rate: <b>{ fireRate } bursts/s</b>";
 	}

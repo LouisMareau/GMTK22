@@ -79,19 +79,19 @@ public class DieMenu : MonoBehaviour
 		AddRollEffect(
 				RollEffectType.ROLL_WITH_THE_FLOW,
 				"Roll with the flow",
-				"Increases the fire rate by 1 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
+				"Increases the fire rate by 1 projectile/s",
 				RollEffectsDefinition.Instance.RollWithTheFlow
 		);
 		AddRollEffect(
 				RollEffectType.JUST_NEEDED_SOME_GREASE,
 				"Just needed some grease...",
-				"Increases the fire rate by 2 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
+				"Increases the fire rate by 2 projectiles/s",
 				RollEffectsDefinition.Instance.JustNeededSomeGrease
 		);
 		AddRollEffect(
 				RollEffectType.SACREBLUE_ITS_JAMMED_AGAIN,
 				"Sacrebleu! It's jammed again!",
-				"Decreases the fire rate by 1 " + ((StaticReferences.Instance.playerData.projectileSpreadAmount > 0) ? "bursts/s" : "projectiles/s"),
+				"Decreases the fire rate by 1 projectile/s",
 				RollEffectsDefinition.Instance.SacrebleuItsJammedAgain
 		);
 		AddRollEffect(
@@ -194,9 +194,9 @@ public class DieMenu : MonoBehaviour
 			_resultLabel.text = result.ToString();
 
 			// We populate the list of effect the player can choose from
-			var effect1 = RollEffectsMaps[RollEffectType.LOOK_AT_MY_NEW_GADGET];
-			var effect2 = RollEffectsMaps[RollEffectType.MAGIC_FINGERS];
-			var effect3 = RollEffectsMaps[RollEffectType.EAGLE_EYE];
+			var effect1 = RollEffectsMaps[RollEffectType.ROLL_WITH_THE_FLOW];
+			var effect2 = RollEffectsMaps[RollEffectType.JUST_NEEDED_SOME_GREASE];
+			var effect3 = RollEffectsMaps[RollEffectType.LOOK_AT_MY_NEW_GADGET];
 			_eventLabel1.Initialize(this, effect1);
 			_eventLabel2.Initialize(this, effect2);
 			_eventLabel3.Initialize(this, effect3);
@@ -226,33 +226,46 @@ public class RollEffect
 	}
 }
 
-	public enum RollEffectType
+public enum RollEffectType
 {
-	POWER_UP,
-	POWER_UP_PLUS,
-	KILLING_FRENZY,
-	JUDGEMENT_DAY,
-	NOT_TODAY,
-	ROLL_WITH_THE_FLOW,
-	JUST_NEEDED_SOME_GREASE,
-	SACREBLUE_ITS_JAMMED_AGAIN,
-	MAGIC_FINGERS,
-	I_WENT_TO_THE_SHOOTING_RANGE,
-	AMERICAN_SNIPER,
-	FEAR_OF_DAMAGING_GOODS,
-	EAGLE_EYE,
-	TIME_TO_MAKE_PEACE,
+	POWER_UP,								// OK
+	POWER_UP_PLUS,							// OK
+	KILLING_FRENZY,							// OK
+	JUDGEMENT_DAY,							// OK
+	NOT_TODAY,								// OK
+	ROLL_WITH_THE_FLOW,						// OK
+	JUST_NEEDED_SOME_GREASE,				// OK
+	SACREBLUE_ITS_JAMMED_AGAIN,				// OK
+	MAGIC_FINGERS,							// OK
+	I_WENT_TO_THE_SHOOTING_RANGE,			// OK
+	AMERICAN_SNIPER,						// OK
+	FEAR_OF_DAMAGING_GOODS,					// OK
+	EAGLE_EYE,								// OK
+	TIME_TO_MAKE_PEACE,						// OK
 	IS_THIS_MAGIC,
-	LOOK_AT_MY_NEW_GADGET,
+	LOOK_AT_MY_NEW_GADGET,					// OK
+	I_SPEC_INTO_AERODYNAMISM,
+	JUST_LIKE_THE_GOOD_OLD_TRUSTY_ARROW,
 	DESTABILITATING_SHOTS,
 	DID_I_BUY_RUBBER_BULLETS,
-	FASTER_THAN_A_BULL_ETTTE,
+	FASTER_BULLETS,
 	BULLET_HELL,
 	NOT_YOUR_GRANDPAS_AMMO,
-	SLIPPERY_FLOORS
+	SLIPPERY_FLOORS,
+	HE_IS_OVER_9000,
+	WRONG_MUTATION,
+	CHRISTMAS_SHOPPING,
+	I_WISH_I_GOT_THAT_BUFF,
+	WRONG_MUTATION_V2,
+	TRAFFIC_JAM,
+	THEY_HATE_MONDAYS_TOO,
+	I_HOPE_THATS_NOT_YOUR_FIRST_PICK,
+	DUPLICATION_TACTICS,
+	THEY_FOUND_A_CHEAT,
+	BOOMERS
 }
 
-	#region ARCHIVES
+#region ARCHIVES
 //#region EFFECTS
 //public class RollEffect_PowerUp : RollEffect
 //{

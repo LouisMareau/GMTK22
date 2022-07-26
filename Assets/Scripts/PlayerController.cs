@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
 	public PlayerData data;
 
 	[Header("SHOOTING")]
-	[SerializeField] private GameObject _projectilePrefab;
-	private float _nextTimeToFire;
+	[SerializeField] private GameObject _prefabProjectileStandard;
+	[SerializeField] private GameObject _prefabProjectileSeeker;
+	private float _nextTimeToFireStandard;
+	private float _nextTimeToFireSeeker;
 
 	[Header("VFX")]
 	[SerializeField] private GameObject _prefabVFX_hitSparks;
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		if (_rootTransform == null) { _rootTransform = this.transform; }
-		if (_meshTransform == null) { _meshTransform = transform.GetChild(0);}
+		if (_meshTransform == null) { _meshTransform = transform.GetChild(0); }
 		if (data == null) { data = GetComponent<PlayerData>(); }
 		if (_camera == null) { _camera = Camera.main.transform; }
 	}
@@ -44,13 +46,14 @@ public class PlayerController : MonoBehaviour
 			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
 			_rootTransform.rotation = rotation;
 
-			if (hit.collider.tag != "Player" && data.status != PlayerData.PlayerStatus.CANNOT_SHOOT)
+			if ((hit.collider.tag != "Player") && (data.status != PlayerData.PlayerStatus.CANNOT_SHOOT))
 				Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
 		}
 
-		_nextTimeToFire -= Time.deltaTime;
-		if (_nextTimeToFire < 0)
-			_nextTimeToFire = 0;
+		_nextTimeToFireStandard -= Time.deltaTime;
+		_nextTimeToFireSeeker -= Time.deltaTime;
+		if (_nextTimeToFireStandard < 0) _nextTimeToFireStandard = 0;
+		if (_nextTimeToFireSeeker < 0) _nextTimeToFireSeeker = 0;
     }
 
 	private void Move()
@@ -66,32 +69,29 @@ public class PlayerController : MonoBehaviour
 
 	private void Shoot(Vector3 direction)
 	{
-		if ((Input.GetAxis("Fire1") > 0) && (_nextTimeToFire <= 0))
+		if ((Input.GetAxis("Fire1") > 0))
 		{
-            for (int i=0; i < (data.projectileSpreadAmount + data.seekingProjectileAmount); i++) {
-                Projectile instance = Instantiate<GameObject>(_projectilePrefab, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
-                var position = _meshTransform.position;
-                var relative_position = Vector3.forward;
+			if (data.finalFireRateStandard > 0 && _nextTimeToFireStandard <= 0)
+			{
+				Projectile instance = Instantiate<GameObject>(_prefabProjectileStandard, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
+				instance.Initialize(_meshTransform.position, direction, data.finalDamage);
 
-                relative_position = (_meshTransform.rotation * relative_position).normalized * i;
+				_nextTimeToFireStandard = 1 / data.finalFireRateStandard;
+			}
 
-                instance.Initialize(position + relative_position, direction, data.finalDamage);
-                instance.transform.localScale *= (data.projectileRadiusBonus+1);
-                instance.speed += data.projectileSpeedBonus; 
+			if (data.finalFireRateSeeker > 0 && _nextTimeToFireSeeker <= 0)
+			{
+				Projectile instance = Instantiate<GameObject>(_prefabProjectileSeeker, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
+				instance.Initialize(_meshTransform.position, direction, data.finalDamage);
 
-                //Seekers
-                if (i < data.seekingProjectileAmount) {
-                    instance.SetSeeker(true);
-                }
-            }
+				_nextTimeToFireSeeker = 1 / data.finalFireRateSeeker;
+			}
 
 			// We play the audio source ("Pew")
             if (!_audioSource.isPlaying || _audioSource.time > 0.23f) {
                 _audioSource.pitch = Random.Range(0.9f, 1.1f);
                 _audioSource.Play();
             }
-
-			_nextTimeToFire = 1 / data.finalFireRate;
 		}
 	}
 
@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
 	public void PlayAnim_Spawn()
 	{
 		// VFX: Spawn
+		// [TO DO] ...
 	}
 
 	public void PlayAnim_HitSparks()

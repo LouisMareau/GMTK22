@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3850707123869979523}
   - component: {fileID: 2783905427783101411}
   m_Layer: 0
-  m_Name: ProjectileSimple
+  m_Name: ProjectileStandard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,13 +43,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5664981683744998416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b6ca80715ec3684d90babe6764d9176, type: 3}
+  m_Script: {fileID: 11500000, guid: c859e7d4ff5b680428f85ae43e4c65db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  knockback: 0
+  _speed: 50
   _timeBeforeDestruction: 3
-  _angularVelocity: 0.02
+  _prefabVFX_death: {fileID: 8251536627602759017, guid: 29d1ac91625ea13488d467c077d7a1cf,
+    type: 3}
   _rootTransform: {fileID: 5664981683744998417}
   _meshTransform: {fileID: 322907868954649202}
 --- !u!135 &2783905427783101411
@@ -63,8 +63,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6915470215967997692
 GameObject:
   m_ObjectHideFlags: 0

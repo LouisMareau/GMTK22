@@ -33,6 +33,7 @@ public abstract class Enemy : MonoBehaviour
 	public int scoreWhenKilled { get; protected set; }
 
 	[Header("LOCAL REFERENCES")]
+	[HideInInspector] public Transform targetTransform;
 	[SerializeField] protected Transform _rootTransform;
 	[SerializeField] protected Transform _meshTransform;
 	[SerializeField] protected Collider _collider;
@@ -46,6 +47,7 @@ public abstract class Enemy : MonoBehaviour
 		if (_meshTransform == null) { _meshTransform = _rootTransform.GetChild(0); }
 		if (_collider == null) { _collider = GetComponent<SphereCollider>(); }
 		if (_playerTransform == null) { _playerTransform = StaticReferences.Instance.playerTransform; }
+		if (targetTransform == null) { targetTransform = _meshTransform; }
 
 		health = _baseHealth;
 		speed = _baseSpeed;

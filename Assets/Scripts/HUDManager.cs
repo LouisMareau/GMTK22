@@ -22,7 +22,8 @@ public class HUDManager : MonoBehaviour
 	[Header("SHOOTING")]
 	[SerializeField] private TextMeshProUGUI _speedLabel;
 	[SerializeField] private TextMeshProUGUI _damageLabel;
-	[SerializeField] private TextMeshProUGUI _fireRateLabel;
+	[SerializeField] private TextMeshProUGUI _fireRateStandardLabel;
+	[SerializeField] private TextMeshProUGUI _fireRateSeekerLabel;
 	[SerializeField] private TextMeshProUGUI _projectileAmountLabel;
 
 	[Header("SCREENS")]
@@ -100,9 +101,14 @@ public class HUDManager : MonoBehaviour
 		_damageLabel.text = $"Damage: <b>{ damage }</b>";
 	}
 
-	public void UpdateFireRateLabel(float fireRate)
+	public void UpdateFireRateStandardLabel(float fireRate)
 	{
-		_fireRateLabel.text = $"Fire Rate: <b>{ fireRate } bursts/s</b>";
+		_fireRateStandardLabel.text = $"Fire Rate (Standard): <b>{ fireRate } projectiles/s</b>";
+	}
+
+	public void UpdateFireRateSeekerLabel(float fireRate)
+	{
+		_fireRateSeekerLabel.text = $"Fire Rate (Seeker): <b>{ fireRate } projectiles/s</b>";
 	}
 
 	public void UpdateProjectilesPerBurstLabel(int projectileAmount)

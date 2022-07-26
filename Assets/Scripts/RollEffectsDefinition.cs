@@ -26,62 +26,91 @@ public class RollEffectsDefinition : MonoBehaviour
 	}
 	public void RollWithTheFlow()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseFireRate(1);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		data.UpdateBaseFireRateStandard(1);
 
 		if (!_isMagicFingersExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+			data.UpdateFinalFireRateStandard(1);
 	}
 	public void JustNeededSomeGrease()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseFireRate(2);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		data.UpdateBaseFireRateStandard(2);
 
 		if (!_isMagicFingersExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+			data.UpdateFinalFireRateStandard(1);
 	}
 	public void SacrebleuItsJammedAgain()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseFireRate(-1);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		data.UpdateBaseFireRateStandard(-1);
 
 		if (!_isMagicFingersExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalFireRate(1);
+			data.UpdateFinalFireRateStandard(1);
 	}
 	public void IWentToTheShootingRange()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseDamage(0.5f);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		data.UpdateBaseDamage(0.5f);
 
 		if (!_isEagleEyeExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+			data.UpdateFinalDamage(1f);
 	}
 	public void AmericanSniper()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseDamage(1f);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		data.UpdateBaseDamage(1f);
 
 		if (!_isEagleEyeExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+			data.UpdateFinalDamage(1f);
 	}
 	public void FearOfDamagingGoods()
 	{
-		StaticReferences.Instance.playerData.UpdateBaseDamage(-0.5f);
+		PlayerData data = StaticReferences.Instance.playerData;
 
-		if (!_isEagleEyeExcecuting)
-			StaticReferences.Instance.playerData.UpdateFinalDamage(1f);
+		if (data.baseDamage > 0.5f)
+		{
+			data.UpdateBaseDamage(-0.5f);
+
+			if (!_isEagleEyeExcecuting)
+				data.UpdateFinalDamage(1f);
+		}
 	}
 	public void LookAtMyNewGadget()
 	{
-		StaticReferences.Instance.playerData.MakeSeekingProjectile(1);
+		PlayerData data = StaticReferences.Instance.playerData;
+
+		// If the fire rate for standard projectile is equal to 0, we don't do anything and we disable the button
+		if (data.baseFireRateStandard > 0)
+		{
+			data.TransformProjectileStandardIntoSeeker(1);
+
+			data.UpdateFinalFireRateStandard(1);
+			data.UpdateFinalFireRateSeeker(1);
+		}
 	}
-	public void DestabilitatingShots() {
-		StaticReferences.Instance.playerData.AddKnockback(1);
+	public void DestabilitatingShots()
+	{
+		// [TO DO] ... ??
 	}
-	public void DidIBuyRubberBullets() {
-		StaticReferences.Instance.playerData.AddKnockback(-1);
+	public void DidIBuyRubberBullets()
+	{
+		// [TO DO] ... ??
+	}
+	public void FasterBullets()
+	{
+		// [TO DO] ... ??
 	}
 	public void BulletHell() {
-		//TODO add bullet spread
+		// [TO DO] ... ??
 	}
 	public void NotYourGrandpasAmmo() {
-		//TODO maybe you want +10% from base or grom last ?
-		StaticReferences.Instance.playerData.AddProjectileRadius(0.1f);
+		// [TO DO] ... ??
 	}
 
 	public void KillingFrenzy() { StartCoroutine(KillingFrenzy_Coroutine()); }
@@ -227,7 +256,7 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		float duration = 10f;
 
-		StaticReferences.Instance.playerData.UpdateFinalFireRate(2f);
+		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(2f);
 		_isMagicFingersExcecuting = true;
 
 		float timer = 0;
@@ -238,7 +267,7 @@ public class RollEffectsDefinition : MonoBehaviour
 		}
 
 		_isMagicFingersExcecuting = false;
-		StaticReferences.Instance.playerData.UpdateFinalFireRate(1f);
+		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(1f);
 	}
 
 	private bool _isEagleEyeExcecuting = false;

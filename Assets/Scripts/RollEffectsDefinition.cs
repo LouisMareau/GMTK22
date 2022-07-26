@@ -94,6 +94,7 @@ public class RollEffectsDefinition : MonoBehaviour
 			data.UpdateFinalFireRateSeeker(1);
 		}
 	}
+	
 	public void DestabilitatingShots()
 	{
 		// [TO DO] ... ??

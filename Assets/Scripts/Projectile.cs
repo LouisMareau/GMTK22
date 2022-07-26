@@ -49,6 +49,16 @@ public abstract class Projectile : MonoBehaviour
 		// We calculate and translate to the new position
 		_rootTransform.Translate(_direction * _speed * Time.deltaTime);
 
+		if (_rootTransform.position.x < CameraHelper.GetEdgeLeft() ||
+			_rootTransform.position.x > CameraHelper.GetEdgeRight() ||
+			_rootTransform.position.z > CameraHelper.GetEdgeTop() ||
+			_rootTransform.position.z < CameraHelper.GetEdgeBottom())
+		{
+			Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
+			Kill();
+		}
+
+
 		// We need to raycast from the previous position to the current position of the projectile
 		Ray ray = new Ray(previousPosition, (_rootTransform.position - previousPosition).normalized);
 		RaycastHit hit;

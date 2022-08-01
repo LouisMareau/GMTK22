@@ -35,10 +35,7 @@ public class DieMenu : MonoBehaviour
 		InitializeRollEffects();
 	}
 
-	public void SetAssociatedDie(Die6 die)
-	{
-		_associatedDie = die;
-	}
+	public void SetAssociatedDie(Die6 die) { _associatedDie = die; }
 
 	private void InitializeRollEffects()
 	{
@@ -185,7 +182,8 @@ public class DieMenu : MonoBehaviour
 		if (result != 0)
 		{
 			// We pause the game
-			Time.timeScale = 0.0f;
+			//Time.timeScale = 0.0f;
+			GameManager.SwitchGameState(GameState.PAUSE);
 
 			// We show the menu
 			Show();

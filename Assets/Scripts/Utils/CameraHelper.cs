@@ -58,4 +58,12 @@ public class CameraHelper : MonoBehaviour
 	public static float GetEdgeRight() { return _onScreenFloorRight.x; }
 	public static float GetEdgeTop() { return _onScreenFloorTop.z; }
 	public static float GetEdgeBottom() { return _onScreenFloorBottom.z; }
+
+	public static bool IsWithinBounds(Vector3 position)
+	{
+		if (position.x < GetEdgeLeft() || position.x > GetEdgeRight() || position.z > GetEdgeTop() || position.z < GetEdgeBottom())
+			return false;
+		else
+			return true;
+	}
 }

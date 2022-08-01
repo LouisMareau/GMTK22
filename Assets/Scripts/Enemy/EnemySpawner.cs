@@ -51,15 +51,18 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Update()
 	{
-		if (IsTankyEnemyReadyToSpawn())
+		if (GameManager.IsPlaying)
 		{
-			SpawnEnemy(EnemyType.TANK);
-			_timeBeforeNextTankyEnemy = tankyEnemySpawnInterval;
-		}
+			if (IsTankyEnemyReadyToSpawn())
+			{
+				SpawnEnemy(EnemyType.DIE_HOLDER);
+				_timeBeforeNextTankyEnemy = tankyEnemySpawnInterval;
+			}
 
-		_timeBeforeNextTankyEnemy -= Time.deltaTime;
-		if (_timeBeforeNextTankyEnemy < 0)
-			_timeBeforeNextTankyEnemy = 0;
+			_timeBeforeNextTankyEnemy -= Time.deltaTime;
+			if (_timeBeforeNextTankyEnemy < 0)
+				_timeBeforeNextTankyEnemy = 0;
+		}
 	}
 
 	private void StartSpawning() { StartCoroutine(StartSpawning_Coroutine()); }
@@ -67,10 +70,14 @@ public class EnemySpawner : MonoBehaviour
 	{
 		while(true)
 		{
-			float randomDelay = Random.Range(spawnRandomDelay.x, spawnRandomDelay.y);
-			yield return new WaitForSeconds(randomDelay);
+			if (GameManager.IsPlaying)
+			{
+				float randomDelay = Random.Range(spawnRandomDelay.x, spawnRandomDelay.y);
+				yield return new WaitForSeconds(randomDelay);
 
-			SpawnEnemy(EnemyType.SMALL);
+				SpawnEnemy(EnemyType.MELEE_DETONATOR);
+			}
+			else yield return null;
 		}
 	}
 

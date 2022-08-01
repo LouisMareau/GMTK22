@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22d6be0b75eede4eb7464a502b80f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   _baseHealth: 12
   _baseSpeed: 3
   _baseDamage: 3
@@ -54,6 +54,7 @@ MonoBehaviour:
   _prefabVFX_death: {fileID: 7478046349029717795, guid: 8b63636317085f846bc4664936626bb3,
     type: 3}
   _baseScoreWhenKilled: 5
+  targetTransform: {fileID: 0}
   _rootTransform: {fileID: 1116117497645476190}
   _meshTransform: {fileID: 5396189428529198733}
   _collider: {fileID: 6828336253781662364}
@@ -69,7 +70,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6.75
+  m_Radius: 7.8
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7563469752189560028
 GameObject:
@@ -266,32 +267,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5396189428529198733}
     m_Modifications:
-    - target: {fileID: 841630492031324120, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1225536867487347017, guid: 666595f483200111ebe4c0326758995e,
         type: 3}
       propertyPath: m_Name
       value: Die
       objectReference: {fileID: 0}
-    - target: {fileID: 2027287479072792698, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3010080851800531455, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4906897885377479990, guid: 666595f483200111ebe4c0326758995e,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 7986229223801300250, guid: 784c615aea321ba47bfdbcf4f4c48e77,
-        type: 3}
     - target: {fileID: 6235283183318952621, guid: 666595f483200111ebe4c0326758995e,
         type: 3}
       propertyPath: m_RootOrder

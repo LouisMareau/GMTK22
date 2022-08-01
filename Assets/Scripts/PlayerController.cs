@@ -35,25 +35,28 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-		Move();
-
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;
-
-		if (Physics.Raycast(ray, out hit))
+		if (GameManager.IsPlaying)
 		{
-			Quaternion rotation = CalculateRotationAngle(hit.point);
-			rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
-			_rootTransform.rotation = rotation;
+			Move();
 
-			if ((hit.collider.tag != "Player") && (data.status != PlayerData.PlayerStatus.CANNOT_SHOOT))
-				Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit))
+			{
+				Quaternion rotation = CalculateRotationAngle(hit.point);
+				rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
+				_rootTransform.rotation = rotation;
+
+				if ((hit.collider.tag != "Player") && (data.status != PlayerData.PlayerStatus.CANNOT_SHOOT))
+					Shoot(CalculateHitDirectionFromPlayer(new Vector3(hit.point.x, 1, hit.point.z)));
+			}
+
+			_nextTimeToFireStandard -= Time.deltaTime;
+			_nextTimeToFireSeeker -= Time.deltaTime;
+			if (_nextTimeToFireStandard < 0) _nextTimeToFireStandard = 0;
+			if (_nextTimeToFireSeeker < 0) _nextTimeToFireSeeker = 0;
 		}
-
-		_nextTimeToFireStandard -= Time.deltaTime;
-		_nextTimeToFireSeeker -= Time.deltaTime;
-		if (_nextTimeToFireStandard < 0) _nextTimeToFireStandard = 0;
-		if (_nextTimeToFireSeeker < 0) _nextTimeToFireSeeker = 0;
     }
 
 	private void Move()

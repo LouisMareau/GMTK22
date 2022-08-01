@@ -5,8 +5,9 @@ using UnityEngine;
 #region ENUM
 public enum EnemyType
 {
-	SMALL,
-	TANK
+	DIE_HOLDER,
+	MELEE_DETONATOR,
+	PULSAR
 }
 #endregion
 
@@ -18,6 +19,8 @@ public abstract class Enemy : MonoBehaviour
 	[SerializeField] protected float _baseHealth = 1f;
 	[SerializeField] protected float _baseSpeed = 5f;
 	[SerializeField] protected int _baseDamage = 1;
+	[Space]
+	[SerializeField] protected float _rotationalSpeed = 10f;
 	public float health { get; protected set; }
 	public float speed { get; protected set; }
 	public int damage { get; protected set; }
@@ -60,10 +63,14 @@ public abstract class Enemy : MonoBehaviour
 	{
 		if (_playerTransform == null) return;
 
-		currentDirection = CalculateDirection(_playerTransform.position);
-		distanceFromPlayer = CalculateDistanceFromPlayer();
+		if (GameManager.IsPlaying)
+		{
+			currentDirection = CalculateDirection(_playerTransform.position);
+			distanceFromPlayer = CalculateDistanceFromPlayer();
 
-		MoveTowards(currentDirection, speed);
+			MoveTowards(currentDirection, speed);
+			RotateTowards(_playerTransform.position, _rotationalSpeed);
+		}
 	}
 
 	#region GAMEPLAY
@@ -79,6 +86,14 @@ public abstract class Enemy : MonoBehaviour
 	protected virtual void MoveTowards(Vector3 direction, float speed)
 	{
 		_rootTransform.Translate(direction * speed * Time.deltaTime);
+	}
+
+	protected virtual void RotateTowards(Vector3 target, float angularSpeed)
+	{
+		Vector3 targetDirection = target - _rootTransform.position;
+		Vector3 lookDirection = Vector3.RotateTowards(_meshTransform.forward, targetDirection, angularSpeed * Time.deltaTime, 0.0f);
+
+		_meshTransform.rotation = Quaternion.LookRotation(lookDirection);
 	}
 
 	public virtual void TakeDamage(float damage)

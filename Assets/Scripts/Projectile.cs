@@ -44,33 +44,16 @@ public abstract class Projectile : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		previousPosition = _rootTransform.position;
-
-		// We calculate and translate to the new position
-		_rootTransform.Translate(_direction * _speed * Time.deltaTime);
-
-		if (_rootTransform.position.x < CameraHelper.GetEdgeLeft() ||
-			_rootTransform.position.x > CameraHelper.GetEdgeRight() ||
-			_rootTransform.position.z > CameraHelper.GetEdgeTop() ||
-			_rootTransform.position.z < CameraHelper.GetEdgeBottom())
+		if (GameManager.IsPlaying)
 		{
-			Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
-			Kill();
-		}
+			previousPosition = _rootTransform.position;
 
+			// We calculate and translate to the new position
+			_rootTransform.Translate(_direction * _speed * Time.deltaTime);
 
-		// We need to raycast from the previous position to the current position of the projectile
-		Ray ray = new Ray(previousPosition, (_rootTransform.position - previousPosition).normalized);
-		RaycastHit hit;
-
-		if (Physics.Raycast(ray, out hit, (_rootTransform.position - previousPosition).magnitude))
-		{
-			if (hit.collider.tag == "Enemy")
+			if (!CameraHelper.IsWithinBounds(_rootTransform.position))
 			{
-				Enemy enemy = hit.collider.GetComponent<Enemy>();
-
-				enemy.TakeDamage(_damage);
-
+				Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
 				Kill();
 			}
 		}
@@ -94,6 +77,18 @@ public abstract class Projectile : MonoBehaviour
 		Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
 
 		Destroy(gameObject);
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Enemy"))
+		{
+			Enemy enemy = other.GetComponent<Enemy>();
+
+			enemy.TakeDamage(_damage);
+
+			Kill();
+		}
 	}
 
 	private void OnDrawGizmosSelected()

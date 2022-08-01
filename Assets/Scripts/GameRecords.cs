@@ -6,6 +6,7 @@ public class GameRecords : MonoBehaviour
 {
 	public static int enemyMeleeDetonatorKilled = 0;
 	public static int enemyDieHolderKilled = 0;
+	public static int enemyPulsarKilled = 0;
 
 	public static int enemiesKilledSinceLastFrame;
 
@@ -14,6 +15,7 @@ public class GameRecords : MonoBehaviour
 	{
 		enemyMeleeDetonatorKilled = 0;
 		enemyDieHolderKilled = 0;
+		enemyPulsarKilled = 0;
 	}
 	#endregion
 

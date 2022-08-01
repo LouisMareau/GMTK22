@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1116117497645476190}
   - component: {fileID: -2590694968430536228}
   - component: {fileID: 1131519697467727346}
-  - component: {fileID: 1567698667967301695}
   m_Layer: 0
   m_Name: Enemy MeleeDetonator
   m_TagString: Enemy
@@ -47,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0b3ebd4e0dd6b4e9700010af2b9276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   _baseHealth: 1
   _baseSpeed: 8
   _baseDamage: 1
@@ -71,19 +70,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!135 &1567698667967301695
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116117497645476177}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1279859602458176040
 GameObject:

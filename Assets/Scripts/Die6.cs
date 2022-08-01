@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Die6 : MonoBehaviour
+public class Die6 : Die
 {
 	public int Result { get; private set; }
 
 	private DieMenu _menu;
 
-	[SerializeField] private float _idleRotationSpeed = 5f;
+	[SerializeField] private Vector2 _idleMinMaxRotationSpeed = new Vector2(5f, 10f);
 
 	public new Rigidbody rigidbody;
 
@@ -37,41 +37,45 @@ public class Die6 : MonoBehaviour
 
 	private void Start()
 	{
-		_menu.Hide();
+		if (_menu.IsVisible)
+			_menu.Hide();
 
 		rigidbody.isKinematic = true;
 
-		_idleRandomEulerAngle = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)).normalized * _idleRotationSpeed;
+		_idleRandomEulerAngle = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)).normalized * Random.Range(_idleMinMaxRotationSpeed.x, _idleMinMaxRotationSpeed.y);
 	}
 	#endregion
 
-	private void Update()
+	protected virtual void Update()
 	{
-		if (rigidbody.isKinematic)
+		if (GameManager.IsPlaying)
 		{
-			_rootTransform.Rotate(_idleRandomEulerAngle * Time.deltaTime);
-		}
-		else
-		{
-			_detectionRaySide1 = CastRayToLocalDirection(Vector3.down, 2f);
-			_detectionRaySide2 = CastRayToLocalDirection(Vector3.right, 2f);
-			_detectionRaySide3 = CastRayToLocalDirection(Vector3.forward, 2f);
-			_detectionRaySide4 = CastRayToLocalDirection(Vector3.back, 2f);
-			_detectionRaySide5 = CastRayToLocalDirection(Vector3.left, 2f);
-			_detectionRaySide6 = CastRayToLocalDirection(Vector3.up, 2f);
+			if (rigidbody.isKinematic)
+			{
+				_rootTransform.Rotate(_idleRandomEulerAngle * Time.deltaTime);
+			}
+			else
+			{
+				_detectionRaySide1 = CastRayToLocalDirection(Vector3.down, 2f);
+				_detectionRaySide2 = CastRayToLocalDirection(Vector3.right, 2f);
+				_detectionRaySide3 = CastRayToLocalDirection(Vector3.forward, 2f);
+				_detectionRaySide4 = CastRayToLocalDirection(Vector3.back, 2f);
+				_detectionRaySide5 = CastRayToLocalDirection(Vector3.left, 2f);
+				_detectionRaySide6 = CastRayToLocalDirection(Vector3.up, 2f);
 
-			if (Physics.Raycast(_detectionRaySide1, LayerMask.GetMask("Floor")))
-				Result = 1;
-			else if (Physics.Raycast(_detectionRaySide2, LayerMask.GetMask("Floor")))
-				Result = 2;
-			else if (Physics.Raycast(_detectionRaySide3, LayerMask.GetMask("Floor")))
-				Result = 3;
-			else if (Physics.Raycast(_detectionRaySide4, LayerMask.GetMask("Floor")))
-				Result = 4;
-			else if (Physics.Raycast(_detectionRaySide5, LayerMask.GetMask("Floor")))
-				Result = 5;
-			else if (Physics.Raycast(_detectionRaySide6, LayerMask.GetMask("Floor")))
-				Result = 6;
+				if (Physics.Raycast(_detectionRaySide1, LayerMask.GetMask("Floor")))
+					Result = 1;
+				else if (Physics.Raycast(_detectionRaySide2, LayerMask.GetMask("Floor")))
+					Result = 2;
+				else if (Physics.Raycast(_detectionRaySide3, LayerMask.GetMask("Floor")))
+					Result = 3;
+				else if (Physics.Raycast(_detectionRaySide4, LayerMask.GetMask("Floor")))
+					Result = 4;
+				else if (Physics.Raycast(_detectionRaySide5, LayerMask.GetMask("Floor")))
+					Result = 5;
+				else if (Physics.Raycast(_detectionRaySide6, LayerMask.GetMask("Floor")))
+					Result = 6;
+			}
 		}
 	}
 
@@ -82,7 +86,8 @@ public class Die6 : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Player") {
+		if (other.tag == "Player")
+		{
             _menu.SetAssociatedDie(this);
 			_menu.Activate(Result);
         }

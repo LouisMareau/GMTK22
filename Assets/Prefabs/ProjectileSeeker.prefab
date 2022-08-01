@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5664981683744998417}
   - component: {fileID: 3850707123869979523}
   - component: {fileID: 2783905427783101411}
-  m_Layer: 0
+  - component: {fileID: 1980027921565339940}
+  m_Layer: 6
   m_Name: ProjectileSeeker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +53,7 @@ MonoBehaviour:
     type: 3}
   _rootTransform: {fileID: 5664981683744998417}
   _meshTransform: {fileID: 322907868954649202}
-  _angularVelocity: 0.5
+  _angularVelocity: 2
 --- !u!135 &2783905427783101411
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61,11 +62,27 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5664981683744998416}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1980027921565339940
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5664981683744998416}
+  serializedVersion: 2
+  m_Mass: 0.01
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &6915470215967997692
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +94,7 @@ GameObject:
   - component: {fileID: 322907868954649202}
   - component: {fileID: 7108508115322739649}
   - component: {fileID: 3889466188155779035}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

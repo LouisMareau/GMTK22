@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
 				yield return new WaitForSeconds(timeBeforeBuff);
 				// Difficulty Scaling code here...
 			}
+			else yield return null;
 		}
 	}
 	#endregion

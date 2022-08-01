@@ -53,7 +53,7 @@ public abstract class Projectile : MonoBehaviour
 
 			if (!CameraHelper.IsWithinBounds(_rootTransform.position))
 			{
-				Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
+				
 				Kill();
 			}
 		}
@@ -61,22 +61,25 @@ public abstract class Projectile : MonoBehaviour
 
 	public void Kill()
 	{
+		// VFX: Death
+		Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
+
 		Destroy(gameObject);
 	}
+
 	private void KillAfterDelay(float delay = 0) { StartCoroutine(KillAfterDelay_Coroutine(delay)); }
 	private IEnumerator KillAfterDelay_Coroutine(float delay)
 	{
 		float timer = 0;
 		while (timer < delay)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
-		// VFX: Death
-		Instantiate<GameObject>(_prefabVFX_death, _rootTransform.position, _rootTransform.rotation, StaticReferences.Instance.vfxContainer);
-
-		Destroy(gameObject);
+		Kill();
 	}
 
 	private void OnTriggerEnter(Collider other)

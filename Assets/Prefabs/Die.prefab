@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2027287479072792698}
   - component: {fileID: 5010811268570979095}
   - component: {fileID: 852214258208624164}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Die
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 841630492031324120}
   - component: {fileID: 4906897885377479990}
   - component: {fileID: 1303253028449847302}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

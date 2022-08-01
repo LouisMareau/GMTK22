@@ -100,8 +100,18 @@ public class Die6 : Die
 
 		Destroy(gameObject);
 	}
-	public void KillAfterDelay(float timeBeforeKill = 20f)
+	public void KillAfterDelay(float delay = 20f) { StartCoroutine(KillAfterDelay_Coroutine(delay)); }
+	private IEnumerator KillAfterDelay_Coroutine(float delay)
 	{
-		Destroy(gameObject, timeBeforeKill);
+		float timer = 0.0f;
+		while (timer < delay)
+		{
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
+			yield return null;
+		}
+
+		Kill();
 	}
 }

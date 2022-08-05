@@ -16,14 +16,13 @@ public class Enemy_Pulsar : Enemy
 	[SerializeField] private AnimationCurve _blastSizeOverTime;
 
 	[Header("PULSAR VFXs")]
-	[SerializeField] private GameObject _prefabVFX_grindingGearsSparks;
 	[SerializeField] private GameObject _prefabVFX_targetingLaser;
 	[SerializeField] private GameObject _prefabVFX_blast;
+	private GameObject _targetingLaserInstance;
+	private GameObject _blastInstance;
 
 	[Header("COMPONENTS")]
 	[SerializeField] private EnemyFeature_EnergyRing _energyRing;
-	[SerializeField] private EnemyFeature_RotatingGears _rotatingGearsLarge;
-	[SerializeField] private EnemyFeature_RotatingGears _rotatingGearsSmall;
 
 	private bool _isAttacking = false;
 	private bool _canRotate = true;
@@ -67,16 +66,15 @@ public class Enemy_Pulsar : Enemy
 
 		_energyRing.StartSieging(_siegeDuration);
 		_energyRing.StartEnergyFlow(_chargeDuration + 0.5f);
-		_rotatingGearsLarge.StartCharging(_chargeDuration);
-		_rotatingGearsSmall.StartCharging(_chargeDuration);
 
 		PlayAnim_TargetingLaser();
-		PlayAnim_GrindingGearsSparks();
 
 		float timer = 0;
 		while (timer < _chargeDuration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -93,7 +91,9 @@ public class Enemy_Pulsar : Enemy
 		float timer = 0.0f;
 		while (timer <= _holdDuration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -104,17 +104,21 @@ public class Enemy_Pulsar : Enemy
 		timer = 0.0f;
 		while (timer <= _blastDuration)
 		{
-			// We raycast straight forward
-			if (Physics.Raycast(ray, out hit))
+			if (GameManager.IsPlaying)
 			{
-				if (hit.collider.CompareTag("Player"))
+				// We raycast straight forward
+				if (Physics.Raycast(ray, out hit))
 				{
-					PlayerController player = hit.collider.GetComponent<PlayerController>();
-					player.data.LoseLife(damage);
+					if (hit.collider.CompareTag("Player"))
+					{
+						PlayerController player = hit.collider.GetComponent<PlayerController>();
+						player.data.LoseLife(damage);
+					}
 				}
+
+				timer += Time.deltaTime;
 			}
 
-			timer += Time.deltaTime;
 			yield return null;
 		}
 
@@ -132,7 +136,9 @@ public class Enemy_Pulsar : Enemy
 		float timer = 0;
 		while (timer <= _cooldownDuration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 		
@@ -142,6 +148,9 @@ public class Enemy_Pulsar : Enemy
 	protected override void Kill(float delay = 0)
 	{
 		GameRecords.enemyPulsarKilled++;
+
+		if (_targetingLaserInstance != null)
+			Destroy(_targetingLaserInstance);
 
 		base.Kill(delay);
 	}
@@ -166,8 +175,8 @@ public class Enemy_Pulsar : Enemy
 	private IEnumerator PlayAnim_TargetingLaser_Coroutine()
 	{
 		// VFX: Targeting Laser
-		GameObject instance = Instantiate(_prefabVFX_targetingLaser, _meshTransform.position, _meshTransform.rotation * _prefabVFX_targetingLaser.transform.rotation, StaticReferences.Instance.vfxContainer);
-		LineRenderer lr = instance.GetComponentInChildren<LineRenderer>();
+		_targetingLaserInstance = Instantiate(_prefabVFX_targetingLaser, _meshTransform.position, _meshTransform.rotation * _prefabVFX_targetingLaser.transform.rotation, StaticReferences.Instance.vfxContainer);
+		LineRenderer lr = _targetingLaserInstance.GetComponentInChildren<LineRenderer>();
 
 		float timer = 0;
 		while (timer < _chargeDuration)
@@ -179,21 +188,15 @@ public class Enemy_Pulsar : Enemy
 			yield return null;
 		}
 
-		Destroy(instance);
-	}
-
-	private void PlayAnim_GrindingGearsSparks()
-	{
-		// VFX: Siege Dust Clouds
-		Instantiate(_prefabVFX_grindingGearsSparks, _meshTransform.position, _meshTransform.rotation * _prefabVFX_grindingGearsSparks.transform.rotation, StaticReferences.Instance.vfxContainer);
+		Destroy(_targetingLaserInstance);
 	}
 
 	private void PlayAnim_Blast() { StartCoroutine(PlayAnim_Blast_Coroutine()); }
 	private IEnumerator PlayAnim_Blast_Coroutine()
 	{
 		// VFX: Targeting Laser
-		GameObject instance = Instantiate(_prefabVFX_blast, _meshTransform.position, _meshTransform.rotation * _prefabVFX_blast.transform.rotation, StaticReferences.Instance.vfxContainer);
-		LineRenderer lr = instance.GetComponentInChildren<LineRenderer>();
+		_blastInstance = Instantiate(_prefabVFX_blast, _meshTransform.position, _meshTransform.rotation * _prefabVFX_blast.transform.rotation, StaticReferences.Instance.vfxContainer);
+		LineRenderer lr = _blastInstance.GetComponentInChildren<LineRenderer>();
 
 		float timer = 0;
 		while (timer < _blastDuration)
@@ -204,7 +207,7 @@ public class Enemy_Pulsar : Enemy
 			yield return null;
 		}
 
-		Destroy(instance);
+		Destroy(_blastInstance);
 	}
 	#endregion
 }

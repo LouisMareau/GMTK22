@@ -488,7 +488,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8534705008044003893
 Transform:
   m_ObjectHideFlags: 0
@@ -579,15 +579,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _prefabVFX_grindingGearsSparks: {fileID: 60154471710850206, guid: 321056eaae213ef439954dbc4e53bc29,
-    type: 3}
   _prefabVFX_targetingLaser: {fileID: 4403500013027521911, guid: 897642f1417fd7244af2b2e91f065152,
     type: 3}
   _prefabVFX_blast: {fileID: 3442514109373279518, guid: 516868ef32d1af947902dea05fbd8617,
     type: 3}
   _energyRing: {fileID: 1226200520273162621}
-  _rotatingGearsLarge: {fileID: 8319157252757714308}
-  _rotatingGearsSmall: {fileID: 8683021312639722596}
 --- !u!135 &8556721799987963545
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -50,6 +50,7 @@ MonoBehaviour:
   _baseHealth: 12
   _baseSpeed: 3
   _baseDamage: 3
+  _rotationalSpeed: 10
   _prefabVFX_spawn: {fileID: 0}
   _prefabVFX_death: {fileID: 7478046349029717795, guid: 8b63636317085f846bc4664936626bb3,
     type: 3}

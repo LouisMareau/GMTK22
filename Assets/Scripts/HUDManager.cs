@@ -26,9 +26,12 @@ public class HUDManager : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _fireRateSeekerLabel;
 	[SerializeField] private TextMeshProUGUI _projectileAmountLabel;
 
-	[Header("SCREENS")]
+	[Header("PAUSE (SCREEN)")]
 	[SerializeField] private GameObject _pauseScreen;
+
+	[Header("GAME OVER (SCREEN)")]
 	[SerializeField] private GameObject _gameOverScreen;
+	[SerializeField] private TextMeshProUGUI _scoreObtainedLabel;
 
 	[Header("PLAYER")]
 	[SerializeField] private PlayerData _playerData;
@@ -121,7 +124,12 @@ public class HUDManager : MonoBehaviour
 		_scoreLabel.text = $"SCORE\n<size=12>{ score }</size>";
 	}
 
-	public void ShowGameOverScreen() { _gameOverScreen.SetActive(true); }
+	public void ShowGameOverScreen()
+	{
+		_scoreObtainedLabel.text = GameRecords.score.ToString();
+
+		_gameOverScreen.SetActive(true);
+	}
 	public void HideGameOverScreen() { _gameOverScreen.SetActive(false); }
 
 	private void LerpLifeColorOffToOn(Image image, float duration) { StartCoroutine(LerpLifeColorOffToOn_Corourtine(image, duration)); }

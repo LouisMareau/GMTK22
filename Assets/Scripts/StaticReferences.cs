@@ -17,6 +17,8 @@ public class StaticReferences : MonoBehaviour
 	public PlayerData playerData;
 	[Space]
 	public Transform miscs;
+	[Space]
+	public Transform notificationContainer;
 
 	private void Awake()
 	{

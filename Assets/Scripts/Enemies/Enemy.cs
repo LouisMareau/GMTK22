@@ -37,7 +37,7 @@ public abstract class Enemy : MonoBehaviour
 
 	[Header("LOCAL REFERENCES")]
 	[HideInInspector] public Transform targetTransform;
-	[SerializeField] protected Transform _rootTransform;
+	[HideInInspector] public Transform _rootTransform;
 	[SerializeField] protected Transform _meshTransform;
 	[SerializeField] protected Collider _collider;
 
@@ -107,15 +107,15 @@ public abstract class Enemy : MonoBehaviour
 	protected virtual void Kill(float delay = 0f)
 	{
 		// Score
-		int s = GameManager.Instance.score += scoreWhenKilled;
+		int s = GameRecords.score += scoreWhenKilled;
 		HUDManager.Instance.UpdateScoreLabel(s);
 
-		// Update game records
+		// Game records
 		GameRecords.enemiesKilledSinceLastFrame++;
 
 		PlayAnim_Death();
 
-        EnemySpawner.Instance.removeEnemy(this);
+        EnemySpawner.Instance.RemoveEnemy(this);
 		Destroy(gameObject, delay);
 	}
 	#endregion

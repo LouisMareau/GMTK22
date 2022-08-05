@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameRecords : MonoBehaviour
 {
+	public static int score = 0;
+
 	public static int enemyMeleeDetonatorKilled = 0;
 	public static int enemyDieHolderKilled = 0;
 	public static int enemyPulsarKilled = 0;
@@ -13,6 +15,7 @@ public class GameRecords : MonoBehaviour
 	#region INITIALIZATION
 	private void Awake()
 	{
+		score = 0;
 		enemyMeleeDetonatorKilled = 0;
 		enemyDieHolderKilled = 0;
 		enemyPulsarKilled = 0;

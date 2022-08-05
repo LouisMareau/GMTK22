@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 	public int fireRateSeekerOnStart = 0;
 	public int projectileAmountOnStart = 1;
 
-	[Header("SPAWNING")]
+	[Header("DICE")]
 
 	[Header("SCORING")]
 	public int score;
@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
+
+
 	}
 
 	private void Start()
@@ -57,6 +59,10 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	#region GAMEPLAY
+
+	#region DICE ROLLS
+
+	#endregion
 
 	#region GAME STATE MANAGEMENT
 	public static void SwitchGameState(GameState newState)
@@ -103,12 +109,11 @@ public class GameManager : MonoBehaviour
 	public void GameOver() { StartCoroutine(GameOver_Coroutine()); }
 	private IEnumerator GameOver_Coroutine()
 	{
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(2.0f);
 
 		Time.timeScale = 0.05f;
 		HUDManager.Instance.ShowGameOverScreen();
 	}
-
 
 	public void OnTryAgainGame()
 	{

@@ -234,7 +234,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &56379273
 GameObject:
@@ -848,7 +848,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &385209102
 GameObject:
@@ -892,7 +892,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &387241142
 GameObject:
@@ -993,7 +993,7 @@ RectTransform:
   - {fileID: 974765302}
   - {fileID: 460462964}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1029,24 +1029,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f04420c2c72624881f933337d0688f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnTypes:
-  - name: Melee Detonator
+  spawnTypes:
+  - type: 1
     prefab: {fileID: 1116117497645476177, guid: f0dc6d0be22f7d04b9c16f4fed12e7db,
       type: 3}
     delayBeforeStart: 0
-    intervalRange: {x: 0.5, y: 2}
+    intervalRange: {x: 0.5, y: 2.5}
     timeLeftBeforeSpawn: 0
-  - name: Die Holder
+  - type: 0
     prefab: {fileID: 1116117497645476177, guid: 00e9359c719a2b446b832bf57ccdb4aa,
       type: 3}
     delayBeforeStart: 10
-    intervalRange: {x: 20, y: 30}
+    intervalRange: {x: 20, y: 40}
     timeLeftBeforeSpawn: 0
-  - name: Pulsar
+  - type: 2
     prefab: {fileID: 8534705008044003898, guid: ffe521b64c28d2645bb6f5473ccc6d50,
       type: 3}
-    delayBeforeStart: 80
-    intervalRange: {x: 40, y: 60}
+    delayBeforeStart: 120
+    intervalRange: {x: 40, y: 80}
     timeLeftBeforeSpawn: 0
   spawnRadius: 80
   spawnPlayerDetectionRadius: 15
@@ -1095,7 +1095,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &459135635
 MonoBehaviour:
@@ -1558,6 +1558,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f3ea409b0601f4a811a858fd35c968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &612836461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612836463}
+  - component: {fileID: 612836462}
+  m_Layer: 0
+  m_Name: Base Data Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &612836462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612836461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125a5557ebb5d514a904e727d91d2c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseDataEnemy_MeleeDetonator:
+    health: 1
+    speed: 8
+    damage: 1
+    scoreWhenKilled: 1
+    rotationalSpeed: 20
+  _baseDataEnemy_DieHolder:
+    health: 12
+    speed: 4
+    damage: 3
+    scoreWhenKilled: 5
+    rotationalSpeed: 5
+  _baseDataEnemy_Pulsar:
+    health: 48
+    speed: 3
+    damage: 7
+    scoreWhenKilled: 15
+    rotationalSpeed: 60
+    chargeDuration: 2
+    holdDuration: 1
+    blastDuration: 2
+    cooldownDuration: 4
+--- !u!4 &612836463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612836461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627893414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,7 +1655,7 @@ Transform:
   - {fileID: 56379275}
   - {fileID: 558517006}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655247115
 GameObject:
@@ -1944,7 +2010,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &820676380
 GameObject:
@@ -2245,7 +2311,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &957394290
 GameObject:
@@ -2513,7 +2579,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1015183909
 GameObject:
@@ -2679,7 +2745,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1191338585
 GameObject:
@@ -2711,7 +2777,7 @@ Transform:
   m_Children:
   - {fileID: 249703573}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1219719324
 GameObject:
@@ -2776,7 +2842,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1238411797
 GameObject:
@@ -3249,7 +3315,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1322104842
 GameObject:
@@ -3280,16 +3346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f5026aa244dd34fb7fe39e16a2cb5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedOnStart: 20
+  speedOnStart: 30
   livesAmountOnStart: 3
   damageOnStart: 1
   fireRateStandardOnStart: 3
   fireRateSeekerOnStart: 0
-  projectileAmountOnStart: 1
-  score: 0
-  timeBeforeBuff: 30
-  spawnMultplier: 0.98
-  enemyStatsMultiplier: 1.05
 --- !u!4 &1322104844
 Transform:
   m_ObjectHideFlags: 0
@@ -3371,7 +3432,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1380464826
 GameObject:
@@ -3671,7 +3732,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469025569
 GameObject:
@@ -3705,7 +3766,7 @@ Transform:
   - {fileID: 1850496237}
   - {fileID: 1556178879}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1469025571
 MonoBehaviour:
@@ -3748,7 +3809,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1498817944
 GameObject:
@@ -3927,7 +3988,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1556178876
 GameObject:
@@ -5224,6 +5285,269 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1917507607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1917507609}
+  - component: {fileID: 1917507608}
+  m_Layer: 0
+  m_Name: Difficulty Scaling Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1917507608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917507607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a058851e05da0e4595df217c3a55fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyScales:
+  - name: 'Difficulty +1 : 60s'
+    phaseStartTime: 60
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 0}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 0}
+    rangeValueMeleeDetonatorSpeed: {x: 0, y: 2}
+    rangeValueMeleeDetonatorScore: {x: 0, y: 1}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.95, y: 1.05}
+    rangeValueDieHolderHealth: {x: 3, y: 5}
+    rangeValueDieHolderDamage: {x: 0, y: 1}
+    rangeValueDieHolderSpeed: {x: 1, y: 2}
+    rangeValueDieHolderScore: {x: 0, y: 2}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.95, y: 1.05}
+    rangeValuePulsarHealth: {x: 0, y: 0}
+    rangeValuePulsarDamage: {x: 0, y: 0}
+    rangeValuePulsarSpeed: {x: 0, y: 0}
+    rangeValuePulsarScore: {x: 0, y: 0}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 1, y: 1}
+    rangeMultiplierPulsarChargeDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarHoldDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarBlastDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarCooldownDuration: {x: 1, y: 1}
+  - name: 'Difficulty +2 : 100s'
+    phaseStartTime: 100
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 1}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 1}
+    rangeValueMeleeDetonatorSpeed: {x: 1, y: 2}
+    rangeValueMeleeDetonatorScore: {x: 0, y: 2}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.95, y: 1}
+    rangeValueDieHolderHealth: {x: 2, y: 7}
+    rangeValueDieHolderDamage: {x: 0, y: 1}
+    rangeValueDieHolderSpeed: {x: 0, y: 2}
+    rangeValueDieHolderScore: {x: 1, y: 2}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.95, y: 1}
+    rangeValuePulsarHealth: {x: 0, y: 0}
+    rangeValuePulsarDamage: {x: 0, y: 0}
+    rangeValuePulsarSpeed: {x: 0, y: 0}
+    rangeValuePulsarScore: {x: 0, y: 0}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 1, y: 1}
+    rangeMultiplierPulsarChargeDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarHoldDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarBlastDuration: {x: 1, y: 1}
+    rangeMultiplierPulsarCooldownDuration: {x: 1, y: 1}
+  - name: 'Difficulty +3 : 180s'
+    phaseStartTime: 180
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 1}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 1}
+    rangeValueMeleeDetonatorSpeed: {x: 1, y: 3}
+    rangeValueMeleeDetonatorScore: {x: 1, y: 2}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.9, y: 0.95}
+    rangeValueDieHolderHealth: {x: 5, y: 10}
+    rangeValueDieHolderDamage: {x: 1, y: 2}
+    rangeValueDieHolderSpeed: {x: 1, y: 2}
+    rangeValueDieHolderScore: {x: 2, y: 3}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.9, y: 0.95}
+    rangeValuePulsarHealth: {x: 0, y: 10}
+    rangeValuePulsarDamage: {x: 0, y: 1}
+    rangeValuePulsarSpeed: {x: 0, y: 2}
+    rangeValuePulsarScore: {x: 1, y: 2}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.95, y: 1.05}
+    rangeMultiplierPulsarChargeDuration: {x: 0.9, y: 0.95}
+    rangeMultiplierPulsarHoldDuration: {x: 0.9, y: 1.1}
+    rangeMultiplierPulsarBlastDuration: {x: 1, y: 1.1}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.9, y: 0.95}
+  - name: 'Difficulty +4 : 260s'
+    phaseStartTime: 260
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 2}
+    rangeValueMeleeDetonatorDamage: {x: 1, y: 2}
+    rangeValueMeleeDetonatorSpeed: {x: 1, y: 2}
+    rangeValueMeleeDetonatorScore: {x: 2, y: 3}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.8, y: 0.9}
+    rangeValueDieHolderHealth: {x: 8, y: 12}
+    rangeValueDieHolderDamage: {x: 0, y: 2}
+    rangeValueDieHolderSpeed: {x: 1, y: 2}
+    rangeValueDieHolderScore: {x: 3, y: 5}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.8, y: 0.9}
+    rangeValuePulsarHealth: {x: 5, y: 10}
+    rangeValuePulsarDamage: {x: 0, y: 2}
+    rangeValuePulsarSpeed: {x: 1, y: 2}
+    rangeValuePulsarScore: {x: 1, y: 5}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.8, y: 1}
+    rangeMultiplierPulsarChargeDuration: {x: 0.8, y: 0.9}
+    rangeMultiplierPulsarHoldDuration: {x: 0.8, y: 1.1}
+    rangeMultiplierPulsarBlastDuration: {x: 0.9, y: 1.5}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.8, y: 0.9}
+  - name: 'Difficulty +5 : 400s'
+    phaseStartTime: 400
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 2}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 2}
+    rangeValueMeleeDetonatorSpeed: {x: 2, y: 3}
+    rangeValueMeleeDetonatorScore: {x: 4, y: 6}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.75, y: 0.9}
+    rangeValueDieHolderHealth: {x: 1, y: 12}
+    rangeValueDieHolderDamage: {x: 0, y: 3}
+    rangeValueDieHolderSpeed: {x: 0, y: 2}
+    rangeValueDieHolderScore: {x: 0, y: 5}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.75, y: 0.9}
+    rangeValuePulsarHealth: {x: 0, y: 10}
+    rangeValuePulsarDamage: {x: 0, y: 2}
+    rangeValuePulsarSpeed: {x: 0, y: 2}
+    rangeValuePulsarScore: {x: 1, y: 2}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.8, y: 0.9}
+    rangeMultiplierPulsarChargeDuration: {x: 0.8, y: 0.9}
+    rangeMultiplierPulsarHoldDuration: {x: 0.9, y: 1}
+    rangeMultiplierPulsarBlastDuration: {x: 0.9, y: 1.2}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.8, y: 0.9}
+  - name: 'Difficulty +6 : 500s'
+    phaseStartTime: 500
+    rangeValueMeleeDetonatorHealth: {x: 1, y: 2}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 2}
+    rangeValueMeleeDetonatorSpeed: {x: 1, y: 3}
+    rangeValueMeleeDetonatorScore: {x: 1, y: 2}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.5, y: 0.75}
+    rangeValueDieHolderHealth: {x: 5, y: 10}
+    rangeValueDieHolderDamage: {x: 1, y: 2}
+    rangeValueDieHolderSpeed: {x: 1, y: 2}
+    rangeValueDieHolderScore: {x: 2, y: 3}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.5, y: 0.8}
+    rangeValuePulsarHealth: {x: 0, y: 10}
+    rangeValuePulsarDamage: {x: 0, y: 1}
+    rangeValuePulsarSpeed: {x: 0, y: 2}
+    rangeValuePulsarScore: {x: 1, y: 2}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.75, y: 0.9}
+    rangeMultiplierPulsarChargeDuration: {x: 0.9, y: 0.95}
+    rangeMultiplierPulsarHoldDuration: {x: 0.9, y: 1.1}
+    rangeMultiplierPulsarBlastDuration: {x: 1, y: 1.1}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.9, y: 0.95}
+  - name: 'Difficulty +7 : 750s'
+    phaseStartTime: 750
+    rangeValueMeleeDetonatorHealth: {x: 2, y: 3}
+    rangeValueMeleeDetonatorDamage: {x: 1, y: 2}
+    rangeValueMeleeDetonatorSpeed: {x: 2, y: 3}
+    rangeValueMeleeDetonatorScore: {x: 1, y: 4}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.75, y: 1.1}
+    rangeValueDieHolderHealth: {x: 2, y: 5}
+    rangeValueDieHolderDamage: {x: 0, y: 3}
+    rangeValueDieHolderSpeed: {x: 0, y: 3}
+    rangeValueDieHolderScore: {x: 2, y: 5}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.3, y: 1.1}
+    rangeValuePulsarHealth: {x: 4, y: 8}
+    rangeValuePulsarDamage: {x: 0, y: 2}
+    rangeValuePulsarSpeed: {x: 1, y: 3}
+    rangeValuePulsarScore: {x: 3, y: 5}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.5, y: 0.9}
+    rangeMultiplierPulsarChargeDuration: {x: 0.8, y: 0.9}
+    rangeMultiplierPulsarHoldDuration: {x: 0.8, y: 1.1}
+    rangeMultiplierPulsarBlastDuration: {x: 0.95, y: 1.25}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.75, y: 0.9}
+  - name: 'Difficulty +8 : 1000s'
+    phaseStartTime: 1000
+    rangeValueMeleeDetonatorHealth: {x: 2, y: 5}
+    rangeValueMeleeDetonatorDamage: {x: 2, y: 5}
+    rangeValueMeleeDetonatorSpeed: {x: 2, y: 5}
+    rangeValueMeleeDetonatorScore: {x: 2, y: 5}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0.25, y: 0.5}
+    rangeValueDieHolderHealth: {x: 10, y: 30}
+    rangeValueDieHolderDamage: {x: 10, y: 30}
+    rangeValueDieHolderSpeed: {x: 10, y: 30}
+    rangeValueDieHolderScore: {x: 30, y: 75}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0.3, y: 0.6}
+    rangeValuePulsarHealth: {x: 20, y: 40}
+    rangeValuePulsarDamage: {x: 20, y: 40}
+    rangeValuePulsarSpeed: {x: 20, y: 40}
+    rangeValuePulsarScore: {x: 50, y: 100}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0.25, y: 0.5}
+    rangeMultiplierPulsarChargeDuration: {x: 0.4, y: 0.6}
+    rangeMultiplierPulsarHoldDuration: {x: 0.4, y: 0.6}
+    rangeMultiplierPulsarBlastDuration: {x: 1.2, y: 2}
+    rangeMultiplierPulsarCooldownDuration: {x: 0.4, y: 0.6}
+  nextDifficulty:
+    name: 
+    phaseStartTime: 0
+    rangeValueMeleeDetonatorHealth: {x: 0, y: 0}
+    rangeValueMeleeDetonatorDamage: {x: 0, y: 0}
+    rangeValueMeleeDetonatorSpeed: {x: 0, y: 0}
+    rangeValueMeleeDetonatorScore: {x: 0, y: 0}
+    rangeValueMeleeDetonatorRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierMeleeDetonatorSpawnInterval: {x: 0, y: 0}
+    rangeValueDieHolderHealth: {x: 0, y: 0}
+    rangeValueDieHolderDamage: {x: 0, y: 0}
+    rangeValueDieHolderSpeed: {x: 0, y: 0}
+    rangeValueDieHolderScore: {x: 0, y: 0}
+    rangeValueDieHolderRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierDieHolderSpawnInterval: {x: 0, y: 0}
+    rangeValuePulsarHealth: {x: 0, y: 0}
+    rangeValuePulsarDamage: {x: 0, y: 0}
+    rangeValuePulsarSpeed: {x: 0, y: 0}
+    rangeValuePulsarScore: {x: 0, y: 0}
+    rangeValuePulsaRotationalSpeed: {x: 0, y: 0}
+    rangeMultiplierPulsarSpawnInterval: {x: 0, y: 0}
+    rangeMultiplierPulsarChargeDuration: {x: 0, y: 0}
+    rangeMultiplierPulsarHoldDuration: {x: 0, y: 0}
+    rangeMultiplierPulsarBlastDuration: {x: 0, y: 0}
+    rangeMultiplierPulsarCooldownDuration: {x: 0, y: 0}
+  nextDifficultyIndex: 1
+--- !u!4 &1917507609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917507607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2013013455
 GameObject:
   m_ObjectHideFlags: 0
@@ -5253,7 +5577,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2117652975
 GameObject:
@@ -5337,7 +5661,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!65 &2117652980
 BoxCollider:
@@ -5768,7 +6092,7 @@ PrefabInstance:
     - target: {fileID: 2664271347844443279, guid: 92acf64eeebc8f94183ff5ceeac8b9ee,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 2664271347844443279, guid: 92acf64eeebc8f94183ff5ceeac8b9ee,
         type: 3}
@@ -6285,7 +6609,7 @@ RectTransform:
   - {fileID: 7637676812307825358}
   - {fileID: 50355129}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

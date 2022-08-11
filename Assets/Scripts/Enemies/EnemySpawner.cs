@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
 	[System.Serializable]
 	public class EnemySpawnType
 	{
-		public string name;
+		public EnemyType type;
 		public GameObject prefab;
 		[Space]
 		public float delayBeforeStart;
@@ -20,21 +20,20 @@ public class EnemySpawner : MonoBehaviour
 		[Space]
 		[HideInInspector] public float timeLeftBeforeSpawn;
 
-		public bool IsReadyToSpawn() { return (timeSinceStart >= delayBeforeStart) && (timeLeftBeforeSpawn <= 0.0f); }
+		public bool IsReadyToSpawn() { return (GameManager.timeSinceStart >= delayBeforeStart) && (timeLeftBeforeSpawn <= 0.0f); }
 		public void UpdateTimeBeforeSpawn() { timeLeftBeforeSpawn -= Time.deltaTime; }
 		public void ResetTimeBeforeSpawn() { timeLeftBeforeSpawn = Random.Range(intervalRange.x, intervalRange.y); }
 	}
 	#endregion
 
 	[Header("COLLECTIONS")]
-	[SerializeField] private List<EnemySpawnType> _spawnTypes;
+	public List<EnemySpawnType> spawnTypes;
 	public List<Enemy> Enemies { get; private set; }
 
 	[Header("SPAWN DATA")]
 	public float spawnRadius = 80f;
 	public float spawnPlayerDetectionRadius = 3f;
 
-	private static float timeSinceStart = 0.0f;
 	private Transform _rootTransform;
 
 
@@ -45,14 +44,13 @@ public class EnemySpawner : MonoBehaviour
 		if (Enemies == null) { Enemies = new List<Enemy>(); }
 
 		if (_rootTransform == null) { _rootTransform = transform; }
-		if (timeSinceStart != 0.0f) { timeSinceStart = 0.0f; }
 
 		InitSpawnTypes();
 	}
 
 	private void InitSpawnTypes()
 	{
-		foreach (EnemySpawnType type in _spawnTypes)
+		foreach (EnemySpawnType type in spawnTypes)
 			type.ResetTimeBeforeSpawn();
 	}
 
@@ -68,9 +66,7 @@ public class EnemySpawner : MonoBehaviour
 		{
 			if (GameManager.IsPlaying)
 			{
-				timeSinceStart += Time.deltaTime;
-
-				foreach (EnemySpawnType type in _spawnTypes)
+				foreach (EnemySpawnType type in spawnTypes)
 				{
 					type.UpdateTimeBeforeSpawn();
 
@@ -134,8 +130,29 @@ public class EnemySpawner : MonoBehaviour
         return closestEnemy;
     }
 
-	public void IncreaseDifficulty(float spawnMultiplier, float enemyStatMultiplier)
+	#region QUALITY OF LIFE
+	public List<Enemy> GetEnemiesByType(EnemyType type)
 	{
-		// [TO DO] Increase enemies stats and other behaviours
+		List<Enemy> enemies = new List<Enemy>();
+		foreach (Enemy enemy in Enemies)
+		{
+			if (enemy.type == type)
+				enemies.Add(enemy);
+		}
+
+		return enemies;
 	}
+
+	public List<Enemy_Pulsar> GetEnemiesAsPulsar()
+	{
+		List<Enemy_Pulsar> enemies = new List<Enemy_Pulsar>();
+		foreach (Enemy enemy in Enemies)
+		{
+			if (enemy.type == EnemyType.PULSAR)
+				enemies.Add((Enemy_Pulsar)enemy);
+		}
+
+		return enemies;
+	}
+	#endregion
 }

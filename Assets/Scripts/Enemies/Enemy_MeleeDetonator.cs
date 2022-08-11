@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class Enemy_MeleeDetonator : Enemy
 {
+	#region INITIALIZATION
+	protected override void Awake()
+	{
+		base.Awake();
+
+		BaseDataManager.BaseData_Enemy_MeleeDetonator baseData = BaseDataManager.baseDataEnemy_MeleeDetonator;
+		health = baseData.health;
+		speed = baseData.speed;
+		damage = baseData.damage;
+		scoreWhenKilled = baseData.scoreWhenKilled;
+		rotationalSpeed = baseData.rotationalSpeed;
+	}
+	#endregion
+
 	#region GAMEPLAY
 	protected override void Kill(float delay = 0)
 	{

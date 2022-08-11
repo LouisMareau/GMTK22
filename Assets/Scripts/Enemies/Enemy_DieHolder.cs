@@ -7,6 +7,20 @@ public class Enemy_DieHolder : Enemy
 	[Header("DICE")]
 	[SerializeField] private GameObject _associatedDice;
 
+	#region INITIALIZATION
+	protected override void Awake()
+	{
+		base.Awake();
+
+		BaseDataManager.BaseData_Enemy_DieHolder baseData = BaseDataManager.baseDataEnemy_DieHolder;
+		health = baseData.health;
+		speed = baseData.speed;
+		damage = baseData.damage;
+		scoreWhenKilled = baseData.scoreWhenKilled;
+		rotationalSpeed = baseData.rotationalSpeed;
+	}
+	#endregion
+
 	#region GAMEPLAY
 	public override void TakeDamage(float damage)
 	{

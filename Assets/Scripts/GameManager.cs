@@ -25,38 +25,31 @@ public class GameManager : MonoBehaviour
 	public static bool IsFrozen { get { return gameState == GameState.FREEZE; } }
 	public static bool IsPausedOrFrozen { get { return gameState == (GameState.PAUSE | GameState.FREEZE); } }
 
+	public static float timeSinceStart { get; private set; }
+
 	[Header("GAME SETUP")]
 	public int speedOnStart = 3;
 	public int livesAmountOnStart = 3;
 	public int damageOnStart = 3;
 	public int fireRateStandardOnStart = 3;
 	public int fireRateSeekerOnStart = 0;
-	public int projectileAmountOnStart = 1;
-
-	[Header("DICE")]
-
-	[Header("SCORING")]
-	public int score;
-
-	[Header("DIFFICULTY SCALING")]
-	public float timeBeforeBuff = 30f;
-	[Space]
-	public float spawnMultplier = 0.9f;
-	public float enemyStatsMultiplier = 1.1f;
 
 	#region INITIALIZATION
 	private void Awake()
 	{
 		Instance = this;
 
-
-	}
-
-	private void Start()
-	{
-		IncreaseDifficulty();
+		if (timeSinceStart != 0.0f) { timeSinceStart = 0.0f; }
 	}
 	#endregion
+
+	private void Update()
+	{
+		if (IsPlaying)
+		{
+			timeSinceStart += Time.deltaTime;
+		}
+	}
 
 	#region GAMEPLAY
 
@@ -84,22 +77,6 @@ public class GameManager : MonoBehaviour
 				if (Time.timeScale > 0.0f)
 					Time.timeScale = 0.0f;
 				break;
-		}
-	}
-	#endregion
-
-	#region DIFFICULTY SCALING
-	private void IncreaseDifficulty() { StartCoroutine(IncreaseDifficulty_Coroutine()); }
-	private IEnumerator IncreaseDifficulty_Coroutine()
-	{
-		while (true)
-		{
-			if (IsPlaying)
-			{
-				yield return new WaitForSeconds(timeBeforeBuff);
-				// Difficulty Scaling code here...
-			}
-			else yield return null;
 		}
 	}
 	#endregion

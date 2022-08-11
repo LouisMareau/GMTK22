@@ -15,15 +15,12 @@ public abstract class Enemy : MonoBehaviour
 {
 	public EnemyType type;
 
-	[Header("DATA")]
-	[SerializeField] protected float _baseHealth = 1f;
-	[SerializeField] protected float _baseSpeed = 5f;
-	[SerializeField] protected int _baseDamage = 1;
-	[Space]
-	[SerializeField] protected float _rotationalSpeed = 10f;
 	public float health { get; protected set; }
 	public float speed { get; protected set; }
 	public int damage { get; protected set; }
+	public int scoreWhenKilled { get; protected set; }
+	public float rotationalSpeed { get; protected set; }
+
 	public Vector3 currentDirection { get; protected set; }
 	public float distanceFromPlayer { get; protected set; }
 
@@ -33,7 +30,6 @@ public abstract class Enemy : MonoBehaviour
 
 	[Header("SCORING")]
 	[SerializeField] protected int _baseScoreWhenKilled = 1;
-	public int scoreWhenKilled { get; protected set; }
 
 	[Header("LOCAL REFERENCES")]
 	[HideInInspector] public Transform targetTransform;
@@ -44,18 +40,13 @@ public abstract class Enemy : MonoBehaviour
 	protected Transform _playerTransform;
 
 	#region INITILIZATION
-	private void Awake()
+	protected virtual void Awake()
 	{
 		if (_rootTransform == null) { _rootTransform = transform; }
 		if (_meshTransform == null) { _meshTransform = _rootTransform.GetChild(0); }
 		if (_collider == null) { _collider = GetComponent<SphereCollider>(); }
 		if (_playerTransform == null) { _playerTransform = StaticReferences.Instance.playerTransform; }
 		if (targetTransform == null) { targetTransform = _meshTransform; }
-
-		health = _baseHealth;
-		speed = _baseSpeed;
-		damage = _baseDamage;
-		scoreWhenKilled = _baseScoreWhenKilled;
 	}
 	#endregion
 
@@ -69,8 +60,17 @@ public abstract class Enemy : MonoBehaviour
 			distanceFromPlayer = CalculateDistanceFromPlayer();
 
 			MoveTowards(currentDirection, speed);
-			RotateTowards(_playerTransform.position, _rotationalSpeed);
+			RotateTowards(_playerTransform.position, rotationalSpeed);
 		}
+	}
+
+	public virtual void UpdateData(float health, float speed, int damage, int scoreWhenKilled, float rotationalSpeed)
+	{
+		this.health = health;
+		this.speed = speed;
+		this.damage = damage;
+		this.scoreWhenKilled = scoreWhenKilled;
+		this.rotationalSpeed = rotationalSpeed;
 	}
 
 	#region GAMEPLAY

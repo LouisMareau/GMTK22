@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Enemy_Pulsar : Enemy
 {
-	[Header("PULSAR")]
+	public float siegeDuration { get; private set; }
+	public float chargeDuration { get; private set; }
+	public float holdDuration { get; private set; }
+	public float blastDuration { get; private set; }
+	public float cooldownDuration { get; private set; }
+
+	[Header("PULSAR GENERAL")]
 	[SerializeField] private float minDistanceFromPlayer = 30f;
-	[Space]
-	[SerializeField] private float _siegeDuration = 0.7f;
-	[SerializeField] private float _chargeDuration = 3.5f;
-	[SerializeField] private float _holdDuration = 0.3f;
-	[SerializeField] private float _blastDuration = 2.0f;
-	[SerializeField] private float _cooldownDuration = 6.0f;
 	[Space]
 	[SerializeField] private AnimationCurve _blastSizeOverTime;
 
@@ -26,6 +26,25 @@ public class Enemy_Pulsar : Enemy
 
 	private bool _isAttacking = false;
 	private bool _canRotate = true;
+
+	#region INITIALIZATION
+	protected override void Awake()
+	{
+		base.Awake();
+
+		BaseDataManager.BaseData_Enemy_Pulsar baseData = BaseDataManager.baseDataEnemy_Pulsar;
+		health = baseData.health;
+		speed = baseData.speed;
+		damage = baseData.damage;
+		scoreWhenKilled = baseData.scoreWhenKilled;
+		rotationalSpeed = baseData.rotationalSpeed;
+		chargeDuration = baseData.chargeDuration;
+		holdDuration = baseData.holdDuration;
+		blastDuration = baseData.blastDuration;
+		cooldownDuration = baseData.cooldownDuration;
+		siegeDuration = chargeDuration / 4.0f;
+	}
+	#endregion
 
 	protected override void Update()
 	{
@@ -51,8 +70,22 @@ public class Enemy_Pulsar : Enemy
 			}
 
 			if (_canRotate)
-				RotateTowards(_playerTransform.position, _rotationalSpeed);
+				RotateTowards(_playerTransform.position, rotationalSpeed);
 		}
+	}
+
+	public void UpdateData(float health, float speed, int damage, int scoreWhenKilled, float rotationalSpeed, float chargeDuration, float holdDuration, float blastDuration, float cooldownDuration)
+	{
+		this.health = health;
+		this.speed = speed;
+		this.damage = damage;
+		this.scoreWhenKilled = scoreWhenKilled;
+		this.rotationalSpeed = rotationalSpeed;
+		this.chargeDuration = chargeDuration;
+		this.holdDuration = holdDuration;
+		this.blastDuration = blastDuration;
+		this.cooldownDuration = cooldownDuration;
+		this.siegeDuration = chargeDuration / 4.0f;
 	}
 
 	#region GAMEPLAY
@@ -64,13 +97,13 @@ public class Enemy_Pulsar : Enemy
 	{
 		Vector3 blastDirection = currentDirection;
 
-		_energyRing.StartSieging(_siegeDuration);
-		_energyRing.StartEnergyFlow(_chargeDuration + 0.5f);
+		_energyRing.StartSieging(siegeDuration);
+		_energyRing.StartEnergyFlow(chargeDuration + 0.5f);
 
 		PlayAnim_TargetingLaser();
 
 		float timer = 0;
-		while (timer < _chargeDuration)
+		while (timer < chargeDuration)
 		{
 			if (GameManager.IsPlaying)
 				timer += Time.deltaTime;
@@ -89,7 +122,7 @@ public class Enemy_Pulsar : Enemy
 
 		// Short hold before firing
 		float timer = 0.0f;
-		while (timer <= _holdDuration)
+		while (timer <= holdDuration)
 		{
 			if (GameManager.IsPlaying)
 				timer += Time.deltaTime;
@@ -98,11 +131,11 @@ public class Enemy_Pulsar : Enemy
 		}
 
 		PlayAnim_Blast();
-		_energyRing.StopEnergyFlow(_blastDuration + _cooldownDuration);
+		_energyRing.StopEnergyFlow(blastDuration + cooldownDuration);
 
 		// launch blast
 		timer = 0.0f;
-		while (timer <= _blastDuration)
+		while (timer <= blastDuration)
 		{
 			if (GameManager.IsPlaying)
 			{
@@ -128,13 +161,13 @@ public class Enemy_Pulsar : Enemy
 	private void SetCooldown() { StartCoroutine(SetCooldown_Coroutine()); }
 	private IEnumerator SetCooldown_Coroutine()
 	{
-		_energyRing.StopSieging(_cooldownDuration / 5.0f);
+		_energyRing.StopSieging(cooldownDuration / 5.0f);
 
 		// We can reset to the base behaviour
 		_canRotate = true;
 
 		float timer = 0;
-		while (timer <= _cooldownDuration)
+		while (timer <= cooldownDuration)
 		{
 			if (GameManager.IsPlaying)
 				timer += Time.deltaTime;
@@ -151,6 +184,9 @@ public class Enemy_Pulsar : Enemy
 
 		if (_targetingLaserInstance != null)
 			Destroy(_targetingLaserInstance);
+
+		if (_blastInstance != null)
+			Destroy(_blastInstance);
 
 		base.Kill(delay);
 	}
@@ -179,9 +215,9 @@ public class Enemy_Pulsar : Enemy
 		LineRenderer lr = _targetingLaserInstance.GetComponentInChildren<LineRenderer>();
 
 		float timer = 0;
-		while (timer < _chargeDuration)
+		while (timer < chargeDuration)
 		{
-			Vector3 laser = new Vector3(0, 0, Mathf.Lerp(0.0f, 80.0f, timer / _chargeDuration));
+			Vector3 laser = new Vector3(0, 0, Mathf.Lerp(0.0f, 80.0f, timer / chargeDuration));
 			lr.SetPosition(1, laser);
 
 			timer += Time.deltaTime;
@@ -199,9 +235,9 @@ public class Enemy_Pulsar : Enemy
 		LineRenderer lr = _blastInstance.GetComponentInChildren<LineRenderer>();
 
 		float timer = 0;
-		while (timer < _blastDuration)
+		while (timer < blastDuration)
 		{
-			lr.widthMultiplier = _blastSizeOverTime.Evaluate(timer / _blastDuration) + Random.Range(0.9f, 1.1f);
+			lr.widthMultiplier = _blastSizeOverTime.Evaluate(timer / blastDuration) + Random.Range(0.9f, 1.1f);
 
 			timer += Time.deltaTime;
 			yield return null;

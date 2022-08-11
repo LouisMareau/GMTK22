@@ -519,12 +519,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  _baseHealth: 40
-  _baseSpeed: 5
-  _baseDamage: 5
-  _rotationalSpeed: 10
   _prefabVFX_spawn: {fileID: 0}
-  _prefabVFX_death: {fileID: 757771216711658124, guid: 274754f1eba648d4ab8cac8e19ae04d1,
+  _prefabVFX_death: {fileID: 37420233574753322, guid: 4f0885dd86159b84ca06f8c658beb052,
     type: 3}
   _baseScoreWhenKilled: 10
   targetTransform: {fileID: 0}
@@ -532,11 +528,6 @@ MonoBehaviour:
   _meshTransform: {fileID: 8671236061231469581}
   _collider: {fileID: 8556721799987963545}
   minDistanceFromPlayer: 45
-  _siegeDuration: 0.5
-  _chargeDuration: 1.2
-  _holdDuration: 0.3
-  _blastDuration: 2
-  _cooldownDuration: 1
   _blastSizeOverTime:
     serializedVersion: 2
     m_Curve:

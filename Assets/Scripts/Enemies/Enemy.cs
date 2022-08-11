@@ -38,6 +38,7 @@ public abstract class Enemy : MonoBehaviour
 	[SerializeField] protected Collider _collider;
 
 	protected Transform _playerTransform;
+	protected float _spawnTime;
 
 	#region INITILIZATION
 	protected virtual void Awake()

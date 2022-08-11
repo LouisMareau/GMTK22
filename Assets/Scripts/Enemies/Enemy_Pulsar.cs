@@ -12,6 +12,7 @@ public class Enemy_Pulsar : Enemy
 
 	[Header("PULSAR GENERAL")]
 	[SerializeField] private float minDistanceFromPlayer = 30f;
+	[SerializeField] private float delayBeforeReady = 2.0f;
 	[Space]
 	[SerializeField] private AnimationCurve _blastSizeOverTime;
 
@@ -43,6 +44,8 @@ public class Enemy_Pulsar : Enemy
 		blastDuration = baseData.blastDuration;
 		cooldownDuration = baseData.cooldownDuration;
 		siegeDuration = chargeDuration / 4.0f;
+
+		_spawnTime = GameManager.timeSinceStart;
 	}
 	#endregion
 
@@ -57,7 +60,7 @@ public class Enemy_Pulsar : Enemy
 
 			if (!_isAttacking)
 			{
-				if (CameraHelper.IsWithinBounds(_rootTransform.position))
+				if (IsReady() && CameraHelper.IsWithinBounds(_rootTransform.position))
 					if (IsInRangeForPulsarCharge())
 					{
 						StartCharging();
@@ -91,6 +94,7 @@ public class Enemy_Pulsar : Enemy
 	#region GAMEPLAY
 	private bool IsTooFarFromPlayer() { return distanceFromPlayer > minDistanceFromPlayer; }
 	private bool IsInRangeForPulsarCharge() { return distanceFromPlayer <= minDistanceFromPlayer; }
+	private bool IsReady() { return GameManager.timeSinceStart >= _spawnTime + delayBeforeReady; }
 
 	private void StartCharging() { StartCoroutine(StartCharging_Coroutine()); }
 	private IEnumerator StartCharging_Coroutine()

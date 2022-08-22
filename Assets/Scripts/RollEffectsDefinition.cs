@@ -18,11 +18,11 @@ public class RollEffectsDefinition : MonoBehaviour
 	#region ROLL EFFECTS
 	public void PowerUp()
 	{
-		StaticReferences.Instance.playerData.GainLife(1);
+		HealthManager.Instance.GainHealth(1);
 	}
 	public void PowerUpPlus()
 	{
-		StaticReferences.Instance.playerData.GainLife(2);
+		HealthManager.Instance.GainHealth(2);
 	}
 	public void RollWithTheFlow()
 	{
@@ -168,7 +168,7 @@ public class RollEffectsDefinition : MonoBehaviour
 
 			if (enemiesKilledWithinInterval >= enemiesKilledForBonus)
 			{
-				StaticReferences.Instance.playerData.GainLife(1);
+				HealthManager.Instance.GainHealth(1);
 				break;
 			}
 
@@ -215,7 +215,7 @@ public class RollEffectsDefinition : MonoBehaviour
 
 			if (enemiesKilledWithinInterval >= enemiesKilledForMalus)
 			{
-				StaticReferences.Instance.playerData.LoseLife(1);
+				HealthManager.Instance.LoseHealth(1);
 				break;
 			}
 
@@ -232,7 +232,7 @@ public class RollEffectsDefinition : MonoBehaviour
 		_hasNotTodayActivated = false;
 		float duration = 60f;
 
-		PlayerData.onFatalDamageApplied += NotToday_OnEvent;
+		HealthManager.onFatalDamageApplied += NotToday_OnEvent;
 
 		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.NOT_TODAY_ACTIVE;
 
@@ -249,7 +249,7 @@ public class RollEffectsDefinition : MonoBehaviour
 		// At the end of the effect, we simply reset the status to the default one
 		StaticReferences.Instance.playerData.status = PlayerData.PlayerStatus.DEFAULT;
 
-		PlayerData.onFatalDamageApplied -= NotToday_OnEvent;
+		HealthManager.onFatalDamageApplied -= NotToday_OnEvent;
 	}
 
 	private bool _isMagicFingersExcecuting = false;

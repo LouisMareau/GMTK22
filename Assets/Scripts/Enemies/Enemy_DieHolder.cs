@@ -22,6 +22,17 @@ public class Enemy_DieHolder : Enemy
 	#endregion
 
 	#region GAMEPLAY
+	public override void UpdateData(float health, float speed, int damage, int scoreWhenKilled, float rotationalSpeed)
+	{
+		base.UpdateData(health, speed, damage, scoreWhenKilled, rotationalSpeed);
+
+		HUDManager.overlayData.enemyDHHealth.Set("Health", health);
+		HUDManager.overlayData.enemyDHSpeed.Set("Speed", speed);
+		HUDManager.overlayData.enemyDHDamage.Set("Damage", damage);
+		HUDManager.overlayData.enemyDHScoreOnKill.Set("Score On Kill", scoreWhenKilled);
+		HUDManager.overlayData.enemyDHRotationSpeed.Set("Rotation Speed", rotationalSpeed);
+	}
+
 	public override void TakeDamage(float damage)
 	{
 		health -= damage;
@@ -64,7 +75,7 @@ public class Enemy_DieHolder : Enemy
 		if (other.tag == "Player")
 		{
 			PlayerController player = other.GetComponent<PlayerController>();
-			player.data.LoseLife(damage);
+			player.data.LoseHealth(damage);
 
 			LaunchDice();
 			Kill();

@@ -42,7 +42,9 @@ public class EnemyFeature_EnergyRing : MonoBehaviour
 			float factor = Mathf.Pow(2.0f, intensity * Random.Range(0.92f, 1.08f));
 			_energyMaterial.SetColor("_EmissionColor", new Color(_energyColor.r * factor, _energyColor.g * factor, _energyColor.b * factor));
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -57,7 +59,9 @@ public class EnemyFeature_EnergyRing : MonoBehaviour
 		{
 			_rootTransform.position = Vector3.Lerp(_originPosition - _siegePositionOffset, _originPosition, timer / duration);
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 	}
@@ -72,7 +76,9 @@ public class EnemyFeature_EnergyRing : MonoBehaviour
 			float factor = Mathf.Pow(2.0f, intensity * Random.Range(0.92f, 1.08f));
 			_energyMaterial.SetColor("_EmissionColor", new Color(_energyColor.r * factor, _energyColor.g * factor, _energyColor.b * factor));
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 	}
@@ -87,7 +93,9 @@ public class EnemyFeature_EnergyRing : MonoBehaviour
 			float factor = Mathf.Pow(2, intensity);
 			_energyMaterial.SetColor("_EmissionColor", new Color(_energyColor.r * factor, _energyColor.g * factor, _energyColor.b * factor));
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 	}

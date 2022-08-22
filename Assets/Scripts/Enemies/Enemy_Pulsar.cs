@@ -89,6 +89,16 @@ public class Enemy_Pulsar : Enemy
 		this.blastDuration = blastDuration;
 		this.cooldownDuration = cooldownDuration;
 		this.siegeDuration = chargeDuration / 4.0f;
+
+		HUDManager.overlayData.enemyPHealth.Set("Health", health);
+		HUDManager.overlayData.enemyPSpeed.Set("Speed", speed);
+		HUDManager.overlayData.enemyPDamage.Set("Damage", damage);
+		HUDManager.overlayData.enemyPScoreOnKill.Set("Score On Kill", scoreWhenKilled);
+		HUDManager.overlayData.enemyPRotationSpeed.Set("Rotation Speed", rotationalSpeed);
+		HUDManager.overlayData.enemyPChargeDuration.Set("Charge Duration", chargeDuration);
+		HUDManager.overlayData.enemyPHoldDuration.Set("Hold Duration", holdDuration);
+		HUDManager.overlayData.enemyPBlastDuration.Set("Blast Duration", blastDuration);
+		HUDManager.overlayData.enemyPCooldownDuration.Set("Cooldown Duration", cooldownDuration);
 	}
 
 	#region GAMEPLAY
@@ -148,8 +158,10 @@ public class Enemy_Pulsar : Enemy
 				{
 					if (hit.collider.CompareTag("Player"))
 					{
-						PlayerController player = hit.collider.GetComponent<PlayerController>();
-						player.data.LoseLife(damage);
+						HealthManager.Instance.LoseHealth(damage);
+
+						Destroy(_blastInstance);
+						break;
 					}
 				}
 
@@ -202,7 +214,7 @@ public class Enemy_Pulsar : Enemy
 		if (other.tag == "Player")
 		{
 			PlayerController player = other.GetComponent<PlayerController>();
-			player.data.LoseLife(damage);
+			HealthManager.Instance.LoseHealth(damage);
 			player.PlayAnim_HitSparks();
 
 			Kill();
@@ -224,7 +236,9 @@ public class Enemy_Pulsar : Enemy
 			Vector3 laser = new Vector3(0, 0, Mathf.Lerp(0.0f, 80.0f, timer / chargeDuration));
 			lr.SetPosition(1, laser);
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -243,7 +257,9 @@ public class Enemy_Pulsar : Enemy
 		{
 			lr.widthMultiplier = _blastSizeOverTime.Evaluate(timer / blastDuration) + Random.Range(0.9f, 1.1f);
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 

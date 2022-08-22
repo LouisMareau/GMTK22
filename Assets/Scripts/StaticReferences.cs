@@ -15,6 +15,7 @@ public class StaticReferences : MonoBehaviour
 	[Space]
 	public Transform playerTransform;
 	public PlayerData playerData;
+	public PlayerController playerController;
 	[Space]
 	public Transform miscs;
 	[Space]

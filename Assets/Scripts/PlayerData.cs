@@ -20,40 +20,37 @@ public class PlayerData : MonoBehaviour
 	public PlayerStatus status = PlayerStatus.DEFAULT;
 	
 	[Header("HEALTH")]
-	public int lives;
+	public HealthManager healthManager;
 
 	[Header("MOVEMENT")]
-	public float speed;
+	[HideInInspector] public float speed;
 
 	[Header("SHOOTING")]
-	public float baseDamage;
-	public float finalDamage;
+	[HideInInspector] public float baseDamage;
+	[HideInInspector] public float finalDamage;
 
-	public float baseFireRateStandard;
-	public float finalFireRateStandard;
+	[HideInInspector] public float baseFireRateStandard;
+	[HideInInspector] public float finalFireRateStandard;
 
-	public float baseFireRateSeeker;
-	public float finalFireRateSeeker;
+	[HideInInspector] public float baseFireRateSeeker;
+	[HideInInspector] public float finalFireRateSeeker;
 
-	public float baseRadius;
-	public float finalRadius;
-
-
-	public delegate void OnFatalDamageApplied();
-	public static event OnFatalDamageApplied onFatalDamageApplied;
+	[HideInInspector] public float baseRadius;
+	[HideInInspector] public float finalRadius;
 
 	#region INITIALIZATION
 	private void Awake()
 	{
 		if (_playerController == null) { _playerController = GetComponent<PlayerController>(); }
 
-		speed = GameManager.Instance.speedOnStart;
-		lives = GameManager.Instance.livesAmountOnStart;
-		baseDamage = GameManager.Instance.damageOnStart;
+		BaseDataManager.BaseData_Player baseData = BaseDataManager.baseDataPlayer;
+
+		speed = baseData.speed;
+		baseDamage = baseData.damage;
 		finalDamage = baseDamage;
-		baseFireRateStandard = GameManager.Instance.fireRateStandardOnStart;
+		baseFireRateStandard = baseData.firerateStandard;
 		finalFireRateStandard = baseFireRateStandard;
-		baseFireRateSeeker = GameManager.Instance.fireRateSeekerOnStart;
+		baseFireRateSeeker = baseData.firerateSeeker;
 		finalFireRateSeeker = baseFireRateSeeker;
 
 		HUDManager.Instance.UpdateSpeedLabel(speed);
@@ -65,31 +62,8 @@ public class PlayerData : MonoBehaviour
 	}
 	#endregion
 
-	public void GainLife(int amount)
-	{
-		lives += amount;
-		HUDManager.Instance.GainLife(amount);
-	}
-	public void LoseLife(int amount)
-	{
-		lives -= amount;
-		HUDManager.Instance.LoseLife(amount);
-
-		if (lives <= 0)
-		{
-			if (onFatalDamageApplied != null)
-			{
-				onFatalDamageApplied.Invoke(); // This will change status to NOT_TODAY_ACTIVE (and start the coroutine associated with the effect "Not Today!")
-				GainLife(amount);
-			}
-
-			if (status != PlayerStatus.NOT_TODAY_ACTIVE)
-			{
-				_playerController.Kill();
-				GameManager.Instance.GameOver();
-			}
-		}
-	}
+	public void GainHealth(int amount) { healthManager.GainHealth(amount); }
+	public void LoseHealth(int amount) { healthManager.LoseHealth(amount); }
 
 	public void UpdateSpeed(float extraAmount)
 	{
@@ -97,30 +71,21 @@ public class PlayerData : MonoBehaviour
 		HUDManager.Instance.UpdateSpeedLabel(speed);
 	}
 
-	public void UpdateBaseDamage(float extraAmount)
-	{
-		baseDamage += extraAmount;
-	}
+	public void UpdateBaseDamage(float extraAmount) { baseDamage += extraAmount; }
 	public void UpdateFinalDamage(float multiplier)
 	{
 		finalDamage = baseDamage * multiplier;
 		HUDManager.Instance.UpdateDamageLabel(finalDamage);
 	}
 
-	public void UpdateBaseFireRateStandard(float extraAmount)
-	{
-		baseFireRateStandard += extraAmount;
-	}
+	public void UpdateBaseFireRateStandard(float extraAmount) { baseFireRateStandard += extraAmount; }
 	public void UpdateFinalFireRateStandard(float multiplier)
 	{
 		finalFireRateStandard = baseFireRateStandard * multiplier;
 		HUDManager.Instance.UpdateFireRateStandardLabel(finalFireRateStandard);
 	}
 
-	public void UpdateBaseFireRateSeeker(float extraAmount)
-	{
-		baseFireRateSeeker += extraAmount;
-	}
+	public void UpdateBaseFireRateSeeker(float extraAmount) { baseFireRateSeeker += extraAmount; }
 	public void UpdateFinalFireRateSeeker(float multiplier)
 	{
 		finalFireRateSeeker = baseFireRateSeeker * multiplier;

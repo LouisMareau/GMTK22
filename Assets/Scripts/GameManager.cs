@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,10 @@ using UnityEngine.SceneManagement;
 #region GAME STATE
 public enum GameState
 {
-	PLAY,   // Default runtime behaviour
-	PAUSE,  // Paused but Time.timeScale = 1
-	FREEZE  // Paused but Time.timeScale = 0
+	MAIN_MENU,	// Set when the player is on the Main Menu
+	PLAY,		// Default runtime behaviour
+	PAUSE,		// Paused state (pause menu should be open)
+	GAME_OVER	// Set during the Game Over state
 }
 #endregion
 
@@ -22,22 +24,16 @@ public class GameManager : MonoBehaviour
 	public static GameState gameState = GameState.PLAY;
 	public static bool IsPlaying { get { return gameState == GameState.PLAY; } }
 	public static bool IsPaused { get { return gameState == GameState.PAUSE; } }
-	public static bool IsFrozen { get { return gameState == GameState.FREEZE; } }
-	public static bool IsPausedOrFrozen { get { return gameState == (GameState.PAUSE | GameState.FREEZE); } }
+	public static bool IsGameOver { get { return gameState == GameState.GAME_OVER; } }
 
 	public static float timeSinceStart { get; private set; }
-
-	[Header("GAME SETUP")]
-	public int speedOnStart = 3;
-	public int livesAmountOnStart = 3;
-	public int damageOnStart = 3;
-	public int fireRateStandardOnStart = 3;
-	public int fireRateSeekerOnStart = 0;
 
 	#region INITIALIZATION
 	private void Awake()
 	{
 		Instance = this;
+
+		Cursor.lockState = CursorLockMode.Confined;
 
 		if (timeSinceStart != 0.0f) { timeSinceStart = 0.0f; }
 	}
@@ -45,13 +41,36 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (IsPlaying)
+		if (IsPlaying && !IsGameOver)
 		{
 			timeSinceStart += Time.deltaTime;
 		}
 	}
 
 	#region GAMEPLAY
+
+	#region TIMER
+	public static string GetTimerString()
+	{
+		TimeSpan timespan = new TimeSpan(0, 0, Mathf.FloorToInt(timeSinceStart));
+
+		// Seconds
+		string sec = timespan.Seconds >= 10 ? timespan.Seconds.ToString() : $"0{ timespan.Seconds }";
+
+		// Minutes
+		string min = timespan.Minutes >= 10 ? timespan.Minutes.ToString() : $"0{ timespan.Minutes }";
+
+		// Hours
+		string hou = timespan.Hours >= 10 ? timespan.Hours.ToString() : $"0{ timespan.Hours }";
+
+		if (timespan.Hours > 0)
+			return $"{ hou }:{ min }:{ sec }";
+		if (timespan.Minutes > 0)
+			return $"{ min }:{ sec }";
+
+		return sec;
+	}
+	#endregion
 
 	#region DICE ROLLS
 
@@ -68,32 +87,39 @@ public class GameManager : MonoBehaviour
 
 			case GameState.PAUSE:
 				gameState = newState;
-				if (Time.timeScale < 1.0f)
+				if (Time.timeScale != 1.0f)
 					Time.timeScale = 1.0f;
 				break;
 
-			case GameState.FREEZE:
+			case GameState.GAME_OVER:
 				gameState = newState;
-				if (Time.timeScale > 0.0f)
+				if (Time.timeScale != 0.0f)
 					Time.timeScale = 0.0f;
 				break;
 		}
 	}
 	#endregion
 
-	#endregion
-
+	#region GAME OVER
 	public void GameOver() { StartCoroutine(GameOver_Coroutine()); }
 	private IEnumerator GameOver_Coroutine()
 	{
+		SwitchGameState(GameState.GAME_OVER);
+
 		yield return new WaitForSeconds(2.0f);
 
-		Time.timeScale = 0.05f;
 		HUDManager.Instance.ShowGameOverScreen();
 	}
+	#endregion
+
+	#endregion
+
+
 
 	public void OnTryAgainGame()
 	{
+		gameState = GameState.PLAY;
+
 		SceneManager.LoadScene(0, LoadSceneMode.Single);
 		Time.timeScale = 1f;
 	}

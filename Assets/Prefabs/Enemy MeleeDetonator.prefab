@@ -47,10 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  _baseHealth: 1
-  _baseSpeed: 8
-  _baseDamage: 1
-  _prefabVFX_spawn: {fileID: 0}
+  _prefabVFX_spawn: {fileID: 8270549995515434982, guid: 169dcc96802376949a186c1cbed3176d,
+    type: 3}
   _prefabVFX_death: {fileID: 757771216711658124, guid: 274754f1eba648d4ab8cac8e19ae04d1,
     type: 3}
   _baseScoreWhenKilled: 1
@@ -58,6 +56,10 @@ MonoBehaviour:
   _rootTransform: {fileID: 1116117497645476190}
   _meshTransform: {fileID: 5396189428529198733}
   _collider: {fileID: 1131519697467727346}
+  _meshRenderers:
+  - {fileID: 7131428167379946593}
+  - {fileID: 7107608200317749907}
+  - {fileID: 1110772439881950768}
 --- !u!135 &1131519697467727346
 SphereCollider:
   m_ObjectHideFlags: 0

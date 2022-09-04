@@ -27,6 +27,7 @@ public class BaseDataManager : MonoBehaviour
 	[System.Serializable] public class BaseData_Enemy_DieHolder : BaseData_Enemy { }
 	[System.Serializable] public class BaseData_Enemy_Pulsar : BaseData_Enemy
 	{
+		[Space]
 		public float chargeDuration;
 		public float holdDuration;
 		public float blastDuration;
@@ -81,6 +82,44 @@ public class BaseDataManager : MonoBehaviour
 	[SerializeField] private BaseData_Player _baseDataPlayer;
 	#endregion
 
+	#region BASE DATA: PROJECTILES
+	[System.Serializable] public class BaseData_Projectile
+	{
+		public float speed;
+		public float damage;
+		public float timeAlive; 
+	}
+
+	[System.Serializable] public class BaseData_Projectile_Standard : BaseData_Projectile { }
+	[System.Serializable] public class BaseData_Projectile_Explosive : BaseData_Projectile
+	{
+		[Space]
+		public float blastDamage;
+		public float blastRadius;
+	}
+	[System.Serializable] public class BaseData_Projectile_Ricochet : BaseData_Projectile
+	{
+		[Space]
+		public int maxRicochet;
+	}
+	[System.Serializable] public class BaseData_Projectile_Seeker : BaseData_Projectile
+	{
+		[Space]
+		public float angularVelocity;
+	}
+
+	public static BaseData_Projectile_Standard baseDataProjectile_Standard;
+	public static BaseData_Projectile_Explosive baseData_Projectile_Explosive;
+	public static BaseData_Projectile_Ricochet baseDataProjectile_Ricochet;
+	public static BaseData_Projectile_Seeker baseDataProjectile_Seeker;
+
+	[Header("BASE DATA: PROJECTILES")]
+	[SerializeField] private BaseData_Projectile_Standard _baseDataProjectile_Standard;
+	[SerializeField] private BaseData_Projectile_Explosive _baseDataProjectile_Explosive;
+	[SerializeField] private BaseData_Projectile_Ricochet _baseDataProjectile_Ricochet;
+	[SerializeField] private BaseData_Projectile_Seeker _baseDataProjectile_Seeker;
+	#endregion
+
 	#region INITIALIZATION
 	private void Awake()
 	{
@@ -89,6 +128,11 @@ public class BaseDataManager : MonoBehaviour
 		baseDataEnemy_Pulsar = _baseDataEnemy_Pulsar;
 
 		baseDataPlayer = _baseDataPlayer;
+
+		baseDataProjectile_Standard = _baseDataProjectile_Standard;
+		baseData_Projectile_Explosive = _baseDataProjectile_Explosive;
+		baseDataProjectile_Ricochet = _baseDataProjectile_Ricochet;
+		baseDataProjectile_Seeker = _baseDataProjectile_Seeker;
 	}
 	#endregion
 }

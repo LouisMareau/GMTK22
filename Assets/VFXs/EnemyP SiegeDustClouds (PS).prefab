@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5942048422980836606}
   - component: {fileID: 5942048422980836607}
   m_Layer: 0
-  m_Name: EnemyPulsar SiegeDustClouds (PS)
+  m_Name: EnemyP SiegeDustClouds (PS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

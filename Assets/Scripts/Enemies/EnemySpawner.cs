@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -50,8 +51,11 @@ public class EnemySpawner : MonoBehaviour
 
 	private void InitSpawnTypes()
 	{
-		foreach (EnemySpawnType type in spawnTypes)
-			type.ResetTimeBeforeSpawn();
+		foreach (EnemySpawnType enemy in spawnTypes)
+		{
+			enemy.ResetTimeBeforeSpawn();
+			HUDManager.UpdateEnemyRandomSpawnInterval(enemy.type, enemy.intervalRange);
+		}
 	}
 
 	private void Start()
@@ -64,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		while (true)
 		{
-			if (GameManager.IsPlaying)
+			if (IsPlaying)
 			{
 				foreach (EnemySpawnType type in spawnTypes)
 				{

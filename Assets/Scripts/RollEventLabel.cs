@@ -13,6 +13,11 @@ public class RollEventLabel : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _title;
 	[SerializeField] private TextMeshProUGUI _description;
 	[SerializeField] private RectTransform _descriptionRT;
+	[Space]
+	[SerializeField] private Image _colorBand;
+	[SerializeField] private Color _colorBandBonus;
+	[SerializeField] private Color _colorBandMalus;
+	[SerializeField] private Color _colorBandNeutral;
 
 	private RollEffect _rollEffect;
 
@@ -35,6 +40,19 @@ public class RollEventLabel : MonoBehaviour
 		_rollEffect = rollEffect;
 		_title.text = rollEffect.name;
 		_description.text = rollEffect.description;
+
+		switch (rollEffect.behaviour)
+		{
+			case EffectBehaviour.BONUS:
+				_colorBand.color = _colorBandBonus;
+				break;
+			case EffectBehaviour.MALUS:
+				_colorBand.color = _colorBandMalus;
+				break;
+			case EffectBehaviour.NEUTRAL:
+				_colorBand.color = _colorBandNeutral;
+				break;
+		}
 	}
 	#endregion
 
@@ -50,7 +68,9 @@ public class RollEventLabel : MonoBehaviour
 		GameManager.SwitchGameState(GameState.PLAY);
 
 		// We destroy the die
-		_associatedMenu._associatedDie.Kill();
+		if (_associatedMenu._associatedDie != null)
+			_associatedMenu._associatedDie.Kill();
+
         //We hide the menu
         _associatedMenu.Hide();
 	}

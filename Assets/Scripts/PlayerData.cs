@@ -28,12 +28,12 @@ public class PlayerData : MonoBehaviour
 	[Header("SHOOTING")]
 	[HideInInspector] public float baseDamage;
 	[HideInInspector] public float finalDamage;
-
-	[HideInInspector] public float baseFireRateStandard;
-	[HideInInspector] public float finalFireRateStandard;
-
-	[HideInInspector] public float baseFireRateSeeker;
-	[HideInInspector] public float finalFireRateSeeker;
+	[Space]
+	[HideInInspector] public int baseFireRateStandard;
+	[HideInInspector] public int finalFireRateStandard;
+	[Space]
+	[HideInInspector] public int baseFireRateSeeker;
+	[HideInInspector] public int finalFireRateSeeker;
 
 	[HideInInspector] public float baseRadius;
 	[HideInInspector] public float finalRadius;
@@ -44,19 +44,19 @@ public class PlayerData : MonoBehaviour
 		if (_playerController == null) { _playerController = GetComponent<PlayerController>(); }
 
 		BaseDataManager.BaseData_Player baseData = BaseDataManager.baseDataPlayer;
-
 		speed = baseData.speed;
 		baseDamage = baseData.damage;
-		finalDamage = baseDamage;
 		baseFireRateStandard = baseData.firerateStandard;
-		finalFireRateStandard = baseFireRateStandard;
 		baseFireRateSeeker = baseData.firerateSeeker;
+
+		finalDamage = baseDamage;
+		finalFireRateStandard = baseFireRateStandard;
 		finalFireRateSeeker = baseFireRateSeeker;
 
-		HUDManager.Instance.UpdateSpeedLabel(speed);
-		HUDManager.Instance.UpdateDamageLabel(finalDamage);
-		HUDManager.Instance.UpdateFireRateStandardLabel(finalFireRateStandard);
-		HUDManager.Instance.UpdateFireRateSeekerLabel(finalFireRateSeeker);
+		HUDManager.UpdatePlayerSpeedLabel(speed);
+		HUDManager.UpdatePlayerDamageLabel(finalDamage);
+		HUDManager.UpdatePlayerFireRateStandardLabel(finalFireRateStandard);
+		HUDManager.UpdatePlayerFireRateSeekerLabel(finalFireRateSeeker);
 
 		status = PlayerStatus.DEFAULT;
 	}
@@ -68,36 +68,36 @@ public class PlayerData : MonoBehaviour
 	public void UpdateSpeed(float extraAmount)
 	{
 		speed += extraAmount;
-		HUDManager.Instance.UpdateSpeedLabel(speed);
+		HUDManager.UpdatePlayerSpeedLabel(speed);
 	}
 
 	public void UpdateBaseDamage(float extraAmount) { baseDamage += extraAmount; }
 	public void UpdateFinalDamage(float multiplier)
 	{
 		finalDamage = baseDamage * multiplier;
-		HUDManager.Instance.UpdateDamageLabel(finalDamage);
+		HUDManager.UpdatePlayerDamageLabel(finalDamage);
 	}
 
-	public void UpdateBaseFireRateStandard(float extraAmount) { baseFireRateStandard += extraAmount; }
-	public void UpdateFinalFireRateStandard(float multiplier)
+	public void UpdateBaseFireRateStandard(int extraAmount) { baseFireRateStandard += extraAmount; }
+	public void UpdateFinalFireRateStandard(int multiplier)
 	{
 		finalFireRateStandard = baseFireRateStandard * multiplier;
-		HUDManager.Instance.UpdateFireRateStandardLabel(finalFireRateStandard);
+		HUDManager.UpdatePlayerFireRateStandardLabel(finalFireRateStandard);
 	}
 
-	public void UpdateBaseFireRateSeeker(float extraAmount) { baseFireRateSeeker += extraAmount; }
-	public void UpdateFinalFireRateSeeker(float multiplier)
+	public void UpdateBaseFireRateSeeker(int extraAmount) { baseFireRateSeeker += extraAmount; }
+	public void UpdateFinalFireRateSeeker(int multiplier)
 	{
 		finalFireRateSeeker = baseFireRateSeeker * multiplier;
-		HUDManager.Instance.UpdateFireRateSeekerLabel(finalFireRateSeeker);
+		HUDManager.UpdatePlayerFireRateSeekerLabel(finalFireRateSeeker);
 	}
 
 	public void TransformProjectileStandardIntoSeeker(int amount)
 	{
 		UpdateBaseFireRateStandard(-1);
 		UpdateBaseFireRateSeeker(1);
-		HUDManager.Instance.UpdateFireRateStandardLabel(finalFireRateStandard);
-		HUDManager.Instance.UpdateFireRateSeekerLabel(finalFireRateStandard);
+		HUDManager.UpdatePlayerFireRateStandardLabel(finalFireRateStandard);
+		HUDManager.UpdatePlayerFireRateSeekerLabel(finalFireRateStandard);
 	}
 
 	public void AddProjectileSpeed(int amount)

@@ -44,8 +44,6 @@ public class Enemy_Pulsar : Enemy
 		blastDuration = baseData.blastDuration;
 		cooldownDuration = baseData.cooldownDuration;
 		siegeDuration = chargeDuration / 4.0f;
-
-		_spawnTime = GameManager.timeSinceStart;
 	}
 	#endregion
 
@@ -233,6 +231,9 @@ public class Enemy_Pulsar : Enemy
 		float timer = 0;
 		while (timer < chargeDuration)
 		{
+			if (GameManager.IsGameOver)
+				break;
+
 			Vector3 laser = new Vector3(0, 0, Mathf.Lerp(0.0f, 80.0f, timer / chargeDuration));
 			lr.SetPosition(1, laser);
 
@@ -255,6 +256,9 @@ public class Enemy_Pulsar : Enemy
 		float timer = 0;
 		while (timer < blastDuration)
 		{
+			if (GameManager.IsGameOver)
+				break;
+
 			lr.widthMultiplier = _blastSizeOverTime.Evaluate(timer / blastDuration) + Random.Range(0.9f, 1.1f);
 
 			if (GameManager.IsPlaying)

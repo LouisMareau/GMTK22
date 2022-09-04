@@ -148,7 +148,9 @@ public class RollEffectsDefinition : MonoBehaviour
 					break;
 			}
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -172,7 +174,9 @@ public class RollEffectsDefinition : MonoBehaviour
 				break;
 			}
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -195,7 +199,9 @@ public class RollEffectsDefinition : MonoBehaviour
 				_isJudgementDayExcecuting = true;
 			}
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -219,7 +225,9 @@ public class RollEffectsDefinition : MonoBehaviour
 				break;
 			}
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -242,7 +250,9 @@ public class RollEffectsDefinition : MonoBehaviour
 			if (_hasNotTodayActivated)
 				break;
 
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -257,18 +267,20 @@ public class RollEffectsDefinition : MonoBehaviour
 	{
 		float duration = 10f;
 
-		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(2f);
+		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(2);
 		_isMagicFingersExcecuting = true;
 
 		float timer = 0;
 		while (timer < duration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
 		_isMagicFingersExcecuting = false;
-		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(1f);
+		StaticReferences.Instance.playerData.UpdateFinalFireRateStandard(1);
 	}
 
 	private bool _isEagleEyeExcecuting = false;
@@ -282,7 +294,9 @@ public class RollEffectsDefinition : MonoBehaviour
 		float timer = 0;
 		while (timer < duration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 
@@ -299,7 +313,9 @@ public class RollEffectsDefinition : MonoBehaviour
 		float timer = 0;
 		while (timer < duration)
 		{
-			timer += Time.deltaTime;
+			if (GameManager.IsPlaying)
+				timer += Time.deltaTime;
+
 			yield return null;
 		}
 

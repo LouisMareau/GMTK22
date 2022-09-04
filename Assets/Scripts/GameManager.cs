@@ -93,8 +93,6 @@ public class GameManager : MonoBehaviour
 
 			case GameState.GAME_OVER:
 				gameState = newState;
-				if (Time.timeScale != 0.0f)
-					Time.timeScale = 0.0f;
 				break;
 		}
 	}
@@ -113,8 +111,6 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	#endregion
-
-
 
 	public void OnTryAgainGame()
 	{

@@ -48,6 +48,8 @@ public abstract class Enemy : MonoBehaviour
 		if (_collider == null) { _collider = GetComponent<SphereCollider>(); }
 		if (_playerTransform == null) { _playerTransform = StaticReferences.Instance.playerTransform; }
 		if (targetTransform == null) { targetTransform = _meshTransform; }
+
+		_spawnTime = GameManager.timeSinceStart;
 	}
 	#endregion
 
@@ -129,6 +131,7 @@ public abstract class Enemy : MonoBehaviour
 	protected virtual void PlayAnim_Spawn()
 	{
 		// VFX: Spawn
+		Instantiate(_prefabVFX_spawn, _meshTransform.position, _prefabVFX_spawn.transform.rotation, StaticReferences.Instance.vfxContainer);
 	}
 
 	protected virtual void PlayAnim_Death()

@@ -52,10 +52,7 @@ public abstract class Projectile : MonoBehaviour
 			_rootTransform.Translate(_direction * _speed * Time.deltaTime);
 
 			if (!CameraHelper.IsWithinBounds(_rootTransform.position))
-			{
-				
 				Kill();
-			}
 		}
 	}
 
@@ -80,6 +77,12 @@ public abstract class Projectile : MonoBehaviour
 		}
 
 		Kill();
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.layer == LayerMask.GetMask("Walls"))
+			Kill();
 	}
 
 	private void OnTriggerEnter(Collider other)

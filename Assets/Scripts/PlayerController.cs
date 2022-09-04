@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-		if (GameManager.IsPlaying)
+		if (IsPlaying)
 		{
 			Move();
 
@@ -74,21 +75,26 @@ public class PlayerController : MonoBehaviour
 	{
 		if ((Input.GetAxis("Fire1") > 0))
 		{
+			// Projectile: STANDARD
 			if (data.finalFireRateStandard > 0 && _nextTimeToFireStandard <= 0)
 			{
 				Projectile instance = Instantiate<GameObject>(_prefabProjectileStandard, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
 				instance.Initialize(_meshTransform.position, direction, data.finalDamage);
 
-				_nextTimeToFireStandard = 1 / data.finalFireRateStandard;
+				_nextTimeToFireStandard = 1 / (float)data.finalFireRateStandard;
 			}
 
+			// Projectile: SEEKER
 			if (data.finalFireRateSeeker > 0 && _nextTimeToFireSeeker <= 0)
 			{
 				Projectile instance = Instantiate<GameObject>(_prefabProjectileSeeker, StaticReferences.Instance.projectileContainer).GetComponent<Projectile>();
 				instance.Initialize(_meshTransform.position, direction, data.finalDamage);
 
-				_nextTimeToFireSeeker = 1 / data.finalFireRateSeeker;
+				_nextTimeToFireSeeker = 1 / (float)data.finalFireRateSeeker;
 			}
+
+			// Projectile: RICOCHET
+			// Projectile: EXPLOSIVE
 
 			// We play the audio source ("Pew")
             if (!_audioSource.isPlaying || _audioSource.time > 0.23f) {

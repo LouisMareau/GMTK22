@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4403500013027521910}
   m_Layer: 0
-  m_Name: EnemyPulsar TargetingLaser (LR)
+  m_Name: EnemyP TargetingLaser (LR)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

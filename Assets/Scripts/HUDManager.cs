@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class HUDManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class HUDManager : MonoBehaviour
 	[Space]
 	[SerializeField] private GameObject _gameOverScreen;
 	[SerializeField] private TextMeshProUGUI _scoreObtainedLabel;
-
+	[SerializeField] private TextMeshProUGUI _timeAchievedLabel;
 
 	[Header("PLAYER")]
 	[SerializeField] private PlayerData _playerData;
@@ -53,61 +54,99 @@ public class HUDManager : MonoBehaviour
 
 		// DATA OVERLAY
 		if (Input.GetKeyDown(KeyCode.Tab)) { ToggleDataOverlay(); }
-		if (IsDataOverlayVisible())
+		if (IsDataOverlayVisible)
 		{
 			overlayData.timer.text = GameManager.GetTimerString();
 		}
 	}
 
-	public void UpdateSpeedLabel(float speed)
-	{
-		overlayData.playerSpeed.Set("Speed", speed);
-	}
-
-	public void UpdateDamageLabel(float damage)
-	{
-		overlayData.playerDamage.Set("Damage", damage);
-	}
-
-	public void UpdateFireRateStandardLabel(float firerate)
-	{
-		overlayData.playerFirerateStandard.Set("Firerate (Standard)", firerate);
-	}
-
-	public void UpdateFireRateSeekerLabel(float firerate)
-	{
-		overlayData.playerFirerateSeeker.Set("Firerate (Seeker)", firerate);
-	}
-
+	#region HUD (Default / Data)
 	public void UpdateScoreLabel(int score)
 	{
 		_scoreLabel.text = score.ToString();
 	}
 
+	#region DATA OVERLAY
+	private void ToggleDataOverlay()
+	{
+		if (IsPlaying)
+		{
+			_dataOverlayRoot.SetActive(!_dataOverlayRoot.activeInHierarchy);
+		}
+	}
+	public bool IsDataOverlayVisible { get { return _dataOverlayRoot.activeInHierarchy; } }
+
+	// PLAYER
+	public static void UpdatePlayerSpeedLabel(float speed)
+	{
+		overlayData.playerSpeed.Set("Speed", speed);
+	}
+	public static void UpdatePlayerDamageLabel(float damage)
+	{
+		overlayData.playerDamage.Set("Damage", damage);
+	}
+	public static void UpdatePlayerFireRateStandardLabel(int firerate)
+	{
+		overlayData.playerFirerateStandard.Set("Firerate (Standard)", firerate);
+	}
+	public static void UpdatePlayerFireRateSeekerLabel(int firerate)
+	{
+		overlayData.playerFirerateSeeker.Set("Firerate (Seeker)", firerate);
+	}
+
+	// ENEMIES
+	public static void UpdateEnemyRandomSpawnInterval(EnemyType type, Vector2 interval)
+	{
+		switch (type)
+		{
+			case EnemyType.MELEE_DETONATOR:
+				overlayData.enemyMDRandomSpawnInterval.Set("Random Interval Range", interval.x, interval.y);
+				break;
+
+			case EnemyType.DIE_HOLDER:
+				overlayData.enemyDHRandomSpawnInterval.Set("Random Interval Range", interval.x, interval.y);
+				break;
+
+			case EnemyType.PULSAR:
+				overlayData.enemyPRandomSpawnInterval.Set("Random Interval Range", interval.x, interval.y);
+				break;
+		}
+	}
+	#endregion
+	#endregion
+
+	#region GAME OVER
 	public void ShowGameOverScreen()
 	{
 		_scoreObtainedLabel.text = GameRecords.score.ToString();
+		_timeAchievedLabel.text = GameManager.GetTimerString();
 
 		_gameOverScreen.SetActive(true);
 	}
 	public void HideGameOverScreen() { _gameOverScreen.SetActive(false); }
+	#endregion
 
+	#region PAUSE / RESUME
 	private void TogglePauseScreen()
 	{
-		_pauseScreen.SetActive(!_pauseScreen.activeSelf);
+		if (IsPlaying || IsPaused)
+		{
+			_pauseScreen.SetActive(!_pauseScreen.activeInHierarchy);
 
-		if (_pauseScreen.activeSelf)
-			Time.timeScale = 0.1f;
-		else
-			Time.timeScale = 1f;
+			// We change the game state
+			SwitchGameState(IsPlaying ? GameState.PAUSE : GameState.PLAY);
+		}
 	}
-
-	private void ToggleDataOverlay() { _dataOverlayRoot.SetActive(!_dataOverlayRoot.activeInHierarchy); }
-	public bool IsDataOverlayVisible() { return _dataOverlayRoot.activeInHierarchy; }
 
 	public void OnResumeGame()
 	{
-		_pauseScreen.SetActive(false);
-		Time.timeScale = 1f;
+		if (IsPaused)
+		{
+			_pauseScreen.SetActive(false);
+
+			// We change the game state
+			GameManager.SwitchGameState(GameState.PLAY);
+		}
 	}
+	#endregion
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5010811268570979095}
   - component: {fileID: 852214258208624164}
   m_Layer: 7
-  m_Name: Die6
+  m_Name: Dice6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +95,7 @@ MonoBehaviour:
   _rootTransform: {fileID: 6235283183318952621}
   _meshTransform: {fileID: 841630492031324120}
   _menuTransform: {fileID: 0}
+  _rayDetectionLength: 2.1
 --- !u!1 &4458580479236578865
 GameObject:
   m_ObjectHideFlags: 0

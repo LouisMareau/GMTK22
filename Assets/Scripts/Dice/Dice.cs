@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Die : MonoBehaviour
+public abstract class Dice : MonoBehaviour
 {
 	public int Result { get; protected set; }
 
-	protected DieHUD _menu;
+	protected DiceHUD _menu;
 
 	[SerializeField] protected Vector2 _idleMinMaxRotationSpeed = new Vector2(5f, 10f);
 	protected Vector3 _idleRandomEulerAngle;
@@ -17,16 +17,16 @@ public class Die : MonoBehaviour
 	[SerializeField] protected Transform _menuTransform;
 
 	#region INITIALIZATION
-	protected void Awake()
+	protected virtual void Awake()
 	{
 		if (rigidbody == null) { rigidbody = GetComponent<Rigidbody>(); }
 		if (_rootTransform == null) { _rootTransform = transform; }
 		if (_meshTransform == null) { _meshTransform = _rootTransform.Find("Mesh"); }
 		if (_menuTransform == null) { _menuTransform = _rootTransform.Find("Menu"); }
-		if (_menu == null) { _menu = DieHUD.Instance; }
+		if (_menu == null) { _menu = DiceHUD.Instance; }
 	}
 
-	protected void Start()
+	protected virtual void Start()
 	{
 		rigidbody.isKinematic = true;
 
@@ -51,7 +51,7 @@ public class Die : MonoBehaviour
 			// We pause the game
 			GameManager.SwitchGameState(GameState.PAUSE);
 
-			_menu.ActivateDie(Result);
+			_menu.ActivateDice(Result);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Die : MonoBehaviour
 		effects[randomIndex].Activate();
 
 		// We notify the player
-		DieHUD.Instance.Notify(effects[randomIndex]);
+		DiceHUD.Instance.Notify(effects[randomIndex]);
 	}
 
 	public virtual void Kill()
@@ -96,9 +96,22 @@ public class Die : MonoBehaviour
 	{
 		if (other.tag == "Player")
 		{
-			_menu.SetAssociatedDie(this);
+			_menu.SetAssociatedDice(this);
 			Activate();
 		}
 	}
+	#endregion
+
+	#region FACE-LANDING DETECTION
+	[Header("FACE-LANDING DETECTION PARAMETERS")]
+	[SerializeField] protected float _rayDetectionLength = 2f;
+
+	protected Ray CastRayToLocalDirection(Vector3 direction, float length)
+	{
+		return new Ray(_meshTransform.position, (_meshTransform.rotation * direction).normalized * length);
+	}
+
+	protected abstract void CalculateDetectionRays();
+	protected abstract void DetectResult();
 	#endregion
 }

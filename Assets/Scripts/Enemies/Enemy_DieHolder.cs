@@ -49,7 +49,7 @@ public class Enemy_DieHolder : Enemy
 		// We remove the dice object from the enemy hierarchy
 		_associatedDice.transform.SetParent(StaticReferences.Instance.diceContainer);
 
-		Die6 die = _associatedDice.GetComponent<Die6>();
+		Dice die = _associatedDice.GetComponent<Dice>();
 
 		// We setup and apply physics forces onto the die
 		die.rigidbody.isKinematic = false;

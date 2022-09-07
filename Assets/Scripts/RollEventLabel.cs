@@ -7,7 +7,7 @@ using TMPro;
 
 public class RollEventLabel : MonoBehaviour
 {
-	[SerializeField] private DieHUD _associatedMenu;
+	[SerializeField] private DiceHUD _associatedMenu;
 	[SerializeField] private Button _button;
 	[Space]
 	[SerializeField] private TextMeshProUGUI _title;
@@ -34,7 +34,7 @@ public class RollEventLabel : MonoBehaviour
 	#endregion
 
 	#region INITIALIZATION
-	public void Initialize(DieHUD menu, RollEffect rollEffect)
+	public void Initialize(DiceHUD menu, RollEffect rollEffect)
 	{
 		_associatedMenu = menu;
 		_rollEffect = rollEffect;
@@ -61,15 +61,15 @@ public class RollEventLabel : MonoBehaviour
 		_rollEffect.Activate();
 		
 		// We notify the player
-		DieHUD.Instance.Notify(_rollEffect);
+		DiceHUD.Instance.Notify(_rollEffect);
 
 		// We resume the game
 		//Time.timeScale = 1f;
 		GameManager.SwitchGameState(GameState.PLAY);
 
-		// We destroy the die
-		if (_associatedMenu._associatedDie != null)
-			_associatedMenu._associatedDie.Kill();
+		// We destroy the dice
+		if (_associatedMenu._associatedDice != null)
+			_associatedMenu._associatedDice.Kill();
 
         //We hide the menu
         _associatedMenu.Hide();

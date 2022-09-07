@@ -6,12 +6,20 @@ public class RollEffects
 	public Dictionary<RollEffectType, RollEffect> RollEffectsAssociation { get; private set; }
 	public Dictionary<int, RollMap> RollMaps { get; private set; }
 
+	#region CONSTRUCTOR
 	public RollEffects()
 	{
 		if (RollEffectsAssociation == null) { RollEffectsAssociation = new Dictionary<RollEffectType, RollEffect>(); }
 		if (RollMaps == null) { RollMaps = new Dictionary<int, RollMap>(); }
 
 		MapRollEffects();
+	}
+	#endregion
+
+	#region STEP 1: EFFECTS DICTIONARY SETUP
+	private void AddRollEffect(RollEffectType type, string name, string description, EffectBehaviour behaviour, System.Action Activate)
+	{
+		RollEffectsAssociation.Add(type, new RollEffect(type, name, description, behaviour, Activate));
 	}
 
 	private void AssociateRollEffects()
@@ -166,9 +174,23 @@ public class RollEffects
 
 		// [TO DO] ...
 	}
-	private void AddRollEffect(RollEffectType type, string name, string description, EffectBehaviour behaviour, System.Action Activate)
+	#endregion
+
+	#region STEP 2: EFFECTS MAPPING TO DICE ROLL ID
+	public class RollMap
 	{
-		RollEffectsAssociation.Add(type, new RollEffect(type, name, description, behaviour, Activate));
+		public int id;
+		public List<RollEffect> Effects { get; set; }
+
+		public RollMap(int id)
+		{
+			this.id = id;
+		}
+	}
+
+	private void AddRollMap(int id, List<RollEffect> effects)
+	{
+		RollMaps.Add(id, new RollMap(id) { Effects = effects });
 	}
 
 	private void MapRollEffects()
@@ -230,10 +252,7 @@ public class RollEffects
 			RollEffectsAssociation[RollEffectType.TIME_TO_MAKE_PEACE]
 		});
 	}
-	private void AddRollMap(int id, List<RollEffect> effects)
-	{
-		RollMaps.Add(id, new RollMap(id) { Effects = effects });
-	}
+	#endregion
 
 	public List<RollEffect> GetEffectsOnActivation(int result)
 	{
@@ -254,19 +273,6 @@ public class RollEffects
 
 		return returnList;
 	}
-
-	#region MAPPING
-	public class RollMap
-	{
-		public int id;
-		public List<RollEffect> Effects { get; set; }
-
-		public RollMap(int id)
-		{
-			this.id = id;
-		}
-	}
-	#endregion
 }
 
 public class RollEffect

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DieHUD : MonoBehaviour
+public class DiceHUD : MonoBehaviour
 {
 	#region SINGLETON
-	public static DieHUD Instance { get; private set; }
+	public static DiceHUD Instance { get; private set; }
 	#endregion
 
-	[HideInInspector] public Die _associatedDie;
+	[HideInInspector] public Dice _associatedDice;
 
 	[SerializeField] private GameObject _dicePickUpMenu;
 	[SerializeField] private TextMeshProUGUI _resultLabel;
@@ -32,7 +32,7 @@ public class DieHUD : MonoBehaviour
 		if (IsVisible) Hide();
 	}
 
-	public void SetAssociatedDie(Die die) { _associatedDie = die; }
+	public void SetAssociatedDice(Dice dice) { _associatedDice = dice; }
 	#endregion
 
 	#region VISIBILITY
@@ -42,7 +42,7 @@ public class DieHUD : MonoBehaviour
 	#endregion
 
 	#region GAMEPLAY
-	public void ActivateDie(int result)
+	public void ActivateDice(int result)
 	{
 		// We show the menu
 		Show();
